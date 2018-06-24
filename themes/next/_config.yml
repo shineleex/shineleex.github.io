@@ -232,9 +232,9 @@ post_meta:
 post_wordcount:
   item_text: true
   wordcount: true
-  min2read: false
+  min2read: true
   totalcount: true
-  separated_meta: false
+  separated_meta: true
 
 # Wechat Subscriber
 #wechat_subscriber:
