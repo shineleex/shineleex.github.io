@@ -76,7 +76,7 @@ footer:
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.
-seo: true
+seo: false
 
 # If true, will add site-subtitle to index page, added in main hexo config.
 #subtitle: Subtitle
@@ -146,11 +146,11 @@ social_icons:
 
 # Blog rolls
 links_icon: link
-links_title: ”—«È¡¥Ω”
+links_title: Links
 # links_layout: block
 links_layout: inline
-#links:
-  #Title: http://example.com/
+links:
+  firelx: https://blog.csdn.net/firelx
 
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
