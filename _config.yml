@@ -4,8 +4,8 @@
 
 # Site
 title: 本立2道生
-subtitle: 胸怀万里，不如脚下一步
-description:
+subtitle: 
+description: 胸怀万里，不如脚下一步
 keywords:
 author: Shine LEE
 language: zh-Hans
@@ -13,7 +13,7 @@ timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://blog.shinelee.me
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:

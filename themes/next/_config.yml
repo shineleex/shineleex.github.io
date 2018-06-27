@@ -13,7 +13,7 @@
 
 # Set to true, if you want to fully override the default configuration.
 # Useful if you don't want to inherit the theme _config.yml configurations.
-override: false
+override: true
 
 # ---------------------------------------------------------------
 # Site Information Settings
@@ -55,13 +55,13 @@ footer:
   copyright:
   # -------------------------------------------------------------
   # Hexo link (Powered by Hexo).
-  powered: true
+  powered: false
 
   theme:
     # Theme & scheme info link (Theme - NexT.scheme).
     enable: true
     # Version info of NexT after scheme info (vX.X.X).
-    version: true
+    version: false
   # -------------------------------------------------------------
   # Any custom text can be defined here.
   #custom_text: Hosted by <a target="_blank" href="https://pages.github.com">GitHub Pages</a>
@@ -76,10 +76,10 @@ footer:
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.
-seo: false
+seo: true
 
 # If true, will add site-subtitle to index page, added in main hexo config.
-# subtitle: Subtitle
+#subtitle: Subtitle
 index_with_subtitle: false
 
 
@@ -146,8 +146,8 @@ social_icons:
 
 # Blog rolls
 links_icon: link
-links_title: Links
-#links_layout: block
+links_title: ”—«È¡¥Ω”
+# links_layout: block
 links_layout: inline
 #links:
   #Title: http://example.com/
@@ -155,7 +155,7 @@ links_layout: inline
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
 # in site  directory(source/uploads): /uploads/avatar.gif
-#avatar: /images/avatar.gif
+avatar: /images/avatar.jpg
 
 # Table Of Contents in the Sidebar
 toc:
@@ -175,7 +175,7 @@ toc:
 
 sidebar:
   # Sidebar Position, available value: left | right (only for Pisces | Gemini).
-  position: left
+  position: right
   #position: right
 
   # Sidebar Display, available value (only for Muse | Mist):
@@ -183,9 +183,9 @@ sidebar:
   #  - always  expand for all pages automatically
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  Totally remove sidebar including sidebar toggle.
-  display: post
+  # display: post
   #display: always
-  #display: hide
+  display: hide
   #display: remove
 
   # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
@@ -194,11 +194,11 @@ sidebar:
   # Back to top in sidebar (only for Pisces | Gemini).
   b2t: false
 
-  # Scroll percent label in b2t button.
-  scrollpercent: false
+  # Scroll percent label in b2t button
+  scrollpercent: true
 
   # Enable sidebar on narrow view (only for Muse | Mist).
-  onmobile: false
+  onmobile: true
 
 
 # ---------------------------------------------------------------
@@ -209,7 +209,7 @@ sidebar:
 scroll_to_more: true
 
 # Automatically saving scroll position on each post/page in cookies.
-save_scroll: false
+save_scroll: true
 
 # Automatically excerpt description in homepage as preamble text.
 excerpt_description: true
@@ -232,9 +232,9 @@ post_meta:
 post_wordcount:
   item_text: true
   wordcount: true
-  min2read: true
-  totalcount: false
-  separated_meta: false
+  min2read: false
+  totalcount: true
+  separated_meta: true
 
 # Wechat Subscriber
 #wechat_subscriber:
@@ -294,10 +294,10 @@ highlight_theme: normal
 # Arial | Tahoma | Helvetica | Times New Roman | Courier New | Verdana | Georgia | Palatino | Garamond | Comic Sans MS | Trebuchet MS
 # ---------------------------------------------------------------
 font:
-  enable: false
+  enable: true
 
   # Uri of fonts host. E.g. //fonts.googleapis.com (Default).
-  host:
+  host: //fonts.cat.net
 
   # Font options:
   # `external: true` will load this font family from `host` above.
@@ -307,8 +307,8 @@ font:
   # Global font settings used on <body> element.
   global:
     external: true
-    family: Lato
-    size:
+    family: Roboto Slab
+    size: 16px
 
   # Font settings for Headlines (h1, h2, h3, h4, h5, h6).
   # Fallback to `global` font settings.
@@ -321,20 +321,22 @@ font:
   # Fallback to `global` font settings.
   posts:
     external: true
-    family:
+    family: Roboto Slab
 
   # Font settings for Logo.
   # Fallback to `global` font settings.
   logo:
     external: true
-    family:
+    family: Lobster Two
     size:
 
   # Font settings for <code> and code blocks.
   codes:
     external: true
-    family:
-    size:
+    family: PT Mono
+    size: 16px
+
+
 
 
 # ---------------------------------------------------------------
@@ -629,8 +631,8 @@ note:
   #  - modern    bs-callout new (v2-v3) alert style.
   #  - flat      flat callout style with background, like on Mozilla or StackOverflow.
   #  - disabled  disable all CSS styles import of note tag.
-  style: simple
-  icons: false
+  style: modern
+  icons: true
   border_radius: 3
   # Offset lighter of background in % for modern and flat styles (modern: -12 | 12; flat: -18 | 6).
   # Offset also applied to label tag variables. This option can work with disabled note tag.
@@ -676,7 +678,7 @@ motion:
 fancybox: true
 
 # Progress bar in the top during page loading.
-pace: false
+pace: true
 # Themes list:
 #pace-theme-big-counter
 #pace-theme-bounce

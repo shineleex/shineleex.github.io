@@ -18,6 +18,7 @@ $grey-dim     = #666
 $black-light  = #555
 $black-dim    = #333
 $black-deep   = #222
+$title-hover-bg = #222
 $red          = #ff2a2a
 $blue-bright  = #87daff
 $blue         = #0684bd
@@ -43,7 +44,8 @@ $link-decoration-hover-color  = $black-deep
 $border-color                 = $grey-light
 
 // Background color for <body>
-$body-bg-color                = white
+//$body-bg-color                = white
+$body-bg-color                = rgba(255,255,255,0.73)
 
 // Selection
 $selection-bg                 = $blue-deep
@@ -224,11 +226,14 @@ $head-bg                        = transparent
 
 // Site Meta
 $site-meta-text-align           = center
-$brand-color                    = white
+//$brand-color                    = white
+$brand-color                    = #8B00FB
 $brand-hover-color              = white
-$brand-bg                       = $black-deep
+//$brand-bg                       = $black-deep
+$brand-bg                       = transparent
 
-$logo-font-size                 = 20px
+//$logo-font-size                 = 20px
+$logo-font-size                 = 48px
 $logo-font-size                 = unit(hexo-config('font.logo.size'), px) if hexo-config('font.logo.size') is a 'unit'
 
 $site-subtitle-color            = $grey-dark
@@ -237,7 +242,8 @@ $subtitle-color                 = $grey-dark
 
 // Menu
 $menu-link-border               = transparent
-$menu-link-hover-border         = $black-deep
+//$menu-link-hover-border         = $black-deep
+$menu-link-hover-border         = $title-hover-bg
 
 
 
