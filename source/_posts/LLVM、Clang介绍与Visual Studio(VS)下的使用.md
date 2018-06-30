@@ -1,5 +1,6 @@
 ---
 title: LLVM、Clang介绍与Visual Studio(VS)下的使用
+date: 2018-06-27
 tags: [编译器, 开发环境]
 categories: [coding]
 ---
