@@ -569,14 +569,14 @@ needmoreshare2:
     options:
       iconStyle: box
       boxForm: horizontal
-      position: bottomCenter
+      position: middleCenter
       networks: Weibo,Wechat,Douban,QQZone,Twitter,Facebook
   float:
     enable: true
     options:
       iconStyle: box
-      boxForm: horizontal
-      position: middleRight
+      boxForm: vertical
+      position: topRight
       networks: Weibo,Wechat,Douban,QQZone,Twitter,Facebook
 
 # Google Webmaster tools verification setting
