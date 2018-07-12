@@ -13,7 +13,7 @@ subtitle:
 description: 胸怀万里，不如脚下一步
 keywords: 计算机视觉 机器学习 深度学习 算法 程序人生
 author: 李拜六不开鑫
-language: zh-Hans
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
@@ -79,7 +79,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: next-new
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
