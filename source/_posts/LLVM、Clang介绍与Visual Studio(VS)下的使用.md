@@ -44,10 +44,8 @@ categories: [coding]
 
 官网上提供的方式
 
-> 
-To use the LLVM toolchain from Visual Studio, select a project in Solution Explorer, open its Property Page (Alt+F7 by default), and in the "General" section of "**Configuration Properties**" change "**Platform Toolset**" to "LLVM-vs2012", "LLVM-vs2013", etc.
-Alternatively, invoke MSBuild with /p:PlatformToolset=LLVM-vs2013 to try out the toolchain without modifying the project files.
-——[LLVM builds](http://llvm.org/builds/)
+> To use the LLVM toolchain from Visual Studio, select a project in Solution Explorer, open its Property Page (Alt+F7 by default), and in the "General" section of "**Configuration Properties**" change "**Platform Toolset**" to "LLVM-vs2012", "LLVM-vs2013", etc.
+Alternatively, invoke MSBuild with /p:PlatformToolset=LLVM-vs2013 to try out the toolchain without modifying the project files. ——[LLVM builds](http://llvm.org/builds/)
 
 在VS2010中，设置如下，设置完成后，发现调试时遇到断点不停，需要将**调试信息格式**设置为“**程序设置库/Zi**”而不是“**用于编辑并继续的程序设置库/ZI**”。
 
