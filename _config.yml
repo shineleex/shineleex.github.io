@@ -17,6 +17,13 @@ symbols_count_time:
 image_caption:
   enable: true #false to disable
   class_name: #if you wanna customize the style for the caption,you can assign a class name, default is 'image-caption'
+  
+leancloud_counter_security:
+  enable_sync: true
+  app_id: yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz
+  app_key: GCjFI0Chd35pvUysMqtIlctF
+  username: 
+  password: 
 
 # Site
 title: 本立2道生
