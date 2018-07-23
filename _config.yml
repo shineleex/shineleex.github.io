@@ -9,7 +9,7 @@ sitemap:
   
 symbols_count_time:
   symbols: true
-  time: true
+  time: false
   total_symbols: true
   total_time: false
   
@@ -39,7 +39,7 @@ timezone: Asia/Shanghai
 url: https://blog.shinelee.me
 root: /
 #permalink: :year/:month/:day/:title/
-permalink: :year-:month-:day-:title.html
+permalink: :year/:month-:day-:title.html
 permalink_defaults:
 
 # Directory
