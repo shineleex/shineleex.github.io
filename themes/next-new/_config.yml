@@ -576,7 +576,7 @@ needmoreshare2:
     enable: true
     options:
       iconStyle: box
-      boxForm: vertical
+      boxForm: horizontal
       position: topRight
       networks: Wechat,Weibo,Douban,Twitter,Facebook
 
