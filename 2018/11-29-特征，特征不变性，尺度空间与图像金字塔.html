@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 特征在计算机视觉领域，特征是为了完成某一特定任务需要的相关信息。比如，人脸检测中，我们需要在图像中提取特征来判断哪些区域是人脸、哪些区域不是人脸，人脸验证中，我们需要在两个人脸区域分别提取特征，来判断他们是不是同一个人，如下图所示，深度神经网络最终得到一个128维的特征用于识别等任务，图片来自Openface Openface-fa">
+<meta name="keywords" content="特征点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征，特征不变性，尺度空间与图像金字塔">
+<meta property="og:url" content="https://blog.shinelee.me/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html">
+<meta property="og:site_name" content="本立2道生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 特征在计算机视觉领域，特征是为了完成某一特定任务需要的相关信息。比如，人脸检测中，我们需要在图像中提取特征来判断哪些区域是人脸、哪些区域不是人脸，人脸验证中，我们需要在两个人脸区域分别提取特征，来判断他们是不是同一个人，如下图所示，深度神经网络最终得到一个128维的特征用于识别等任务，图片来自Openface Openface-fa">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/28/FVdXZQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/28/FVRwZt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/28/FV6eBV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/28/FVIriq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/28/FVoght.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/29/FZwrE4.png">
+<meta property="og:updated_time" content="2019-01-07T06:30:25.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="特征，特征不变性，尺度空间与图像金字塔">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 特征在计算机视觉领域，特征是为了完成某一特定任务需要的相关信息。比如，人脸检测中，我们需要在图像中提取特征来判断哪些区域是人脸、哪些区域不是人脸，人脸验证中，我们需要在两个人脸区域分别提取特征，来判断他们是不是同一个人，如下图所示，深度神经网络最终得到一个128维的特征用于识别等任务，图片来自Openface Openface-fa">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/28/FVdXZQ.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>特征，特征不变性，尺度空间与图像金字塔 | 本立2道生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">本立2道生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="胸怀万里，不如脚下一步">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="本立2道生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">特征，特征不变性，尺度空间与图像金字塔
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-29 12:01:51" itemprop="dateCreated datePublished" datetime="2018-11-29T12:01:51+08:00">2018-11-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-07 14:30:25" itemprop="dateModified" datetime="2019-01-07T14:30:25+08:00">2019-01-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/计算机视觉/" itemprop="url" rel="index"><span itemprop="name">计算机视觉</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html" class="leancloud_visitors" data-flag-title="特征，特征不变性，尺度空间与图像金字塔">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.8k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h1><p>在计算机视觉领域，<strong>特征是为了完成某一特定任务需要的相关信息</strong>。比如，人脸检测中，我们需要在图像中提取特征来判断哪些区域是人脸、哪些区域不是人脸，人脸验证中，我们需要在两个人脸区域分别提取特征，来判断他们是不是同一个人，如下图所示，深度神经网络最终得到一个128维的特征用于识别等任务，图片来自<a href="https://cmusatyalab.github.io/openface/" target="_blank" rel="noopener">Openface</a></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/28/FVdXZQ.png" alt="Openface-face-identification-workflow"><figcaption class="image-caption">Openface-face-identification-workflow</figcaption></figure></p>
+<p>常用的特征包括：图像灰度or灰度、直方图、梯度、边缘、纹理、矩、SIFT、深度学习特征等等。以关键点特征为例，关键点指的是可以稳定出现的特殊点，如角点、局部极值点等，如上图中人脸中眼鼻口处的关键点，先检测图像中的关键点，然后在以该点为中心的邻域范围内提取信息，作为该点的特征描述。关键点特征的好处在于，关键点可以稳定复现同时其特征描述聚焦在关键点邻域内，对遮挡、形变等有很好鲁棒性。以<a href="https://wiki2.org/en/Scale-invariant_feature_transform" target="_blank" rel="noopener">SIFT</a>描述子为例，其将关键点周围的梯度统计直方图作为该点的特征，如下图所示，图片来自<a href="https://medium.com/machine-learning-world/feature-extraction-and-similar-image-search-with-opencv-for-newbies-3c59796bf774" target="_blank" rel="noopener">链接</a>。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/28/FVRwZt.png" alt="SIFT descriptor"><figcaption class="image-caption">SIFT descriptor</figcaption></figure></p>
+<p><strong>不同的特征适用范围也不同</strong>，有些特征对光照敏感，有些特征对形变敏感，<strong>需要根据任务场景选择适合的特征</strong>——适合的才是最好的，不是什么时候都要上牛刀。如果任务场景简单，比如明确知道光照条件不变、人脸基本正面且表情妆容没有变化，可能直接使用灰度或梯度进行模板匹配就可以识别了，但如果场景复杂，光照可能变化、表情可能变化、人脸角度也不确定，那么为了完成任务，选取的特征就需要有较好的适应性，这就要谈到<strong>特征不变性</strong>。</p>
+<h1 id="特征不变性"><a href="#特征不变性" class="headerlink" title="特征不变性"></a>特征不变性</h1><p><figure><img src="https://s1.ax1x.com/2018/11/28/FV6eBV.png" alt="Invariant local features"><figcaption class="image-caption">Invariant local features</figcaption></figure></p>
+<p>以上图为例，左右两图中玩具车的姿态不同、大小不同、图像亮度不同，对应局部（图中黄色小块）在各自图中的绝对位置不同、大小不同、方向不同、灰度不同，为了实现配准，就需要在局部提取的特征具有某些不变性，才能够匹配上。</p>
+<ul>
+<li><strong>几何不变性（geometric invariance）</strong>：平移，旋转，尺度……</li>
+<li><strong>光度不变性（photometric invariance）</strong>：亮度，曝光……</li>
+</ul>
+<p><strong>图像预处理</strong>通过对输入图像进行归一化（最大最小值归一化、均值方差归一化、直方图均衡化等），能在一定程度上做到对亮度或光照鲁棒。此外，在设计特征提取算法时，通过考虑<strong>相对信息和统计信息</strong>（比如梯度、直方图等），降低对灰度（颜色）绝对值的敏感度，可以进一步做到<strong>对亮度或光照鲁棒</strong>。</p>
+<p>通过使用<strong>局部窗口内的像素信息和相对位置信息</strong>，<strong>局部特征</strong>一般都能做到<strong>平移无关</strong>。要做到<strong>旋转无关</strong>，则需要将窗口<strong>以某个主方向对齐</strong>后再提取局部特征，如图中倾斜的黄色小块，主方向可以是窗口内最集中的梯度方向。</p>
+<p>接下来，讲述一下如何做到<strong>尺度无关</strong>。</p>
+<h1 id="尺度空间"><a href="#尺度空间" class="headerlink" title="尺度空间"></a>尺度空间</h1><p><strong>尺度</strong>，可以通过地图的比例尺来理解，如下图所示，如果以100米为单位进行观测（称为图100），箭头处有一个角点A，如果以5米为单位进行观测（成为图5），则A附近多了一个凹陷B，而这个凹陷B在图100中是看不见的，为什么呢？尺度空间理论认为是被平滑掉了，即低尺度下可以看清细节，高尺度下细节会被平滑掉只剩下更“宏观”的特征，因此可知</p>
+<ul>
+<li><strong>特征是有尺度的</strong>，在某个尺度下B是关键点（图5中），但在更大的尺度下可能就不是了（图100中）</li>
+<li><strong>需要在对应的尺度下提取特征</strong>，既然B仅在图5的尺度下是关键点，其特征自然需要在图5的尺度下提取</li>
+</ul>
+<p><figure><img src="https://s1.ax1x.com/2018/11/28/FVIriq.png" alt="map scale"><figcaption class="image-caption">map scale</figcaption></figure></p>
+<p><strong>如果两幅图像的尺度不同该如何匹配？</strong>图100和图5中的A是同一个点，但因为尺度不同，<strong>邻域差异很大</strong>，在各自的邻域中提取的特征自然不同，为了让它们能匹配上，需要对图5构建<strong>尺度空间</strong>，获得不同尺度下的表达，具体怎么做呢？保持图5图像尺寸不变，不断（高斯）平滑，直到B处的凹陷平滑没了（与图100相似），达到与图100相近的尺度，图100中在A邻域内（比如$10 \times 10$）提取特征（比如SIFT），图5中在A邻域内（$200 \times 200$）提取特征，两者在各自图像中提取的SIFT特征长度相同（将领域划分成同样数量的子区域，然后在子区域中统计梯度直方图，某种程度上讲是对邻域窗口的归一化后再提取特征），这样就可以匹配上了。</p>
+<p>平滑类似如下过程，最下面一行为原始信号，每一行对应一个尺度：<br><figure><img src="https://s1.ax1x.com/2018/11/28/FVoght.png" alt="scale Gaussian smooth"><figcaption class="image-caption">scale Gaussian smooth</figcaption></figure></p>
+<p>一般来讲，在没有先验知识的情况下，对两幅图像分别在每个尺度上检测关键点并提取特征，总有某些关键点及其特征正好来自相同的尺度，如果它们恰好可以匹配上，则图像1和图像2匹配，反之，如果所有关键点都配不上，则图像1和图像2不匹配。</p>
+<p>小结一下：<strong>尺度空间，是在信号长度不变的情况下（如上图$f(x)$到$f^t(x)$），通过（高斯）平滑，获得信号在不同尺度下的表达，然后使用尺度对应大小的窗口进行观测和提取特征。因为获得了原始信号在所有尺度下的特征，这些特征在整体上做到了尺度无关——因为原始信号各种尺度的特征都有了。</strong></p>
+<h1 id="图像金字塔"><a href="#图像金字塔" class="headerlink" title="图像金字塔"></a>图像金字塔</h1><p>尺度空间中，不同尺度下观测窗口的像素尺寸是不同，还有另外一种情况，<strong>保持观测窗口大小不变，让图像尺寸发生变化</strong>。以人脸检测为例，通常训练结束后，方法中用到的滤波器、卷积核的参数和尺寸就固定了，因此提取到的特征只适用于检测像素大小在某个范围内的人脸，超出这个范围的人脸就检测不出来了。但是，在没有先验知识的情况下，<strong>输入图像中人脸的像素大小是未知的，不同输入图像中人脸的像素尺寸也可能不同，怎么办？</strong>这是就要用到<strong>图像金字塔</strong>，如下图所示，使用<a href="https://arxiv.org/pdf/1311.2524" target="_blank" rel="noopener">RCNN</a>检测人脸，图像中的人脸有大有小，通过构建图像金字塔来检测，图片来自<a href="https://www.researchgate.net/figure/RCNN-for-face-detection-27_fig3_307691264" target="_blank" rel="noopener">链接</a>。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/29/FZwrE4.png" alt="FZwrE4.png"><figcaption class="image-caption">FZwrE4.png</figcaption></figure></p>
+<p>构建<strong>图像金字塔</strong>，是为了获得图像在不同尺寸（不同分辨率）下的表达，通过不断重复 <strong>平滑+下采样</strong> 的过程（也有通过插值Resize），获得了不同像素尺寸的人脸图像，其中只要有与网络适配的人脸就可以被检测出来。</p>
+<p>小结一下：<strong>图像金字塔，是在保持观测窗口不变的情况下，获得输入图像在不同尺寸（分辨率）下的表达，在不同尺寸上提取到的特征在整体上做到了尺寸（分辨率）无关。</strong>实际使用中，一般采用2倍下采样，即金字塔中图像长宽逐层折半。</p>
+<p>细心的读者可能已经发现，尺度空间和图像金字塔存在着某种关联，有种一体两面的感觉，实际上两者可以联合在一起使用，我们以后再谈。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文的重点在于讲述 几种<strong>特征不变性</strong>以及实现<strong>特征不变性</strong>的途径，对尺度空间和图像金字塔只是做了直观的介绍，后面会单独写文章详细讲解。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://wiki2.org/en/Feature_(computer_vision" target="_blank" rel="noopener">Feature (computer vision)</a>)</li>
+<li><a href="https://wiki2.org/en/Scale-invariant_feature_transform" target="_blank" rel="noopener">Scale-invariant feature transform</a></li>
+<li><a href="https://wiki2.org/en/Pyramid_(image_processing" target="_blank" rel="noopener">Pyramid (image processing)</a>)</li>
+<li><a href="https://wiki2.org/en/Scale_space" target="_blank" rel="noopener">Scale space</a></li>
+<li><a href="www.cse.psu.edu/~rtc12/CSE486/lecture10.pdf">Pyramids and Scale Space</a></li>
+<li><a href="www.cse.iitm.ac.in/~vplab/courses/CV_DIP/PDF/SCALE_SPACE-PYR.pdf">Scale Space Theory and Applications</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html" title="特征，特征不变性，尺度空间与图像金字塔">https://blog.shinelee.me/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/特征点/" rel="tag"># 特征点</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html" rel="next" title="Caffe源码理解1：Blob存储结构与设计">
+                <i class="fa fa-chevron-left"></i> Caffe源码理解1：Blob存储结构与设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11-29-重新思考面向过程与面向对象.html" rel="prev" title="重新思考面向过程与面向对象">
+                重新思考面向过程与面向对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">胸怀万里，不如脚下一步</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/firelx" title="firelx" target="_blank">firelx</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#特征"><span class="nav-number">1.</span> <span class="nav-text">特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特征不变性"><span class="nav-number">2.</span> <span class="nav-text">特征不变性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#尺度空间"><span class="nav-number">3.</span> <span class="nav-text">尺度空间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图像金字塔"><span class="nav-number">4.</span> <span class="nav-text">图像金字塔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">86k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "vertical";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.3.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.3.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

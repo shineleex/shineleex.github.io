@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html论文：https://arxiv.org/abs/1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+<meta property="og:url" content="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html">
+<meta property="og:site_name" content="本立2道生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html论文：https://arxiv.org/abs/1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/11/FYPMuQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/11/FYPs4x.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/12/Ft9KpT.md.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/12/Ft9d1O.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/13/FNPkNR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/13/FNPOqe.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/13/FNFdts.png">
+<meta property="og:updated_time" content="2019-01-07T06:49:46.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html论文：https://arxiv.org/abs/1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/12/11/FYPMuQ.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MTCNN算法与代码理解—人脸检测和人脸对齐联合学习 | 本立2道生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">本立2道生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="胸怀万里，不如脚下一步">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="本立2道生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MTCNN算法与代码理解—人脸检测和人脸对齐联合学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-13 18:12:19" itemprop="dateCreated datePublished" datetime="2018-12-13T18:12:19+08:00">2018-12-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-07 14:49:46" itemprop="dateModified" datetime="2019-01-07T14:49:46+08:00">2019-01-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/人脸识别/" itemprop="url" rel="index"><span itemprop="name">人脸识别</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" class="leancloud_visitors" data-flag-title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">13k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p><strong>主页</strong>：<a href="https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html" target="_blank" rel="noopener">https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html</a><br><strong>论文</strong>：<a href="https://arxiv.org/abs/1604.02878" target="_blank" rel="noopener">https://arxiv.org/abs/1604.02878</a><br><strong>代码</strong>：<a href="https://github.com/kpzhang93/MTCNN_face_detection_alignment" target="_blank" rel="noopener">官方matlab版</a>、<a href="https://github.com/kpzhang93/MTCNN_face_detection_alignment" target="_blank" rel="noopener">C++ caffe版</a><br><strong>第三方训练代码</strong>：<a href="https://github.com/AITTSMD/MTCNN-Tensorflow" target="_blank" rel="noopener">tensorflow</a>、<a href="https://github.com/Seanlinx/mtcnn" target="_blank" rel="noopener">mxnet</a></p>
+<p><strong>MTCNN</strong>，恰如论文标题《Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks》所言，<strong>采用级联CNN结构，通过多任务学习，同时完成了两个任务——人脸检测和人脸对齐，输出人脸的Bounding Box以及人脸的关键点（眼睛、鼻子、嘴）位置</strong>。</p>
+<p>MTCNN <strong>又好又快</strong>，提出时在<a href="http://vis-www.cs.umass.edu/fddb/" target="_blank" rel="noopener">FDDB</a>、<a href="http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/" target="_blank" rel="noopener">WIDER FACE</a>和<a href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/" target="_blank" rel="noopener">AFLW</a>数据集上取得了当时（2016年4月）最好的结果，速度又快，现在仍被广泛使用作为人脸识别的前端，如<a href="https://github.com/deepinsight/insightface" target="_blank" rel="noopener">InsightFace</a>和<a href="https://github.com/davidsandberg/facenet" target="_blank" rel="noopener">facenet</a>。</p>
+<p>MTCNN效果为什么好，文中提了3个主要的原因：</p>
+<ol>
+<li><strong>精心设计的级联CNN架构（carefully designed cascaded CNNs architecture）</strong></li>
+<li><strong>在线困难样本挖掘（online hard sample mining strategy）</strong></li>
+<li><strong>人脸对齐联合学习（joint face alignment learning）</strong></li>
+</ol>
+<p>下面详细介绍。</p>
+<h1 id="算法Pipeline详解"><a href="#算法Pipeline详解" class="headerlink" title="算法Pipeline详解"></a>算法Pipeline详解</h1><p>总体而言，MTCNN方法可以概括为：<strong>图像金字塔+3阶段级联CNN</strong>，如下图所示</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/11/FYPMuQ.png" alt="MTCNN Pipeline"><figcaption class="image-caption">MTCNN Pipeline</figcaption></figure></p>
+<p>对输入图像建立金字塔是为了检测<strong>不同尺度的人脸</strong>，通过级联CNN完成对人脸 <strong>由粗到细（coarse-to-fine）</strong> 的检测，<strong>所谓级联指的是 前者的输出是后者的输入</strong>，前者往往先使用少量信息做个大致的判断，快速将不是人脸的区域剔除，剩下可能包含人脸的区域交给后面更复杂的网络，利用更多信息进一步筛选，这种由粗到细的方式在保证召回率的情况下可以大大提高筛选效率。下面为MTCNN中级联的3个网络（<strong>P-Net、R-Net、O-Net</strong>），可以看到它们的<strong>网络层数逐渐加深</strong>，<strong>输入图像的尺寸（感受野）在逐渐变大12→24→48</strong>，<strong>最终输出的特征维数也在增加32→128→256</strong>，意味着利用的信息越来越多。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/11/FYPs4x.png" alt="the architectures of P-Net, R-Net, and O-Net"><figcaption class="image-caption">the architectures of P-Net, R-Net, and O-Net</figcaption></figure></p>
+<p>工作流程是怎样的？<br>首先，对原图通过<strong>双线性插值</strong>构建<strong>图像金字塔</strong>，可以参看前面的博文《人脸检测中，如何构建输入图像金字塔》。构建好金字塔后，将金字塔中的图像逐个输入给P-Net。</p>
+<ul>
+<li><strong>P-Net</strong>：其实是个<strong>全卷积神经网络</strong>（FCN），前向传播得到的特征图在每个位置是个32维的特征向量，用于判断每个位置处约$12\times12$大小的区域内是否包含人脸，如果包含人脸，则回归出人脸的Bounding Box，进一步获得Bounding Box对应到原图中的区域，通过<strong>NMS</strong>保留分数最高的Bounding box以及移除重叠区域过大的Bounding Box。</li>
+<li><strong>O-Net</strong>：是单纯的卷积神经网络（CNN），先将P-Net认为可能包含人脸的Bounding Box <strong>双线性插值</strong>到$24\times24$，输入给O-Net，判断是否包含人脸，如果包含人脸，也回归出Bounding Box，同样经过NMS过滤。</li>
+<li><strong>R-Net</strong>：也是纯粹的卷积神经网络（CNN），将O-Net认为可能包含人脸的Bounding Box <strong>双线性插值</strong>到$48\times 48$，输入给R-Net，进行人脸检测和关键点提取。</li>
+</ul>
+<p>需要注意的是：</p>
+<ol>
+<li><strong>face classification</strong>判断是不是人脸使用的是softmax，因此输出是2维的，一个代表是人脸，一个代表不是人脸</li>
+<li><strong>bounding box regression</strong>回归出的是bounding box左上角和右下角的偏移$dx1, dy1, dx2, dy2$，因此是4维的</li>
+<li><strong>facial landmark localization</strong>回归出的是左眼、右眼、鼻子、左嘴角、右嘴角共5个点的位置，因此是10维的</li>
+<li>在<strong>训练阶段</strong>，3个网络都会将关键点位置作为监督信号来引导网络的学习， 但在<strong>预测阶段</strong>，P-Net和R-Net仅做人脸检测，不输出关键点位置（因为这时人脸检测都是不准的），关键点位置仅在O-Net中输出。</li>
+<li><strong>Bounding box</strong>和<strong>关键点</strong>输出均为<strong>归一化后的相对坐标</strong>，Bounding Box是相对待检测区域（R-Net和O-Net是相对输入图像），归一化是相对坐标除以检测区域的宽高，关键点坐标是相对Bounding box的坐标，归一化是相对坐标除以Bounding box的宽高，这里先建立起初步的印象，具体可以参看后面准备训练数据部分和预测部分的代码细节。</li>
+</ol>
+<p>MTCNN效果好的第1个原因是<strong>精心设计的级联CNN架构</strong>，其实，级联的思想早已有之，而使用级联CNN进行人脸检测的方法是在2015 CVPR《<a href="http://users.eecs.northwestern.edu/~xsh835/assets/cvpr2015_cascnn.pdf" target="_blank" rel="noopener">A convolutional neural network cascade for face detection</a>》中被率先提出，MTCNN与之的差异在于：</p>
+<ul>
+<li>减少卷积核数量（层内）</li>
+<li>将$5\times 5$的卷积核替换为$3\times 3$</li>
+<li>增加网络深度</li>
+</ul>
+<p>这样使网络的表达能力更强，同时运行时间更少。</p>
+<p>MTCNN效果好的后面2个原因<strong>在线困难样本挖掘</strong>和<strong>人脸对齐联合学习</strong>将在下一节介绍。</p>
+<h1 id="如何训练"><a href="#如何训练" class="headerlink" title="如何训练"></a>如何训练</h1><h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><p>MTCNN的多任务学习有3个任务，1个分类2个回归，分别为face classification、bounding box regression以及facial landmark localization，分类的损失函数使用<strong>交叉熵损失</strong>，回归的损失函数使用<strong>欧氏距离损失</strong>，如下：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/12/Ft9KpT.md.png" alt="MTCNN loss function"><figcaption class="image-caption">MTCNN loss function</figcaption></figure></p>
+<p>对于第$i$个样本，$L_i^{det}$为判断是不是人脸的交叉熵损失，$L_i^{box}$为bounding box回归的欧式距离损失，$L_i^{landmark}$为关键点定位的欧氏距离损失，任务间权重通过$\alpha_j$协调，配置如下：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/12/Ft9d1O.png" alt="Ft9d1O.png"><figcaption class="image-caption">Ft9d1O.png</figcaption></figure></p>
+<p>同时，训练数据中有含人脸的、有不含人脸的、有标注了关键点的、有没标注关键点的，<strong>不同数据能参与的训练任务不同</strong>，比如不含人脸的负样本自然无法用于训练bounding box回归和关键点定位，于是有了$\beta_i^j \in { 0, 1}$，<strong>指示每个样本能参与的训练任务</strong>，例如对于不含人脸的负样本其$\beta_i^{det}=1, \beta_i^{box}=0, \beta_i^{landmark}=0$。</p>
+<p>至此，我们已经清楚了MTCNN多任务学习的损失函数。</p>
+<h2 id="训练数据准备"><a href="#训练数据准备" class="headerlink" title="训练数据准备"></a>训练数据准备</h2><p>MTCNN准备了4种训练数据：</p>
+<ol>
+<li><strong>Negatives</strong>：与ground-truth faces的$IOU &lt; 0.3$的图像区域，<code>lable = 0</code></li>
+<li><strong>Positives</strong>：与ground-truth faces的$IOU \ge 0.65$的图像区域，<code>lable = 1</code></li>
+<li><strong>Part faces</strong>：与ground-truth faces的$0.4 \le IOU &lt; 0.65$的图像区域，<code>lable = -1</code></li>
+<li><strong>Landmark faces</strong>：标记了5个关键点的人脸图像，<code>lable = -2</code></li>
+</ol>
+<p>这4种数据是如何组织的呢？以<a href="https://github.com/AITTSMD/MTCNN-Tensorflow" target="_blank" rel="noopener">MTCNN-Tensorflow</a>为例：</p>
+<blockquote>
+<p>Since MTCNN is a Multi-task Network,we should pay attention to the format of training data.The format is:<br>[path to image]  [cls_label]  [bbox_label]  [landmark_label]<br>For <strong>neg</strong> sample, <strong>cls_label</strong>=0, <strong>bbox_label</strong>=[0,0,0,0], <strong>landmark_label</strong>=[0,0,0,0,0,0,0,0,0,0].<br>For <strong>pos</strong> sample, <strong>cls_label</strong>=1, <strong>bbox_label</strong>(calculate), <strong>landmark_label</strong>=[0,0,0,0,0,0,0,0,0,0].<br>For <strong>part</strong> sample, <strong>cls_label</strong>=-1, <strong>bbox_label</strong>(calculate), <strong>landmark_label</strong>=[0,0,0,0,0,0,0,0,0,0].<br>For <strong>landmark</strong> sample, <strong>cls_label</strong>=-2, <strong>bbox_label</strong>=[0,0,0,0], <strong>landmark_label</strong>(calculate).</p>
+</blockquote>
+<p>数量之比依次为$3:1:1:2$，其中，Negatives、Positives和Part faces通过WIDER FACE数据集crop得到，landmark faces通过CelebA数据集crop得到，先crop区域，然后看这个区域与哪个ground-truth face的IOU最大，根据最大IOU来生成label，比如小于0.3的标记为negative。</p>
+<p>P-Net训练数据的准备可以参见gen_12net_data.py、gen_landmark_aug_12.py、gen_imglist_pnet.py和gen_PNet_tfrecords.py，代码很直观，这里略过crop过程，重点介绍bounding box label和landmark label的生成。下面是gen_12net_data.py和gen_landmark_aug_12.py中的代码片段，<strong>bounding box 和 landmark 的label为归一化后的相对坐标</strong>，<code>offset_x1, offset_y1, offset_x2, offset_y2</code>为bounding box的label，<strong>使用crop区域的size进行归一化</strong>，<code>rv</code>为landmark的label，<strong>使用bbox的宽高进行归一化</strong>，注意两者的归一化是不一样的，具体见代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## in gen_12net_data.py</span></span><br><span class="line"><span class="comment"># pos and part face size [minsize*0.8,maxsize*1.25]</span></span><br><span class="line">size = npr.randint(int(min(w, h) * <span class="number">0.8</span>), np.ceil(<span class="number">1.25</span> * max(w, h)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># delta here is the offset of box center</span></span><br><span class="line"><span class="keyword">if</span> w&lt;<span class="number">5</span>:</span><br><span class="line">    <span class="keyword">print</span> (w)</span><br><span class="line">    <span class="keyword">continue</span></span><br><span class="line"><span class="comment">#print (box)</span></span><br><span class="line">delta_x = npr.randint(-w * <span class="number">0.2</span>, w * <span class="number">0.2</span>)</span><br><span class="line">delta_y = npr.randint(-h * <span class="number">0.2</span>, h * <span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#show this way: nx1 = max(x1+w/2-size/2+delta_x)</span></span><br><span class="line"><span class="comment"># x1+ w/2 is the central point, then add offset , then deduct size/2</span></span><br><span class="line"><span class="comment"># deduct size/2 to make sure that the right bottom corner will be out of</span></span><br><span class="line">nx1 = int(max(x1 + w / <span class="number">2</span> + delta_x - size / <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line"><span class="comment">#show this way: ny1 = max(y1+h/2-size/2+delta_y)</span></span><br><span class="line">ny1 = int(max(y1 + h / <span class="number">2</span> + delta_y - size / <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">nx2 = nx1 + size</span><br><span class="line">ny2 = ny1 + size</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> nx2 &gt; width <span class="keyword">or</span> ny2 &gt; height:</span><br><span class="line">    <span class="keyword">continue</span> </span><br><span class="line">crop_box = np.array([nx1, ny1, nx2, ny2])</span><br><span class="line"><span class="comment">#yu gt de offset</span></span><br><span class="line"><span class="comment">##### x1 y1 x2 y2 为 ground truth bbox， nx1 ny1 nx2 ny2为crop的区域，size为crop的区域size ######</span></span><br><span class="line">offset_x1 = (x1 - nx1) / float(size) </span><br><span class="line">offset_y1 = (y1 - ny1) / float(size)</span><br><span class="line">offset_x2 = (x2 - nx2) / float(size)</span><br><span class="line">offset_y2 = (y2 - ny2) / float(size)</span><br><span class="line"><span class="comment">#crop</span></span><br><span class="line">cropped_im = img[ny1 : ny2, nx1 : nx2, :]</span><br><span class="line"><span class="comment">#resize</span></span><br><span class="line">resized_im = cv2.resize(cropped_im, (<span class="number">12</span>, <span class="number">12</span>), interpolation=cv2.INTER_LINEAR)</span><br><span class="line"><span class="comment">##########################################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## in gen_landmark_aug_12.py</span></span><br><span class="line"><span class="comment">#normalize land mark by dividing the width and height of the ground truth bounding box</span></span><br><span class="line"><span class="comment"># landmakrGt is a list of tuples</span></span><br><span class="line"><span class="keyword">for</span> index, one <span class="keyword">in</span> enumerate(landmarkGt):</span><br><span class="line">    <span class="comment"># (( x - bbox.left)/ width of bounding box, (y - bbox.top)/ height of bounding box</span></span><br><span class="line">    rv = ((one[<span class="number">0</span>]-gt_box[<span class="number">0</span>])/(gt_box[<span class="number">2</span>]-gt_box[<span class="number">0</span>]), (one[<span class="number">1</span>]-gt_box[<span class="number">1</span>])/(gt_box[<span class="number">3</span>]-gt_box[<span class="number">1</span>]))</span><br><span class="line">    <span class="comment"># put the normalized value into the new list landmark</span></span><br><span class="line">    landmark[index] = rv</span><br></pre></td></tr></table></figure>
+<p><strong>需要注意的是</strong>，对于P-Net，其为FCN，预测阶段输入图像可以为任意大小，但在训练阶段，使用的训练数据均被resize到$12\times 12$，以便于控制正负样本的比例（<strong>避免数据不平衡</strong>）。</p>
+<p>因为是<strong>级联结构</strong>，<strong>训练要分阶段依次进行</strong>，训练好P-Net后，用P-Net产生的候选区域来训练R-Net，训练好R-Net后，再生成训练数据来训练O-Net。P-Net训练好之后，根据其结果准备R-Net的训练数据，R-Net训练好之后，再准备O-Net的训练数据，过程是类似的，具体可以参见<a href="https://github.com/AITTSMD/MTCNN-Tensorflow" target="_blank" rel="noopener">相关代码</a>，这里就不赘述了。</p>
+<h2 id="多任务学习与在线困难样本挖掘"><a href="#多任务学习与在线困难样本挖掘" class="headerlink" title="多任务学习与在线困难样本挖掘"></a>多任务学习与在线困难样本挖掘</h2><p>4种训练数据参与的训练任务如下：</p>
+<ul>
+<li>Negatives和Positives用于训练face classification</li>
+<li>Positives和Part faces用于训练bounding box regression</li>
+<li>landmark faces用于训练facial landmark localization</li>
+</ul>
+<p>据此来设置$\beta_i^j$，对每一个样本看其属于那种训练数据，对其能参与的任务将$\beta$置为1，不参与的置为0。</p>
+<p>至于<strong>在线困难样本挖掘</strong>，仅在训练face/non-face classification时使用，具体做法是：对每个mini-batch的数据先通过前向传播，挑选损失最大的前70%作为困难样本，在反向传播时仅使用这70%困难样本产生的损失。文中的实验表明，这样做在FDDB数据级上可以带来1.5个点的性能提升。</p>
+<p>具体怎么实现的？这里以<a href="https://github.com/AITTSMD/MTCNN-Tensorflow/blob/master/train_models/mtcnn_model.py" target="_blank" rel="noopener">MTCNN-Tensorflow / train_models / mtcnn_model.py</a>代码为例，用<code>label</code>来指示是哪种数据，下面为代码，重点关注<code>valid_inds</code>和<code>loss</code>（<code>square_error</code>）的计算（对应$\beta_i^j$），以及<code>cls_ohem</code>中的<strong>困难样本挖掘</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in mtcnn_model.py]</span></span><br><span class="line"><span class="comment"># pos=1, neg=0, part=-1, landmark=-2</span></span><br><span class="line"><span class="comment"># 通过cls_ohem, bbox_ohem, landmark_ohem来计算损失</span></span><br><span class="line">num_keep_radio = <span class="number">0.7</span> <span class="comment"># mini-batch前70%做为困难样本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># face/non-face 损失，注意在线困难样本挖掘（前70%）</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cls_ohem</span><span class="params">(cls_prob, label)</span>:</span></span><br><span class="line">    zeros = tf.zeros_like(label)</span><br><span class="line">    <span class="comment">#label=-1 --&gt; label=0net_factory</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#pos -&gt; 1, neg -&gt; 0, others -&gt; 0</span></span><br><span class="line">    label_filter_invalid = tf.where(tf.less(label,<span class="number">0</span>), zeros, label)</span><br><span class="line">    num_cls_prob = tf.size(cls_prob)</span><br><span class="line">    cls_prob_reshape = tf.reshape(cls_prob,[num_cls_prob,<span class="number">-1</span>])</span><br><span class="line">    label_int = tf.cast(label_filter_invalid,tf.int32)</span><br><span class="line">    <span class="comment"># get the number of rows of class_prob</span></span><br><span class="line">    num_row = tf.to_int32(cls_prob.get_shape()[<span class="number">0</span>])</span><br><span class="line">    <span class="comment">#row = [0,2,4.....]</span></span><br><span class="line">    row = tf.range(num_row)*<span class="number">2</span></span><br><span class="line">    indices_ = row + label_int</span><br><span class="line">    label_prob = tf.squeeze(tf.gather(cls_prob_reshape, indices_))</span><br><span class="line">    loss = -tf.log(label_prob+<span class="number">1e-10</span>)</span><br><span class="line">    zeros = tf.zeros_like(label_prob, dtype=tf.float32)</span><br><span class="line">    ones = tf.ones_like(label_prob,dtype=tf.float32)</span><br><span class="line">    <span class="comment"># set pos and neg to be 1, rest to be 0</span></span><br><span class="line">    valid_inds = tf.where(label &lt; zeros,zeros,ones)</span><br><span class="line">    <span class="comment"># get the number of POS and NEG examples</span></span><br><span class="line">    num_valid = tf.reduce_sum(valid_inds)</span><br><span class="line"></span><br><span class="line">    <span class="comment">###### 困难样本数量 #####</span></span><br><span class="line">    keep_num = tf.cast(num_valid*num_keep_radio,dtype=tf.int32)</span><br><span class="line">    <span class="comment">#FILTER OUT PART AND LANDMARK DATA</span></span><br><span class="line">    loss = loss * valid_inds</span><br><span class="line">    loss,_ = tf.nn.top_k(loss, k=keep_num) <span class="comment">##### 仅取困难样本反向传播 #####</span></span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(loss)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bounding box损失</span></span><br><span class="line"><span class="comment">#label=1 or label=-1 then do regression</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bbox_ohem</span><span class="params">(bbox_pred,bbox_target,label)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param bbox_pred:</span></span><br><span class="line"><span class="string">    :param bbox_target:</span></span><br><span class="line"><span class="string">    :param label: class label</span></span><br><span class="line"><span class="string">    :return: mean euclidean loss for all the pos and part examples</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    zeros_index = tf.zeros_like(label, dtype=tf.float32)</span><br><span class="line">    ones_index = tf.ones_like(label,dtype=tf.float32)</span><br><span class="line">    <span class="comment"># keep pos and part examples</span></span><br><span class="line">    valid_inds = tf.where(tf.equal(tf.abs(label), <span class="number">1</span>),ones_index,zeros_index)</span><br><span class="line">    <span class="comment">#(batch,)</span></span><br><span class="line">    <span class="comment">#calculate square sum</span></span><br><span class="line">    square_error = tf.square(bbox_pred-bbox_target)</span><br><span class="line">    square_error = tf.reduce_sum(square_error,axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment">#keep_num scalar</span></span><br><span class="line">    num_valid = tf.reduce_sum(valid_inds)</span><br><span class="line">    <span class="comment">#keep_num = tf.cast(num_valid*num_keep_radio,dtype=tf.int32)</span></span><br><span class="line">    <span class="comment"># count the number of pos and part examples</span></span><br><span class="line">    keep_num = tf.cast(num_valid, dtype=tf.int32)</span><br><span class="line">    <span class="comment">#keep valid index square_error</span></span><br><span class="line">    square_error = square_error*valid_inds</span><br><span class="line">    <span class="comment"># keep top k examples, k equals to the number of positive examples</span></span><br><span class="line">    _, k_index = tf.nn.top_k(square_error, k=keep_num)</span><br><span class="line">    square_error = tf.gather(square_error, k_index)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(square_error)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键点损失</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">landmark_ohem</span><span class="params">(landmark_pred,landmark_target,label)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    :param landmark_pred:</span></span><br><span class="line"><span class="string">    :param landmark_target:</span></span><br><span class="line"><span class="string">    :param label:</span></span><br><span class="line"><span class="string">    :return: mean euclidean loss</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment">#keep label =-2  then do landmark detection</span></span><br><span class="line">    ones = tf.ones_like(label,dtype=tf.float32)</span><br><span class="line">    zeros = tf.zeros_like(label,dtype=tf.float32)</span><br><span class="line">    valid_inds = tf.where(tf.equal(label,<span class="number">-2</span>),ones,zeros) <span class="comment">##### 将label=-2的置为1，其余为0 #####</span></span><br><span class="line">    square_error = tf.square(landmark_pred-landmark_target)</span><br><span class="line">    square_error = tf.reduce_sum(square_error,axis=<span class="number">1</span>)</span><br><span class="line">    num_valid = tf.reduce_sum(valid_inds)</span><br><span class="line">    <span class="comment">#keep_num = tf.cast(num_valid*num_keep_radio,dtype=tf.int32)</span></span><br><span class="line">    keep_num = tf.cast(num_valid, dtype=tf.int32)</span><br><span class="line">    square_error = square_error*valid_inds <span class="comment"># 在计算landmark_ohem损失时只计算beta=1的 #####</span></span><br><span class="line">    _, k_index = tf.nn.top_k(square_error, k=keep_num)</span><br><span class="line">    square_error = tf.gather(square_error, k_index)</span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(square_error)</span><br></pre></td></tr></table></figure>
+<p>多任务学习的代码片段如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in train.py</span></span><br><span class="line"><span class="keyword">if</span> net == <span class="string">'PNet'</span>:</span><br><span class="line">    image_size = <span class="number">12</span></span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">elif</span> net == <span class="string">'RNet'</span>:</span><br><span class="line">    image_size = <span class="number">24</span></span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">1</span>;</span><br><span class="line">    image_size = <span class="number">48</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="comment"># 多任务联合损失</span></span><br><span class="line">total_loss_op  = radio_cls_loss*cls_loss_op + radio_bbox_loss*bbox_loss_op + radio_landmark_loss*landmark_loss_op + L2_loss_op</span><br><span class="line">train_op, lr_op = train_model(base_lr, total_loss_op, num)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_model</span><span class="params">(base_lr, loss, data_num)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    train model</span></span><br><span class="line"><span class="string">    :param base_lr: base learning rate</span></span><br><span class="line"><span class="string">    :param loss: loss</span></span><br><span class="line"><span class="string">    :param data_num:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    train_op, lr_op</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    lr_factor = <span class="number">0.1</span></span><br><span class="line">    global_step = tf.Variable(<span class="number">0</span>, trainable=<span class="keyword">False</span>)</span><br><span class="line">    <span class="comment">#LR_EPOCH [8,14]</span></span><br><span class="line">    <span class="comment">#boundaried [num_batch,num_batch]</span></span><br><span class="line">    boundaries = [int(epoch * data_num / config.BATCH_SIZE) <span class="keyword">for</span> epoch <span class="keyword">in</span> config.LR_EPOCH]</span><br><span class="line">    <span class="comment">#lr_values[0.01,0.001,0.0001,0.00001]</span></span><br><span class="line">    lr_values = [base_lr * (lr_factor ** x) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, len(config.LR_EPOCH) + <span class="number">1</span>)]</span><br><span class="line">    <span class="comment">#control learning rate</span></span><br><span class="line">    lr_op = tf.train.piecewise_constant(global_step, boundaries, lr_values)</span><br><span class="line">    optimizer = tf.train.MomentumOptimizer(lr_op, <span class="number">0.9</span>)</span><br><span class="line">    train_op = optimizer.minimize(loss, global_step)</span><br><span class="line">    <span class="keyword">return</span> train_op, lr_op</span><br></pre></td></tr></table></figure>
+<p>以上对应论文中的损失函数。</p>
+<h1 id="预测过程"><a href="#预测过程" class="headerlink" title="预测过程"></a>预测过程</h1><p>预测过程与算法Pipeline详解一节讲述的一致，直接看一下官方matlab代码，这里重点关注P-Net FCN是如何获得Bounding box的，以及O-Net最终是如何得到landmark的，其余部分省略。</p>
+<p>将图像金字塔中的每张图像输入给P-Net，若当前输入图像尺寸为$M\times N$，在bounding box regression分支上将得到一个3维张量$m\times n \times 4$，共有$m\times n$个位置，每个位置对应输入图像中一个$12\times 12$的区域，而输入图像相对原图的尺度为<code>scale</code>，进一步可以获得每个位置对应到原图中的区域范围，如下所示：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/13/FNPkNR.png" alt="MTCNN generateBoundingBox"><figcaption class="image-caption">MTCNN generateBoundingBox</figcaption></figure></p>
+<p>而每个位置处都有个$4$维的向量，其为bounding box左上角和右下角的偏移<code>dx1, dy1, dx2, dy2</code>，通过上面的训练过程，我们知道它们是归一化之后的相对坐标，通过对应的区域以及归一化后的相对坐标就可以获得原图上的bounding box，如下所示，<code>dx1, dy1, dx2, dy2</code>为归一化的相对坐标，求到原图中的bounding box坐标的过程为生成训练数据bounding box label的逆过程。<br><figure><img src="https://s1.ax1x.com/2018/12/13/FNPOqe.png" alt="FNPOqe.png"><figcaption class="image-caption">FNPOqe.png</figcaption></figure></p>
+<p>landmark位置通过O-Net输出得到，将人脸候选框resize到$48\times 48$输入给O-Net，先获得bounding box（同上），因为O-Net输出的landmark也是归一化后的相对坐标，通过bounding box的长宽和bounding box左上角求取landmark 在原图中的位置，如下所示：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/13/FNFdts.png" alt="FNFdts.png"><figcaption class="image-caption">FNFdts.png</figcaption></figure></p>
+<p>至此，预测过程中的要点也介绍完毕了，以上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://arxiv.org/abs/1604.02878" target="_blank" rel="noopener">Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks</a></li>
+<li><a href="https://github.com/kpzhang93/MTCNN_face_detection_alignment" target="_blank" rel="noopener">官方matlab code</a></li>
+<li><a href="https://github.com/AITTSMD/MTCNN-Tensorflow" target="_blank" rel="noopener">第三方tensorflow code</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html" rel="next" title="直观理解神经网络最后一层全连接+Softmax">
+                <i class="fa fa-chevron-left"></i> 直观理解神经网络最后一层全连接+Softmax
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" rel="prev" title="Caffe源码理解3：Layer基类与template method设计模式">
+                Caffe源码理解3：Layer基类与template method设计模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">胸怀万里，不如脚下一步</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/firelx" title="firelx" target="_blank">firelx</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法Pipeline详解"><span class="nav-number">2.</span> <span class="nav-text">算法Pipeline详解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何训练"><span class="nav-number">3.</span> <span class="nav-text">如何训练</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#损失函数"><span class="nav-number">3.1.</span> <span class="nav-text">损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练数据准备"><span class="nav-number">3.2.</span> <span class="nav-text">训练数据准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多任务学习与在线困难样本挖掘"><span class="nav-number">3.3.</span> <span class="nav-text">多任务学习与在线困难样本挖掘</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#预测过程"><span class="nav-number">4.</span> <span class="nav-text">预测过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">86k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "vertical";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.3.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.3.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

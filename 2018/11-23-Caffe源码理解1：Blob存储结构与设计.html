@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN Blob作用据Caffe官方描述：  A Blob is a wrapper over the actual data being processed and passed along by Caffe, and also under the hood provides synchronization capability betw">
+<meta name="keywords" content="caffe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Caffe源码理解1：Blob存储结构与设计">
+<meta property="og:url" content="https://blog.shinelee.me/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html">
+<meta property="og:site_name" content="本立2道生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN Blob作用据Caffe官方描述：  A Blob is a wrapper over the actual data being processed and passed along by Caffe, and also under the hood provides synchronization capability betw">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/22/FPuXjg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/22/FP65As.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/16/ixAK2V.png">
+<meta property="og:updated_time" content="2019-01-07T06:28:47.664Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Caffe源码理解1：Blob存储结构与设计">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN Blob作用据Caffe官方描述：  A Blob is a wrapper over the actual data being processed and passed along by Caffe, and also under the hood provides synchronization capability betw">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/22/FPuXjg.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Caffe源码理解1：Blob存储结构与设计 | 本立2道生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">本立2道生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="胸怀万里，不如脚下一步">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="本立2道生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Caffe源码理解1：Blob存储结构与设计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-23 18:34:07" itemprop="dateCreated datePublished" datetime="2018-11-23T18:34:07+08:00">2018-11-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-07 14:28:47" itemprop="dateModified" datetime="2019-01-07T14:28:47+08:00">2019-01-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html" class="leancloud_visitors" data-flag-title="Caffe源码理解1：Blob存储结构与设计">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">9k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="Blob作用"><a href="#Blob作用" class="headerlink" title="Blob作用"></a>Blob作用</h1><p>据<a href="http://caffe.berkeleyvision.org/tutorial/net_layer_blob.html" target="_blank" rel="noopener">Caffe官方</a>描述：</p>
+<blockquote>
+<p><strong>A Blob is a wrapper over the actual data being processed and passed along by Caffe</strong>, and also under the hood provides synchronization capability between the CPU and the GPU. Mathematically, <strong>a blob is an N-dimensional array stored in a C-contiguous fashion.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Caffe stores and communicates data using blobs</strong>. Blobs provide a unified memory interface holding data; e.g., batches of images, model parameters, and derivatives for optimization.</p>
+</blockquote>
+<blockquote>
+<p><strong>Blobs conceal the computational and mental overhead of mixed CPU/GPU operation</strong> by synchronizing from the CPU host to the GPU device as needed. Memory on the host and device is allocated on demand (lazily) for efficient memory usage.</p>
+</blockquote>
+<p><code>Blob</code>是Caffe中的基础数据结构，主要作用如下：</p>
+<ol>
+<li><strong>存储和传输数据</strong>，对外提供统一的内存接口。在Caffe中，输入图像、每层的权重和反向传播时的梯度、每层的输入和输出等都以<code>Blob</code>形式管理</li>
+<li><strong>隐藏CPU和GPU之间数据同步的细节</strong>（通过<code>SyncedMemory</code>实现），用户使用时不需要自己管理CPU和GPU间的数据同步</li>
+</ol>
+<p>在逻辑上，<code>Blob</code>是个$N_d$维张量。当$N_d=4$时，<code>Blob</code>的shape定义为$N <em> C </em> H <em> W$，即$Num </em> Channel <em> Height </em> Width$，可以表示输入图像Batch、卷积层的kernel参数、卷积层的输入输出map等；当$N_d=2$时，可以表示全连接层的权重，$N_{out} * N_{in}$；当$N_d=1$时，可以表示卷积层和全连接层的bias参数。</p>
+<p>具体地，</p>
+<ul>
+<li>$N_d=4$，<code>Blob</code>表示<strong>输入图像</strong>时，$N$为当前批次的图片数量即MiniBatchNum，$C$为图像的通道数，RGB图$C=3$，$H$和$W$为图像的高和宽。</li>
+<li>$N_d=4$，<code>Blob</code>表示<strong>卷积层的输入输出</strong>时，$N=1$，$C$为特征图的数量，$H$和$W$为特征图的高和宽。</li>
+<li>$N_d=4$，<code>Blob</code>表示<strong>卷积层kernel参数</strong>时，$N$为当前层输出特征图的数量，其与卷积核数量相同，$C$为当前层输入特征图的数量，其与一个卷积核的层数相同，$H$和$W$为卷积核的高和宽，每个卷积是三维的即$C<em>H</em>W$。</li>
+<li>$N_d=2$，<code>Blob</code>表示<strong>全连接层的权重</strong>时，shape为$N_{out} * N_{in}$的二维矩阵，$N_{out}$为输出数量，$N_{in}$为输入数量。</li>
+<li>$N_d=1$，<code>Blob</code>为长度为$N$的向量，表示<strong>卷积层bias参数</strong>时，$N$为卷积核数量（与输出特征图数量相同），表示<strong>全连接层bias参数</strong>时，$N$为输出数量（与上面的$N_{out}$相同）。</li>
+</ul>
+<h1 id="主要成员变量"><a href="#主要成员变量" class="headerlink" title="主要成员变量"></a>主要成员变量</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;SyncedMemory&gt; data_; <span class="comment">// 数据，存储图像、参数、输入输出等</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;SyncedMemory&gt; diff_; <span class="comment">// 反向传播时的梯度，训练阶段update时参数的更新量</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;SyncedMemory&gt; shape_data_; <span class="comment">// GPU shape，与下面的shape是相同的</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; shape_; <span class="comment">// shape，data和diff相同</span></span><br><span class="line"><span class="keyword">int</span> count_; <span class="comment">// 张量中的元素数量，比如 N*C*H*W</span></span><br><span class="line"><span class="keyword">int</span> capacity_; <span class="comment">// 容量，当前分配内存的大小，当reshape时，可能需要扩容</span></span><br></pre></td></tr></table></figure>
+<h1 id="Blob存储结构"><a href="#Blob存储结构" class="headerlink" title="Blob存储结构"></a>Blob存储结构</h1><p><code>Blob</code>的<code>data_</code>和<code>diff_</code>对应的数据区，在内存中均以<strong>行有先</strong>的方式存储（C语言风格）。行优先和列优先的存储方式如下图所示，9个数连续存储，表示同一个矩阵，但是存储顺序不同，图片来自<a href="https://wiki2.org/en/Row-major_order" target="_blank" rel="noopener">WIKI</a>：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/22/FPuXjg.png" alt="Row- and column-major order"><figcaption class="image-caption">Row- and column-major order</figcaption></figure></p>
+<p>当输入图像为1张RGB图时，shape为$1<em>3</em>4*5$，其存储顺序如下图所示，图片素材来自<a href="http://eng-shady-mohsen.blogspot.com/2011/04/graphical-presentation-of-rgb-3d-matrix.html" target="_blank" rel="noopener">链接</a>。channel维上，0为R，1为G、2为B，先在R上行有先存储，再在G上行有先存储，最后在B上行有先存储。这里仅作示意，在caffe中实际存储顺序为BGR。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/22/FP65As.png" alt="RGB-Blob-Memory"><figcaption class="image-caption">RGB-Blob-Memory</figcaption></figure></p>
+<p>当$N=4$时，$Num <em> Channel </em> Height * Width$，<code>Blob</code>在$Width$维上连续存储，如下图所示：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/16/ixAK2V.png" alt="caffe-Blob-memory_structure"><figcaption class="image-caption">caffe-Blob-memory_structure</figcaption></figure></p>
+<p>理解了上图，再理解多维<code>Blob</code>的拼接、裁剪等操作就很容易了。</p>
+<p>通过<code>Blob</code>的<code>offset</code>成员函数可以获得$(n, c, h, w)$处的偏移量，偏移的计算方式与行优先存储是一致的，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">offset</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> n, <span class="keyword">const</span> <span class="keyword">int</span> c = <span class="number">0</span>, <span class="keyword">const</span> <span class="keyword">int</span> h = <span class="number">0</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="keyword">int</span> w = <span class="number">0</span>)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  CHECK_GE(n, <span class="number">0</span>);</span><br><span class="line">  CHECK_LE(n, num());</span><br><span class="line">  CHECK_GE(channels(), <span class="number">0</span>);</span><br><span class="line">  CHECK_LE(c, channels());</span><br><span class="line">  CHECK_GE(height(), <span class="number">0</span>);</span><br><span class="line">  CHECK_LE(h, height());</span><br><span class="line">  CHECK_GE(width(), <span class="number">0</span>);</span><br><span class="line">  CHECK_LE(w, width());</span><br><span class="line">  <span class="keyword">return</span> ((n * channels() + c) * height() + h) * width() + w;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="CPU与GPU间的数据传递"><a href="#CPU与GPU间的数据传递" class="headerlink" title="CPU与GPU间的数据传递"></a>CPU与GPU间的数据传递</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> Dtype* <span class="title">cpu_data</span><span class="params">()</span> <span class="keyword">const</span></span>; <span class="comment">// 不可修改数据，return (const Dtype*)data_-&gt;cpu_data();</span></span><br><span class="line"><span class="function"><span class="keyword">const</span> Dtype* <span class="title">gpu_data</span><span class="params">()</span> <span class="keyword">const</span></span>; <span class="comment">// return (const Dtype*)data_-&gt;gpu_data();</span></span><br><span class="line"><span class="function">Dtype* <span class="title">mutable_cpu_data</span><span class="params">()</span></span>; <span class="comment">// 可修改数据，return static_cast&lt;Dtype*&gt;(data_-&gt;mutable_cpu_data());</span></span><br><span class="line"><span class="function">Dtype* <span class="title">mutable_gpu_data</span><span class="params">()</span></span>; <span class="comment">// static_cast&lt;Dtype*&gt;(data_-&gt;mutable_gpu_data());</span></span><br></pre></td></tr></table></figure>
+<p>Caffe中通过上述方式来获取CPU和GPU上的数据区指针，在调用函数时，<code>SyncedMemory</code>会自行判断是否需要同步数据（具体是如何判断的，在讲<code>SyncedMemory</code>时再详细说明），当访问CPU（GPU）侧数据时，如果GPU（CPU）侧数据（可能）更新过，则将数据同步至CPU（GPU）。可参考下面示例代码来理解何时会发生数据同步，示例代码来自Caffe官网。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assuming that data are on the CPU initially, and we have a blob.</span></span><br><span class="line"><span class="keyword">const</span> Dtype* foo;</span><br><span class="line">Dtype* bar;</span><br><span class="line">foo = blob.gpu_data(); <span class="comment">// data copied cpu-&gt;gpu.</span></span><br><span class="line">foo = blob.cpu_data(); <span class="comment">// no data copied since both have up-to-date contents.</span></span><br><span class="line">bar = blob.mutable_gpu_data(); <span class="comment">// no data copied.</span></span><br><span class="line"><span class="comment">// ... some operations ...</span></span><br><span class="line">bar = blob.mutable_gpu_data(); <span class="comment">// no data copied when we are still on GPU.</span></span><br><span class="line">foo = blob.cpu_data(); <span class="comment">// data copied gpu-&gt;cpu, since the gpu side has modified the data</span></span><br><span class="line">foo = blob.gpu_data(); <span class="comment">// no data copied since both have up-to-date contents</span></span><br><span class="line">bar = blob.mutable_cpu_data(); <span class="comment">// still no data copied.</span></span><br><span class="line">bar = blob.mutable_gpu_data(); <span class="comment">// data copied cpu-&gt;gpu.</span></span><br><span class="line">bar = blob.mutable_cpu_data(); <span class="comment">// data copied gpu-&gt;cpu.</span></span><br></pre></td></tr></table></figure>
+<p>只要调用了<code>mutable</code>函数，即便没有实际修改数据，再调用另一侧的<code>mutable</code>函数，也会发生数据同步。因此，在明确不修改数据时，尽量调用<code>const</code>函数，只有在操纵数据时才调用<code>mutable</code>函数。</p>
+<h1 id="主要成员函数"><a href="#主要成员函数" class="headerlink" title="主要成员函数"></a>主要成员函数</h1><p><code>Blob</code>的主要成员函数有：</p>
+<ol>
+<li>基本函数，包括构造函数、set和get类函数、逻辑判断等</li>
+<li><code>Reshape</code>函数，用于设置<code>Blob</code>的<code>shape</code>，分配内存</li>
+<li><code>Update</code>函数，用于在网络训练时更新参数使用，$data = data - diff$</li>
+<li><code>Blob</code>运算函数，用于切片统计、求L1范数、L2范数、数乘等</li>
+<li>辅助函数，proto导入导出等</li>
+</ol>
+<p>下面重点介绍其中主要的成员函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blob</span> &#123;</span></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  Blob()</span><br><span class="line">       : data_(), diff_(), count_(<span class="number">0</span>), capacity_(<span class="number">0</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// @brief Deprecated; use &lt;code&gt;Blob(const vector&lt;int&gt;&amp; shape)&lt;/code&gt;.</span></span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">Blob</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> num, <span class="keyword">const</span> <span class="keyword">int</span> channels, <span class="keyword">const</span> <span class="keyword">int</span> height,</span></span></span><br><span class="line"><span class="function"><span class="params">      <span class="keyword">const</span> <span class="keyword">int</span> width)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">Blob</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shape)</span></span>;</span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>Blob</code>的构造函数中，会调用<code>Reshape</code>函数，给<code>shape</code>成员变量赋值以及分配初始内存。在<code>Layer::Reshape</code>或者<code>Layer::Forward</code>时，也会调用<code>Reshape</code>函数来设置输出<code>Blob</code>的维度，如果reshape了整个网络的输入<code>Blob</code>，则需要调用<code>Net::Forward</code>或者<code>Net::Reshape</code>来重新确定每一层相关<code>Blob</code>的shape（从bottom到top逐层推算得出）。当<code>Blob</code> size发生改变时，只有在内存不够才会再分配内存，具体代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</span><br><span class="line"><span class="keyword">bool</span> Blob&lt;Dtype&gt;::Reshape(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shape) &#123;</span><br><span class="line">  CHECK_LE(shape.size(), kMaxBlobAxes);</span><br><span class="line">  count_ = <span class="number">1</span>;</span><br><span class="line">  shape_.resize(shape.size());</span><br><span class="line">  <span class="keyword">if</span> (!shape_data_ || shape_data_-&gt;size() &lt; shape.size() * <span class="keyword">sizeof</span>(<span class="keyword">int</span>)) &#123;</span><br><span class="line">    shape_data_.reset(<span class="keyword">new</span> SyncedMemory(shape.size() * <span class="keyword">sizeof</span>(<span class="keyword">int</span>)));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">int</span>* shape_data = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>*&gt;(shape_data_-&gt;mutable_cpu_data());</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; shape.size(); ++i) &#123;</span><br><span class="line">    CHECK_GE(shape[i], <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (count_ != <span class="number">0</span>) &#123;</span><br><span class="line">      CHECK_LE(shape[i], INT_MAX / count_) &lt;&lt; <span class="string">"blob size exceeds INT_MAX"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    count_ *= shape[i];</span><br><span class="line">    shape_[i] = shape[i];</span><br><span class="line">    shape_data[i] = shape[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 不够时分配内存，原内存会释放（shared_ptr）</span></span><br><span class="line">  <span class="keyword">if</span> (count_ &gt; capacity_) &#123; </span><br><span class="line">    capacity_ = count_;</span><br><span class="line">    data_.reset(<span class="keyword">new</span> SyncedMemory(capacity_ * <span class="keyword">sizeof</span>(Dtype)));</span><br><span class="line">    diff_.reset(<span class="keyword">new</span> SyncedMemory(capacity_ * <span class="keyword">sizeof</span>(Dtype)));</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在网络训练阶段，根据损失函数以及反向传播得到的梯度，获得每层参数的更新量<code>diff_</code>，会调用<code>Update</code>函数来更新参数，如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</span><br><span class="line"><span class="keyword">void</span> Blob&lt;Dtype&gt;::Update() &#123;</span><br><span class="line">  <span class="comment">// We will perform update based on where the data is located.</span></span><br><span class="line">  <span class="keyword">switch</span> (data_-&gt;head()) &#123;</span><br><span class="line">  <span class="keyword">case</span> SyncedMemory::HEAD_AT_CPU:</span><br><span class="line">    <span class="comment">// perform computation on CPU</span></span><br><span class="line">    <span class="comment">// data = data - diff, axpy: y = ax + y</span></span><br><span class="line">    caffe_axpy&lt;Dtype&gt;(count_, Dtype(<span class="number">-1</span>),</span><br><span class="line">        <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> Dtype*&gt;(diff_-&gt;cpu_data()),</span><br><span class="line">        <span class="keyword">static_cast</span>&lt;Dtype*&gt;(data_-&gt;mutable_cpu_data()));</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> SyncedMemory::HEAD_AT_GPU:</span><br><span class="line">  <span class="keyword">case</span> SyncedMemory::SYNCED:</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CPU_ONLY</span></span><br><span class="line">    <span class="comment">// perform computation on GPU</span></span><br><span class="line">    caffe_gpu_axpy&lt;Dtype&gt;(count_, Dtype(<span class="number">-1</span>),</span><br><span class="line">        <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> Dtype*&gt;(diff_-&gt;gpu_data()),</span><br><span class="line">        <span class="keyword">static_cast</span>&lt;Dtype*&gt;(data_-&gt;mutable_gpu_data()));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    NO_GPU;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    LOG(FATAL) &lt;&lt; <span class="string">"Syncedmem not initialized."</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得一提的是，<code>Blob</code>维度索引支持负数，-1表示最后一个维度，与Python相同，实现代码如下，在需要访问某个维度时，先使用<code>CanonicalAxisIndex</code>获得真正维度，比如<code>CanonicalAxisIndex(-1)</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// axis_index the axis index.</span></span><br><span class="line"><span class="comment">// If 0 &lt;= index &lt; num_axes(), return index.</span></span><br><span class="line"><span class="comment">// If -num_axes &lt;= index &lt;= -1, return (num_axes() - (-index))</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">CanonicalAxisIndex</span><span class="params">(<span class="keyword">int</span> axis_index)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">  CHECK_GE(axis_index, -num_axes())</span><br><span class="line">      &lt;&lt; <span class="string">"axis "</span> &lt;&lt; axis_index &lt;&lt; <span class="string">" out of range for "</span> &lt;&lt; num_axes()</span><br><span class="line">      &lt;&lt; <span class="string">"-D Blob with shape "</span> &lt;&lt; shape_string();</span><br><span class="line">  CHECK_LT(axis_index, num_axes())</span><br><span class="line">      &lt;&lt; <span class="string">"axis "</span> &lt;&lt; axis_index &lt;&lt; <span class="string">" out of range for "</span> &lt;&lt; num_axes()</span><br><span class="line">      &lt;&lt; <span class="string">"-D Blob with shape "</span> &lt;&lt; shape_string();</span><br><span class="line">  <span class="keyword">if</span> (axis_index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> axis_index + num_axes();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> axis_index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他函数，只取代表。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// set get</span></span><br><span class="line"><span class="comment">// 省略基本的set和get函数，如上面提到的const和mutable函数</span></span><br><span class="line"><span class="comment">// 返回(n, c, h, w)处的数据，return cpu_data()[offset(n, c, h, w)]</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> Dtype <span class="title">data_at</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> n, <span class="keyword">const</span> <span class="keyword">int</span> c, <span class="keyword">const</span> <span class="keyword">int</span> h, <span class="keyword">const</span> <span class="keyword">int</span> w)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> Dtype <span class="title">diff_at</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> n, <span class="keyword">const</span> <span class="keyword">int</span> c, <span class="keyword">const</span> <span class="keyword">int</span> h, <span class="keyword">const</span> <span class="keyword">int</span> w)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShareData</span><span class="params">(<span class="keyword">const</span> Blob&amp; other)</span></span>; <span class="comment">// 与另一Blob共享data，类似浅拷贝</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShareDiff</span><span class="params">(<span class="keyword">const</span> Blob&amp; other)</span></span>; <span class="comment">// 与另一Blob共享diff</span></span><br><span class="line"><span class="comment">// 从另一Blob拷贝，类似深拷贝</span></span><br><span class="line"><span class="keyword">void</span> Blob&lt;Dtype&gt;::CopyFrom(<span class="keyword">const</span> Blob&amp; source, <span class="keyword">bool</span> copy_diff, <span class="keyword">bool</span> reshape); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 切片元素数量统计，count *= shape(i)</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> start_axis, <span class="keyword">int</span> end_axis)</span> <span class="keyword">const</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// proto序列化与反序列化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromProto</span><span class="params">(<span class="keyword">const</span> BlobProto&amp; proto, <span class="keyword">bool</span> reshape = <span class="literal">true</span>)</span></span>; <span class="comment">// 从proto导入</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ToProto</span><span class="params">(BlobProto* proto, <span class="keyword">bool</span> write_diff = <span class="literal">false</span>)</span> <span class="keyword">const</span></span>; <span class="comment">// 导出为proto</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 运算</span></span><br><span class="line"><span class="function">Dtype <span class="title">asum_data</span><span class="params">()</span> <span class="keyword">const</span></span>; <span class="comment">// data L1 norm</span></span><br><span class="line"><span class="function">Dtype <span class="title">asum_diff</span><span class="params">()</span> <span class="keyword">const</span></span>; <span class="comment">// diff L1 norm</span></span><br><span class="line"><span class="function">Dtype <span class="title">sumsq_data</span><span class="params">()</span> <span class="keyword">const</span></span>; <span class="comment">// data L2 norm</span></span><br><span class="line"><span class="function">Dtype <span class="title">sumsq_diff</span><span class="params">()</span> <span class="keyword">const</span></span>; <span class="comment">// diff L2 norm</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">scale_data</span><span class="params">(Dtype scale_factor)</span></span>; <span class="comment">// data 数乘，in place</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">scale_diff</span><span class="params">(Dtype scale_factor)</span></span>; <span class="comment">// diff 数乘，in place</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 逻辑判断</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ShapeEquals</span><span class="params">(<span class="keyword">const</span> BlobProto&amp; other)</span></span>; <span class="comment">// 判断shape是否相同</span></span><br></pre></td></tr></table></figure>
+<p>以上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://caffe.berkeleyvision.org/tutorial/net_layer_blob.html" target="_blank" rel="noopener">Blobs, Layers, and Nets: anatomy of a Caffe model</a></li>
+<li><a href="https://wiki2.org/en/Row-major_order" target="_blank" rel="noopener">Row- and column-major order</a></li>
+<li><a href="https://github.com/BVLC/caffe" target="_blank" rel="noopener">Caffe: a fast open framework for deep learning</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html" title="Caffe源码理解1：Blob存储结构与设计">https://blog.shinelee.me/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/caffe/" rel="tag"># caffe</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html" rel="next" title="论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet">
+                <i class="fa fa-chevron-left"></i> 论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11-29-特征，特征不变性，尺度空间与图像金字塔.html" rel="prev" title="特征，特征不变性，尺度空间与图像金字塔">
+                特征，特征不变性，尺度空间与图像金字塔 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">胸怀万里，不如脚下一步</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/firelx" title="firelx" target="_blank">firelx</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Blob作用"><span class="nav-number">1.</span> <span class="nav-text">Blob作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要成员变量"><span class="nav-number">2.</span> <span class="nav-text">主要成员变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Blob存储结构"><span class="nav-number">3.</span> <span class="nav-text">Blob存储结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CPU与GPU间的数据传递"><span class="nav-number">4.</span> <span class="nav-text">CPU与GPU间的数据传递</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要成员函数"><span class="nav-number">5.</span> <span class="nav-text">主要成员函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">86k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "vertical";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.3.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.3.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

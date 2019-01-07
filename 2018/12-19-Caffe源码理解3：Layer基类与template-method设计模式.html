@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。层定义了对数据如何操作，根据操作的不同，可以对层进行划分（具体参见Caffe Layers）：  Data Layers：跟据文件类型和格式读取和处理数据，给网络输入 Vision Layers：输入特征图输出也是特征图，像卷积、池化等 Act">
+<meta name="keywords" content="caffe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Caffe源码理解3：Layer基类与template method设计模式">
+<meta property="og:url" content="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html">
+<meta property="og:site_name" content="本立2道生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。层定义了对数据如何操作，根据操作的不同，可以对层进行划分（具体参见Caffe Layers）：  Data Layers：跟据文件类型和格式读取和处理数据，给网络输入 Vision Layers：输入特征图输出也是特征图，像卷积、池化等 Act">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/18/FBJFuq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/12/18/FBYb0P.md.png">
+<meta property="og:updated_time" content="2019-01-07T06:49:31.052Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Caffe源码理解3：Layer基类与template method设计模式">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。层定义了对数据如何操作，根据操作的不同，可以对层进行划分（具体参见Caffe Layers）：  Data Layers：跟据文件类型和格式读取和处理数据，给网络输入 Vision Layers：输入特征图输出也是特征图，像卷积、池化等 Act">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/12/18/FBJFuq.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Caffe源码理解3：Layer基类与template method设计模式 | 本立2道生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">本立2道生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="胸怀万里，不如脚下一步">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="本立2道生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Caffe源码理解3：Layer基类与template method设计模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-19 16:53:43" itemprop="dateCreated datePublished" datetime="2018-12-19T16:53:43+08:00">2018-12-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-07 14:49:31" itemprop="dateModified" datetime="2019-01-07T14:49:31+08:00">2019-01-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" class="leancloud_visitors" data-flag-title="Caffe源码理解3：Layer基类与template method设计模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">11k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。<strong>层定义了对数据如何操作</strong>，根据操作的不同，可以对层进行划分（具体参见<a href="http://caffe.berkeleyvision.org/tutorial/layers.html" target="_blank" rel="noopener">Caffe Layers</a>）：</p>
+<ul>
+<li><strong>Data Layers</strong>：跟据文件类型和格式读取和处理数据，给网络输入</li>
+<li><strong>Vision Layers</strong>：输入特征图输出也是特征图，像卷积、池化等</li>
+<li><strong>Activation Layers</strong>：定义了逐元素的操作，输入输出shape相同，像ReLU、sigmoid等，</li>
+<li><strong>Loss Layers</strong>：比较网络最终输出与目标的偏差，以缩小偏差为目的来驱动网络向目标学习，像Softmax with Loss等</li>
+<li><strong>Common Layers</strong>：全连接层、dropout等</li>
+<li><strong>Normalization Layers</strong>：归一化层，像LRN、MVN、BN等</li>
+<li><strong>Utility Layers</strong>：特殊功能的层，像split、slice、concat等</li>
+</ul>
+<p>注意，在Caffe中激活是单独的层，损失也是单独的层。所有这些层，都从一个共同的基类<code>Layer</code>继承而来，<code>Layer</code>定义了这些类共有的行为和数据部分，这篇文章的重点就是介绍这个基类。</p>
+<p><code>Layer</code>采用了template method设计模式，因此先介绍template method。</p>
+<h1 id="template-method设计模式"><a href="#template-method设计模式" class="headerlink" title="template method设计模式"></a>template method设计模式</h1><p><strong>template method</strong>设计模式，即<strong>在父类中定义好流程的框架</strong>，而<strong>流程中的某些步骤在子类中具体实现</strong>。下面以打开文件为例（例子来自侯捷老师），所有客户端软件打开文件的流程都是类似的，如下图所示，这个流程可以事先定义好，写在SDK里，但是，将来这个SDK要被用来打开什么类型的文件是SDK的设计者无法完全预测的，因此具体某个类型的文件该如何读取应由SDK的使用者来编写。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/18/FBJFuq.png" alt="文档打开流程"><figcaption class="image-caption">文档打开流程</figcaption></figure></p>
+<p>那么，SDK设计者定义的流程如何在执行到文件读取步骤时使用“将来”SDK使用者编写的程序？这就需要SDK的设计者将这个步骤设计为<strong>虚函数</strong>（关于虚函数可以查看<a href="https://zh.cppreference.com/w/cpp/language/virtual" target="_blank" rel="noopener">cppreference.com</a>），将来SDK的使用者继承这个类同时重写对应的虚函数，这种实现方法就是template method设计模式，其调用顺序如下图所示。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/12/18/FBYb0P.md.png" alt="template method文件打开调用流程"><figcaption class="image-caption">template method文件打开调用流程</figcaption></figure></p>
+<p>caffe中的基类<code>Layer</code>在设计时就采用了这种思想。</p>
+<h1 id="Layer-基类"><a href="#Layer-基类" class="headerlink" title="Layer 基类"></a>Layer 基类</h1><h2 id="Layer成员变量"><a href="#Layer成员变量" class="headerlink" title="Layer成员变量"></a>Layer成员变量</h2><p>先看一下<code>Layer</code>的成员变量，具体参看注释。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LayerParameter layer_param_; <span class="comment">// 将protobuf中定义的该层的超参数等对象化存储</span></span><br><span class="line">Phase phase_; <span class="comment">// TRAIN or TEST，指示该层参与训练还是测试</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Blob&lt;Dtype&gt; &gt; &gt; blobs_; <span class="comment">// 存储可学习参数（权重）param blob</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; param_propagate_down_; <span class="comment">// 指示每个param blob是否需要计算diff</span></span><br><span class="line"><span class="built_in">vector</span>&lt;Dtype&gt; loss_; <span class="comment">// 存储top blob在损失函数中的权重loss_weight（与top blob数量相同），在反向传播时会作用在梯度上</span></span><br><span class="line"><span class="comment">// 对于损失层loss_weight默认为1（见LossLayer的LayerSetUp），其他层默认对损失函数没有直接贡献</span></span><br></pre></td></tr></table></figure></p>
+<p>层所拥有的是它的可学习参数部分，输入输出都不属于层，因此<strong>输入输出</strong><code>blob</code><strong>并不是层的成员变量</strong>，而<strong>只出现在接口上</strong>，<strong>层关注的是对数据的操作方式本身</strong>，这是设计时的考量。</p>
+<h2 id="构造与析构"><a href="#构造与析构" class="headerlink" title="构造与析构"></a>构造与析构</h2><p>构造与析构，<code>Layer</code>的子类不需要实现自己的构造函数，所有的set up操作应该在后面的<code>SetUp</code>函数中完成，构造函数中仅将纳入<code>LayerParameter</code>、设置<code>pahse_</code>以及写入初始网络权重（如果在protobuf文件中指定了的话）。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">Layer</span><span class="params">(<span class="keyword">const</span> LayerParameter&amp; param)</span></span></span><br><span class="line">  : layer_param_(param) &#123;</span><br><span class="line">    <span class="comment">// Set phase and copy blobs (if there are any).</span></span><br><span class="line">    phase_ = param.phase();</span><br><span class="line">    <span class="keyword">if</span> (layer_param_.blobs_size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      blobs_.resize(layer_param_.blobs_size());</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; layer_param_.blobs_size(); ++i) &#123;</span><br><span class="line">        blobs_[i].reset(<span class="keyword">new</span> Blob&lt;Dtype&gt;());</span><br><span class="line">        blobs_[i]-&gt;FromProto(layer_param_.blobs(i));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">virtual</span> ~Layer() &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="SetUp成员函数"><a href="#SetUp成员函数" class="headerlink" title="SetUp成员函数"></a>SetUp成员函数</h2><p><code>SetUp</code>是本文最为关注的成员函数，顾名思义，其负责完成层的基础搭建工作。在<code>Net</code>初始化时会顺序调用每个层的<code>SetUp</code>函数来搭建网络，见<code>Net::Init</code>，<code>Net::Init</code>利用<strong>多态+template method</strong>在一个循环中完成所有层的搭建。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Net::Init</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> layer_id = <span class="number">0</span>; layer_id &lt; param.layer_size(); ++layer_id) &#123;</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">    <span class="comment">// After this layer is connected, set it up.</span></span><br><span class="line">    layers_[layer_id]-&gt;SetUp(bottom_vecs_[layer_id], top_vecs_[layer_id]);</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in net.hpp</span></span><br><span class="line"><span class="comment">/// @brief Individual layers in the net</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Layer&lt;Dtype&gt; &gt; &gt; layers_;</span><br></pre></td></tr></table></figure>
+<p><code>SetUp</code>在设计时就采用了template method设计思想，基类<code>Layer</code>为所有派生类的<code>SetUp</code>定义好了流程框架，先检查bottom和top的<code>blob</code>数量是否正确，然后调用<code>LayerSetUp</code>为完成层“<strong>个性化</strong>”的搭建工作（如卷积层会设置pad、stride等参数），再根据层自己定义的操作以及bottom的shape去计算top的shape，最后根据<code>loss_weight</code>设置top <code>blob</code>在损失函数中的权重。其中，<code>Reshape</code>为纯虚函数，子类必须自己实现，<code>CheckBlobCounts</code>和<code>LayerSetUp</code>为虚函数，提供了默认实现，子类也可以定义自己的实现。一般，<code>SetUp</code>的执行顺序为：</p>
+<ul>
+<li>进入父类的<code>SetUp</code>函数</li>
+<li>执行父类的<code>CheckBlobCounts</code>，在这个函数中会执行子类的<code>ExactNumBottomBlobs</code>等函数</li>
+<li>执行子类的<code>LayerSetUp</code></li>
+<li>执行子类的<code>Reshape</code></li>
+<li>执行父类的<code>SetLossWeights</code></li>
+<li>退出父类的<code>SetUp</code>函数<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetUp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">  CheckBlobCounts(bottom, top);</span><br><span class="line">  LayerSetUp(bottom, top);</span><br><span class="line">  Reshape(bottom, top);</span><br><span class="line">  SetLossWeights(top);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">CheckBlobCounts</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 实现具体省略</span></span><br><span class="line">    <span class="comment">/* check that the number of bottom and top Blobs provided as input </span></span><br><span class="line"><span class="comment">     match the expected numbers specified </span></span><br><span class="line"><span class="comment">     by the &#123;ExactNum,Min,Max&#125;&#123;Bottom,Top&#125;Blobs() functions</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* This method should do one-time layer specific setup. This includes reading</span></span><br><span class="line"><span class="comment">* and processing relevent parameters from the &lt;code&gt;layer_param_&lt;/code&gt;.</span></span><br><span class="line"><span class="comment">* Setting up the shapes of top blobs and internal buffers should be done in</span></span><br><span class="line"><span class="comment">* &lt;code&gt;Reshape&lt;/code&gt;, which will be called before the forward pass to</span></span><br><span class="line"><span class="comment">* adjust the top blob sizes.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">LayerSetUp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* This method should reshape top blobs as needed according to the shapes</span></span><br><span class="line"><span class="comment">* of the bottom (input) blobs, as well as reshaping any internal buffers</span></span><br><span class="line"><span class="comment">* and making any other necessary adjustments so that the layer can</span></span><br><span class="line"><span class="comment">* accommodate the bottom blobs.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Reshape</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Called by SetUp to initialize the weights associated with any top blobs in</span></span><br><span class="line"><span class="comment">* the loss function. Store non-zero loss weights in the diff blob.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">SetLossWeights</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> num_loss_weights = layer_param_.loss_weight_size();</span><br><span class="line">  <span class="keyword">if</span> (num_loss_weights) &#123;</span><br><span class="line">    CHECK_EQ(top.size(), num_loss_weights) &lt;&lt; <span class="string">"loss_weight must be "</span></span><br><span class="line">        <span class="string">"unspecified or specified once per top blob."</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> top_id = <span class="number">0</span>; top_id &lt; top.size(); ++top_id) &#123;</span><br><span class="line">      <span class="keyword">const</span> Dtype loss_weight = layer_param_.loss_weight(top_id);</span><br><span class="line">      <span class="keyword">if</span> (loss_weight == Dtype(<span class="number">0</span>)) &#123; <span class="keyword">continue</span>; &#125;</span><br><span class="line">      <span class="keyword">this</span>-&gt;set_loss(top_id, loss_weight);</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> count = top[top_id]-&gt;count();</span><br><span class="line">      Dtype* loss_multiplier = top[top_id]-&gt;mutable_cpu_diff();</span><br><span class="line">      caffe_set(count, loss_weight, loss_multiplier);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>Layer</code>在设计之初无法料想到今天会有如此多各种各样的层，但是这些层只需要继承基类<code>Layer</code>，同时定义好各自个性化的<code>LayerSetUp</code>和<code>Reshape</code>等函数，就可以将自己纳入到<code>SetUp</code>的搭建流程，并通过<code>Net::Init</code>进一步纳入整个网络的搭建中。</p>
+<h2 id="前向传播与反向传播"><a href="#前向传播与反向传播" class="headerlink" title="前向传播与反向传播"></a>前向传播与反向传播</h2><p><code>Layer</code>为所有层定义了前向传播与反向传播的通用接口<code>Forward</code>和<code>Backward</code>，实际上，<code>Forward</code>和<code>Backward</code>是<code>Forward_cpu</code>、<code>Forward_gpu</code>和<code>Backward_cpu</code>、<code>Backward_gpu</code>的<strong>包装器</strong>，子类需要定义自己的<code>Forward_cpu</code>、<code>Forward_gpu</code>和<code>Backward_cpu</code>、<code>Backward_gpu</code>，比如，卷积层前向传播要通过卷积操作，池化层前向传播时要通过池化操作，而不需要重写<code>Forward</code>和<code>Backward</code>。此外，如果子类不定义自己的<code>gpu</code>函数，默认的<code>gpu</code>函数实际调用的是<code>cpu</code>函数，如下面代码所示，所以如果要使用GPU，必须要自己实现<code>Forward_gpu</code>和<code>Backward_gpu</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">true<span class="function"><span class="keyword">inline</span> Dtype <span class="title">Forward</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom, </span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span></span>;</span><br><span class="line">true<span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">Backward</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom)</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Forward_cpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>= <span class="number">0</span>;</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Forward_gpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">true  <span class="comment">// LOG(WARNING) &lt;&lt; "Using CPU code as backup.";</span></span><br><span class="line">true  <span class="keyword">return</span> Forward_cpu(bottom, top);</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Backward_cpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom)</span> </span>= <span class="number">0</span>;</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Backward_gpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom)</span> </span>&#123;</span><br><span class="line">true  <span class="comment">// LOG(WARNING) &lt;&lt; "Using CPU code as backup.";</span></span><br><span class="line">true  Backward_cpu(top, propagate_down, bottom);</span><br><span class="line">true&#125;</span><br></pre></td></tr></table></figure>
+<p>在下面代码中，注意<code>Forward</code>中的<code>loss_weight</code>的来源以及损失的计算。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</span><br><span class="line"><span class="keyword">inline</span> Dtype Layer&lt;Dtype&gt;::Forward(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top) &#123;</span><br><span class="line">  Dtype loss = <span class="number">0</span>;</span><br><span class="line">  Reshape(bottom, top);</span><br><span class="line">  <span class="keyword">switch</span> (Caffe::mode()) &#123;</span><br><span class="line">  <span class="keyword">case</span> Caffe::CPU:</span><br><span class="line">    Forward_cpu(bottom, top);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> top_id = <span class="number">0</span>; top_id &lt; top.size(); ++top_id) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;loss(top_id)) &#123; <span class="keyword">continue</span>; &#125;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> count = top[top_id]-&gt;count();</span><br><span class="line">      <span class="keyword">const</span> Dtype* data = top[top_id]-&gt;cpu_data();</span><br><span class="line">      <span class="keyword">const</span> Dtype* loss_weights = top[top_id]-&gt;cpu_diff(); <span class="comment">// 在损失函数中的权重</span></span><br><span class="line">      loss += caffe_cpu_dot(count, data, loss_weights);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> Caffe::GPU:</span><br><span class="line">    Forward_gpu(bottom, top);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CPU_ONLY</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> top_id = <span class="number">0</span>; top_id &lt; top.size(); ++top_id) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;loss(top_id)) &#123; <span class="keyword">continue</span>; &#125;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> count = top[top_id]-&gt;count();</span><br><span class="line">      <span class="keyword">const</span> Dtype* data = top[top_id]-&gt;gpu_data();</span><br><span class="line">      <span class="keyword">const</span> Dtype* loss_weights = top[top_id]-&gt;gpu_diff();</span><br><span class="line">      Dtype blob_loss = <span class="number">0</span>;</span><br><span class="line">      caffe_gpu_dot(count, data, loss_weights, &amp;blob_loss);</span><br><span class="line">      loss += blob_loss;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    LOG(FATAL) &lt;&lt; <span class="string">"Unknown caffe mode."</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> loss;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span> Layer&lt;Dtype&gt;::Backward(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom) &#123;</span><br><span class="line">  <span class="keyword">switch</span> (Caffe::mode()) &#123;</span><br><span class="line">  <span class="keyword">case</span> Caffe::CPU:</span><br><span class="line">    Backward_cpu(top, propagate_down, bottom);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> Caffe::GPU:</span><br><span class="line">    Backward_gpu(top, propagate_down, bottom);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    LOG(FATAL) &lt;&lt; <span class="string">"Unknown caffe mode."</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="其他成员函数"><a href="#其他成员函数" class="headerlink" title="其他成员函数"></a>其他成员函数</h2><p>首先是成员变量的<code>set</code>和<code>get</code>函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">type</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="string">""</span>; &#125; <span class="comment">// return the layer type</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">SetPhase</span><span class="params">(Phase p)</span> </span>&#123; phase_ = p;&#125; </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Blob&lt;Dtype&gt; &gt; &gt;&amp; blobs() &#123; <span class="keyword">return</span> blobs_;&#125; </span><br><span class="line"><span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt; GetBlobs(); </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetBlobs</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; weights)</span></span>; </span><br><span class="line"><span class="function"><span class="keyword">inline</span> Dtype <span class="title">loss</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> top_index)</span> <span class="keyword">const</span></span>; </span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">set_loss</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> top_index, <span class="keyword">const</span> Dtype value)</span></span>; </span><br><span class="line"><span class="function"><span class="keyword">const</span> LayerParameter&amp; <span class="title">layer_param</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> layer_param_; &#125; </span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">param_propagate_down</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> param_id)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">set_param_propagate_down</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> param_id, <span class="keyword">const</span> <span class="keyword">bool</span> value)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p><code>ToProto</code>将该层的参数设置以及学习到的权重<strong>序列化</strong>输出。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Serialize LayerParameter to protocol buffer</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</span><br><span class="line"><span class="keyword">void</span> Layer&lt;Dtype&gt;::ToProto(LayerParameter* param, <span class="keyword">bool</span> write_diff) &#123;</span><br><span class="line">  param-&gt;Clear();</span><br><span class="line">  param-&gt;CopyFrom(layer_param_);</span><br><span class="line">  param-&gt;clear_blobs();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; blobs_.size(); ++i) &#123;</span><br><span class="line">    blobs_[i]-&gt;ToProto(param-&gt;add_blobs(), write_diff);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面为供<code>CheckBlobCounts</code>使用的函数，根据层的需要自行定义，默认状态对top和bottom的<code>blob</code>数量不做要求。可见，其实<code>CheckBlobCounts</code>也采用了<strong>template method</strong>设计思想，只是这个函数没那么重要，按下不表。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">ExactNumBottomBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">MinBottomBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">MaxBottomBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">MaxBottomBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">ExactNumTopBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">MinTopBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">MaxTopBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="number">-1</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">EqualNumBottomTopBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其他成员函数<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* If this method returns true, Net::Init will create enough "anonymous" top</span></span><br><span class="line"><span class="comment"> * blobs to fulfill the requirement specified by ExactNumTopBlobs() or</span></span><br><span class="line"><span class="comment"> * MinTopBlobs().</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">AutoTopBlobs</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br><span class="line"><span class="comment">/* If AllowForceBackward(i) == false, we will ignore the force_backward</span></span><br><span class="line"><span class="comment"> * setting and backpropagate to blob i only if it needs gradient information</span></span><br><span class="line"><span class="comment"> * (as is done when force_backward == false).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">AllowForceBackward</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> bottom_index)</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://caffe.berkeleyvision.org/tutorial/net_layer_blob.html" target="_blank" rel="noopener">Blobs, Layers, and Nets: anatomy of a Caffe model</a></li>
+<li><a href="https://www.bilibili.com/video/av27135524/?p=12" target="_blank" rel="noopener">虚函数与多态</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" title="Caffe源码理解3：Layer基类与template method设计模式">https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/caffe/" rel="tag"># caffe</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" rel="next" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+                <i class="fa fa-chevron-left"></i> MTCNN算法与代码理解—人脸检测和人脸对齐联合学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12-21-我的Windows装机必备软件与生产力工具.html" rel="prev" title="我的Windows装机必备软件与生产力工具">
+                我的Windows装机必备软件与生产力工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">胸怀万里，不如脚下一步</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/firelx" title="firelx" target="_blank">firelx</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#template-method设计模式"><span class="nav-number">2.</span> <span class="nav-text">template method设计模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Layer-基类"><span class="nav-number">3.</span> <span class="nav-text">Layer 基类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Layer成员变量"><span class="nav-number">3.1.</span> <span class="nav-text">Layer成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造与析构"><span class="nav-number">3.2.</span> <span class="nav-text">构造与析构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetUp成员函数"><span class="nav-number">3.3.</span> <span class="nav-text">SetUp成员函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前向传播与反向传播"><span class="nav-number">3.4.</span> <span class="nav-text">前向传播与反向传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他成员函数"><span class="nav-number">3.5.</span> <span class="nav-text">其他成员函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">86k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "vertical";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.3.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.3.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

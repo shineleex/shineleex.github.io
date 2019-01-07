@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面论文状态：Published in CVIU Volume 161 Issue C, August 2017论文地址：https://arxiv.org/abs/1606.02228github地址：https://github.com/ducha-aiki/caffenet-benchmark 在这篇文章中，作者在Imag">
+<meta name="keywords" content="CNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet">
+<meta property="og:url" content="https://blog.shinelee.me/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html">
+<meta property="og:site_name" content="本立2道生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面论文状态：Published in CVIU Volume 161 Issue C, August 2017论文地址：https://arxiv.org/abs/1606.02228github地址：https://github.com/ducha-aiki/caffenet-benchmark 在这篇文章中，作者在Imag">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqs1A.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izq6Xt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izq20f.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqR78.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqfAS.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izq4hQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqIpj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqbn0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqqBV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqL7T.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqjNF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqvh4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izqz9J.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLS39.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLpcR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izL9j1.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLPnx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLiB6.png">
+<meta property="og:updated_time" content="2019-01-07T06:26:24.071Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面论文状态：Published in CVIU Volume 161 Issue C, August 2017论文地址：https://arxiv.org/abs/1606.02228github地址：https://github.com/ducha-aiki/caffenet-benchmark 在这篇文章中，作者在Imag">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/izqs1A.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet | 本立2道生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">本立2道生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="胸怀万里，不如脚下一步">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="本立2道生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-10 11:23:17" itemprop="dateCreated datePublished" datetime="2018-11-10T11:23:17+08:00">2018-11-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-07 14:26:24" itemprop="dateModified" datetime="2019-01-07T14:26:24+08:00">2019-01-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html" class="leancloud_visitors" data-flag-title="论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.5k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>论文状态：Published in CVIU Volume 161 Issue C, August 2017<br>论文地址：<a href="https://arxiv.org/abs/1606.02228" target="_blank" rel="noopener">https://arxiv.org/abs/1606.02228</a><br>github地址：<a href="https://github.com/ducha-aiki/caffenet-benchmark" target="_blank" rel="noopener">https://github.com/ducha-aiki/caffenet-benchmark</a></p>
+<p>在这篇文章中，作者在ImageNet上做了大量实验，<strong>对比卷积神经网络架构中各项超参数选择的影响，对如何优化网络性能很有启发意义</strong>，对比实验包括<strong>激活函数</strong>（sigmoid、ReLU、ELU、maxout等等）、<strong>Batch Normalization (BN)</strong>、<strong>池化方法与窗口大小</strong>（max、average、stochastic等）、<strong>学习率decay策略</strong>（step, square, square root, linear 等）、输入图像颜色空间与预处理、分类器设计、网络宽度、<strong>Batch size</strong>、<strong>数据集大小</strong>、<strong>数据集质量</strong>等等，具体见下图</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izqs1A.png" alt="Table 1: List of hyper-parameters tested"><figcaption class="image-caption">Table 1: List of hyper-parameters tested</figcaption></figure></p>
+<p>实验所用的基础架构（Baseline）从CaffeNet修改而来，有以下几点不同：</p>
+<ol>
+<li>输入图像resize为128（出于速度考虑）</li>
+<li>fc6和fc7神经元数量从4096减半为2048</li>
+<li>网络使用<a href="https://arxiv.org/abs/1511.06422" target="_blank" rel="noopener">LSUV</a>进行初始化</li>
+<li>移除了LRN层（对准确率无贡献，出于速度考虑移除）</li>
+</ol>
+<p>所有性能比较均以基础架构为Baseline，实验中所有超参数调整也都是在Baseline上进行，Baseline accuracy为47.1%，Baseline网络结构如下</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izq6Xt.png" alt="Baseline Network"><figcaption class="image-caption">Baseline Network</figcaption></figure></p>
+<h1 id="论文实验结论"><a href="#论文实验结论" class="headerlink" title="论文实验结论"></a>论文实验结论</h1><p>论文通过<strong>控制变量</strong>的方式进行实验，最后给出了如下建议：</p>
+<ul>
+<li><strong>不加 BN时使用 ELU，加BN时使用ReLU</strong>（加BN时，两者其实差不多）</li>
+<li>对输入RGB图学习一个颜色空间变换，再接网络</li>
+<li>使用linear decay学习策略</li>
+<li><strong>池化层将average与max求和</strong></li>
+<li>BatchSize使用128或者256，如果GPU内存不够大，在调小BatchSize的同时同比减小学习率</li>
+<li><strong>用卷积替换全连接层，在最后决策时对输出取平均</strong></li>
+<li>当决定要扩大训练集前，先查看是否到了“平坦区”——即<strong>评估增大数据集能带来多大收益</strong></li>
+<li><strong>数据清理比增大数据集更重要</strong></li>
+<li>如果不能提高输入图像的大小，减小隐藏层的stride有近似相同的效果</li>
+<li>如果网络结构复杂且高度优化过，如GoogLeNet，做修改时要小心——即将<strong>上述修改在简单推广到复杂网络时不一定有效</strong></li>
+</ul>
+<p>需要注意的是，在Batch Size和学习率中，文章仅做了两个实验，一个是固定学习调整BatchSize，另一个学习率与Batch Size同比增减，但两者在整个训练过程中的Batch Size都保持不变，在这个条件下得出了 <strong>学习率与Batch Size同比增减 策略是有效的</strong>结论。最近Google有一篇文章<a href="https://arxiv.org/abs/1711.00489" target="_blank" rel="noopener"><strong>《Don’t Decay the Learning Rate, Increase the Batch Size》</strong></a>提出了在训练过程中逐步增大Batch Size的策略。</p>
+<p>论文实验量非常大，每项实验均通过控制变量测试单一或少数因素变化的影响，相当于通过贪心方式一定意义上获得了每个局部最优的选择，最后将所有局部最优的选择汇总在一起仍极大地改善了性能（但<strong>不意味着找到了所有组合中的最优选择</strong>）。实验结果主要是在CaffeNet（改）上的得出的，并不见得能推广到所有其他网络。</p>
+<p>但是，总的来讲，本篇文章做了很多笔者曾经想过但“没敢”做的实验，实验结果还是很有启发意义的，值得一读。</p>
+<p>文章全部实验汇总如下，<a href="https://github.com/ducha-aiki/caffenet-benchmark" target="_blank" rel="noopener">github</a>上有更多实验结果：<br><figure><img src="https://s1.ax1x.com/2018/11/18/izq20f.png" alt="Results of all tests on ImageNet-128px"><figcaption class="image-caption">Results of all tests on ImageNet-128px</figcaption></figure></p>
+<h1 id="论文细节"><a href="#论文细节" class="headerlink" title="论文细节"></a>论文细节</h1><p>一图胜千言，本节主要来自论文图表。</p>
+<h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izqR78.png" alt="Activation functions"><figcaption class="image-caption">Activation functions</figcaption></figure></p>
+<p> 在计算复杂度与ReLU相当的情况下，<strong>ELU的单一表现最好，ELU（卷积后）+maxout（全连接后）联合表现最好</strong>，前者提升约2个百分点，后者约4个百分点。值得注意的是，<strong>不使用非线性激活函数时，性能down了约8个百分点，并非完全不能用。</strong></p>
+<h2 id="池化"><a href="#池化" class="headerlink" title="池化"></a>池化</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izqfAS.png" alt="Pooling"><figcaption class="image-caption">Pooling</figcaption></figure></p>
+<p> 方法上，<strong>max和average池化结合取得最好效果</strong>（结合方式为 element-wise 相加），作者推测是因为同时具备了max的选择性和average没有扔掉信息的性质。尺寸上，<strong>在保证输出尺寸一样的情况下，non-overlapping优于overlapping——前者的kernel size更大</strong>。</p>
+<h2 id="学习率"><a href="#学习率" class="headerlink" title="学习率"></a>学习率</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izq4hQ.png" alt="Learning rate policy"><figcaption class="image-caption">Learning rate policy</figcaption></figure><br> <figure><img src="https://s1.ax1x.com/2018/11/18/izqIpj.png" alt="Learning rate policy "><figcaption class="image-caption">Learning rate policy </figcaption></figure></p>
+<p> <strong>linear decay取得最优效果</strong>。</p>
+<h2 id="BatchSize与学习率"><a href="#BatchSize与学习率" class="headerlink" title="BatchSize与学习率"></a>BatchSize与学习率</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izqbn0.png" alt="Batch size and initial learning rate impact to the accuracy"><figcaption class="image-caption">Batch size and initial learning rate impact to the accuracy</figcaption></figure></p>
+<p> 文章中仅实验了固定学习调整BatchSize以及学习率与Batch Size同比增减两个实验，在整个训练过程中Batch Size保持不变，得出了 <strong>学习率与Batch Size同比增减 策略是有效的</strong>结论。</p>
+<h2 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izqqBV.png" alt="learned colorspace transformations"><figcaption class="image-caption">learned colorspace transformations</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izqL7T.png" alt="performance of using various colorspaces and pre-processing"><figcaption class="image-caption">performance of using various colorspaces and pre-processing</figcaption></figure> </p>
+<p>灰度及其他颜色空间均比RGB差，<strong>通过两层1x1卷积层将RGB图映射为新的3通道图取得了最好效果</strong>。</p>
+<h2 id="BN层"><a href="#BN层" class="headerlink" title="BN层"></a>BN层</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izqjNF.png" alt="batch normalization"><figcaption class="image-caption">batch normalization</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izqvh4.png" alt="Top-1 accuracy gain over ReLU without BN"><figcaption class="image-caption">Top-1 accuracy gain over ReLU without BN</figcaption></figure></p>
+<p><strong>Sigmoid + BN 好于 ReLU无BN，当然，ReLU+BN更好。</strong></p>
+<h2 id="分类器设计"><a href="#分类器设计" class="headerlink" title="分类器设计"></a>分类器设计</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izqz9J.png" alt="Classier design"><figcaption class="image-caption">Classier design</figcaption></figure></p>
+<p>若将CNN网络拆成两个部分，前为特征提取，后为分类器。分类器部分一般有3种设计：</p>
+<ol>
+<li><strong>特征提取最后一层为max pooling，分类器为一层或两层全连接层</strong>，如LeNet、AlexNet、VGGNet</li>
+<li><strong>使用spacial pooling代替max pooling，分类器为一层或两层全连接层</strong></li>
+<li><strong>使用average pooling，直接连接softmax，无全连接层</strong>，如GoogLeNet、ResNet</li>
+</ol>
+<p>作者实验发现，将全连接替换为卷积层（允许zero padding），经过softmax，最后average pooling，即Pool5-C3-C1-CLF-AvePool取得了最好效果。</p>
+<h2 id="网络宽度"><a href="#网络宽度" class="headerlink" title="网络宽度"></a>网络宽度</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izLS39.png" alt="Network width impact on the accuracy"><figcaption class="image-caption">Network width impact on the accuracy</figcaption></figure></p>
+<p>对文章采用的基础网络，增大网络宽度，性能会提升，但增大超过3倍后带来的提升就十分有限了，即对某个特定的任务和网络架构，存在某个适宜的网络宽度。</p>
+<h2 id="输入图像大小"><a href="#输入图像大小" class="headerlink" title="输入图像大小"></a>输入图像大小</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izLpcR.png" alt="Input image size impact on the accuracy"><figcaption class="image-caption">Input image size impact on the accuracy</figcaption></figure></p>
+<p>准确率随图像尺寸线性增长，但计算量是平方增长。如果不能提高输入图像的大小，减小隐藏层的stride有近似相同的效果。</p>
+<h2 id="Dataset-size-and-noisy-labels"><a href="#Dataset-size-and-noisy-labels" class="headerlink" title="Dataset size and noisy labels"></a>Dataset size and noisy labels</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izL9j1.png" alt="Training dataset size and cleanliness impact on the accuracy"><figcaption class="image-caption">Training dataset size and cleanliness impact on the accuracy</figcaption></figure></p>
+<p>增大数据集可以改善性能，数据清理也可改善性能，但<strong>数据清理比数据集大小更重要</strong>，为了获得同样的性能，有错误标签的数据集需要更大。</p>
+<h2 id="Bias有无的影响"><a href="#Bias有无的影响" class="headerlink" title="Bias有无的影响"></a>Bias有无的影响</h2><p><figure><img src="https://s1.ax1x.com/2018/11/18/izLPnx.png" alt="Influence of the bias"><figcaption class="image-caption">Influence of the bias</figcaption></figure></p>
+<p>卷积层和全连接层无Bias比有Bias降了2.6个百分点。</p>
+<h2 id="改善项汇总"><a href="#改善项汇总" class="headerlink" title="改善项汇总"></a>改善项汇总</h2><p>将 学到的颜色空间变换、ELU作为卷积层激活函数、maxout作为全连接层激活函数、linear decay学习率策略、average+max池化 结合使用，在CaffeNet、VGGNet、GoogLeNet上对比实验，如下：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izLiB6.png" alt="Best-of-all experiments"><figcaption class="image-caption">Best-of-all experiments</figcaption></figure></p>
+<p>CaffeNet和VGGNet的表现均得以改善，GoogLeNet则不是，<strong>对于复杂且高度优化过的网络，一些改进策略不能简单推广</strong>。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://arxiv.org/abs/1606.02228" target="_blank" rel="noopener">paper-Systematic evaluation of CNN advances on the ImageNet</a></li>
+<li><a href="https://github.com/ducha-aiki/caffenet-benchmark" target="_blank" rel="noopener">github-Systematic evaluation of CNN advances on the ImageNet</a>[图片上传失败…(image-eef9ec-1542507708571)]</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html" title="论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet">https://blog.shinelee.me/2018/11-10-论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic-evaluation-of-CNN-advances-on-the-ImageNet.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11-08-卷积神经网络之卷积计算、作用与思想.html" rel="next" title="卷积神经网络之卷积计算、作用与思想">
+                <i class="fa fa-chevron-left"></i> 卷积神经网络之卷积计算、作用与思想
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11-23-Caffe源码理解1：Blob存储结构与设计.html" rel="prev" title="Caffe源码理解1：Blob存储结构与设计">
+                Caffe源码理解1：Blob存储结构与设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">胸怀万里，不如脚下一步</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/firelx" title="firelx" target="_blank">firelx</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#论文实验结论"><span class="nav-number">2.</span> <span class="nav-text">论文实验结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#论文细节"><span class="nav-number">3.</span> <span class="nav-text">论文细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#激活函数"><span class="nav-number">3.1.</span> <span class="nav-text">激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#池化"><span class="nav-number">3.2.</span> <span class="nav-text">池化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习率"><span class="nav-number">3.3.</span> <span class="nav-text">学习率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BatchSize与学习率"><span class="nav-number">3.4.</span> <span class="nav-text">BatchSize与学习率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理"><span class="nav-number">3.5.</span> <span class="nav-text">图像预处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BN层"><span class="nav-number">3.6.</span> <span class="nav-text">BN层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类器设计"><span class="nav-number">3.7.</span> <span class="nav-text">分类器设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络宽度"><span class="nav-number">3.8.</span> <span class="nav-text">网络宽度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入图像大小"><span class="nav-number">3.9.</span> <span class="nav-text">输入图像大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dataset-size-and-noisy-labels"><span class="nav-number">3.10.</span> <span class="nav-text">Dataset size and noisy labels</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bias有无的影响"><span class="nav-number">3.11.</span> <span class="nav-text">Bias有无的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改善项汇总"><span class="nav-number">3.12.</span> <span class="nav-text">改善项汇总</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">86k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "vertical";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.3.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.3.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
