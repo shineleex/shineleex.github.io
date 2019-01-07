@@ -147,6 +147,7 @@ echo %path%
 
 - **Check failed: error == cudaSuccess (74 vs. 0) misaligned address**
 根据[cuDNN bug in Caffe with "group" in conv layer (misaligned address) #5729](https://github.com/BVLC/caffe/issues/5729#issuecomment-378519210)，在 cudnn_conv_layer.cpp 文件`void CuDNNConvolutionLayer<Dtype>::Reshape`函数`size_t total_max_workspace = ...`代码前加入对齐代码如下
+
 > this is a bug of Caffe, I solved it by modifying cudnn_conv_layer.cpp and aligning the address to be multiples of 32.
 > You can insert tow lines of code before size_t total_max_workspace = ... as follow:
 ```cpp
