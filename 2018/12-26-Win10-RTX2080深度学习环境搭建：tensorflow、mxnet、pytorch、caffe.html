@@ -175,7 +175,7 @@
 <meta property="og:site_name" content="本立2道生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN GPU为RTX2080，系统为更新到最新版本的Win10。 准备工作 安装VS2015，到官网地址older-download下载安装 安装Matlab，笔者安装的是Matlab2017b 安装Anaconda3-4.4.0-Windows-x86_64.exe（到anaconda archive下载），笔者曾下载并安装了最新版的A">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-07T06:54:35.353Z">
+<meta property="og:updated_time" content="2019-01-07T07:36:58.213Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">
 <meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN GPU为RTX2080，系统为更新到最新版本的Win10。 准备工作 安装VS2015，到官网地址older-download下载安装 安装Matlab，笔者安装的是Matlab2017b 安装Anaconda3-4.4.0-Windows-x86_64.exe（到anaconda archive下载），笔者曾下载并安装了最新版的A">
@@ -423,7 +423,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-07 14:54:35" itemprop="dateModified" datetime="2019-01-07T14:54:35+08:00">2019-01-07</time>
+                <time title="修改时间：2019-01-07 15:36:58" itemprop="dateModified" datetime="2019-01-07T15:36:58+08:00">2019-01-07</time>
               
             
           </span>
@@ -550,12 +550,11 @@
 </li>
 </ul>
 <h2 id="运行时错误"><a href="#运行时错误" class="headerlink" title="运行时错误"></a>运行时错误</h2><ul>
-<li><strong>Check failed: error == cudaSuccess (74 vs. 0) misaligned address</strong><br>根据<a href="https://github.com/BVLC/caffe/issues/5729#issuecomment-378519210" target="_blank" rel="noopener">cuDNN bug in Caffe with “group” in conv layer (misaligned address) #5729</a>，在 cudnn_conv_layer.cpp 文件<code>void CuDNNConvolutionLayer&lt;Dtype&gt;::Reshape</code>函数<code>size_t total_max_workspace = ...</code>代码前加入对齐代码如下<blockquote>
-<p>this is a bug of Caffe, I solved it by modifying cudnn_conv_layer.cpp and aligning the address to be multiples of 32.<br>You can insert tow lines of code before size_t total_max_workspace = … as follow:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> m=<span class="number">32</span>;</span><br><span class="line">max_workspace = (max_workspace + m<span class="number">-1</span>) / m * m; <span class="comment">//align address to be multiples of m</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
+<li><strong>Check failed: error == cudaSuccess (74 vs. 0) misaligned address</strong><br>根据<a href="https://github.com/BVLC/caffe/issues/5729#issuecomment-378519210" target="_blank" rel="noopener">cuDNN bug in Caffe with “group” in conv layer (misaligned address) #5729</a>，在 cudnn_conv_layer.cpp 文件<code>void CuDNNConvolutionLayer&lt;Dtype&gt;::Reshape</code>函数<code>size_t total_max_workspace = ...</code>代码前加入对齐代码如下</li>
 </ul>
+<blockquote>
+<p>this is a bug of Caffe, I solved it by modifying cudnn_conv_layer.cpp and aligning the address to be multiples of 32.<br>You can insert tow lines of code before size_t total_max_workspace = … as follow:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> m=<span class="number">32</span>;</span><br><span class="line">max_workspace = (max_workspace + m<span class="number">-1</span>) / m * m; <span class="comment">//align address to be multiples of m</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
 <blockquote>
 <p>BTW, I think there is another bug, these lines should be put in else block:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> g = <span class="number">0</span>; g &lt; (<span class="keyword">this</span>-&gt;group_ * CUDNN_STREAMS_PER_GROUP); g++) &#123;</span><br><span class="line">  workspace[g] = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">char</span> *&gt;(workspaceData)+g*max_workspace;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
@@ -1218,7 +1217,7 @@
       
           pbOptions.position = "middleCenter";
       
-          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
       
       new needShareButton('#needsharebutton-postbottom', pbOptions);
     
@@ -1231,7 +1230,7 @@
       
           flOptions.position = "topRight";
       
-          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
       
       new needShareButton('#needsharebutton-float', flOptions);
     

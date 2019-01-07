@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blog.shinelee.me/2018/12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html</loc>
+    <lastmod>2019-01-07T07:36:58.213Z</lastmod>
+    <data>
+        <display>
+        <title>Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe</title>
+        <pubTime>2018-12-26T09:42:49.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="库与框架" url="https://blog.shinelee.me/categories/%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blog.shinelee.me/2018/10-31-OpenCV%E5%90%84%E7%89%88%E6%9C%AC%E5%B7%AE%E5%BC%82%E4%B8%8E%E6%BC%94%E5%8C%96%EF%BC%8C1-x-To-4-0.html</loc>
     <lastmod>2019-01-07T07:32:20.406Z</lastmod>
     <data>
@@ -191,24 +209,6 @@
            
              
               <breadCrumb title="深度学习" url="https://blog.shinelee.me/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://blog.shinelee.me/2018/12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html</loc>
-    <lastmod>2019-01-07T06:54:35.353Z</lastmod>
-    <data>
-        <display>
-        <title>Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe</title>
-        <pubTime>2018-12-26T09:42:49.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="库与框架" url="https://blog.shinelee.me/categories/%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/"/>
           
         </display>
     </data>
