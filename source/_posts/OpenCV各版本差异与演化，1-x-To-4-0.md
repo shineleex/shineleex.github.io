@@ -5,7 +5,7 @@ date: 2018-10-31 17:44:51
 tags:
 - opencv
 categories:
-- 框架
+- 库与框架
 ---
 
 博客：[blog.shinelee.me](https://blog.shinelee.me/) | [博客园](https://www.cnblogs.com/shine-lee/) | [CSDN](https://blog.csdn.net/blogshinelee)
@@ -22,7 +22,7 @@ categories:
 下面分析下各版本的差异以及演化路径。
 
 # OpenCV版本差异与演化，1.x To 4.0
-![OpenCV](http://p48vt5kn0.bkt.clouddn.com/blog/181031/jeKL615IC9.jpg?imageslim)
+![OpenCV](https://s1.ax1x.com/2018/11/18/izLDET.png)
 
 ## OpenCV 1.x
 
