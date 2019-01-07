@@ -175,15 +175,15 @@
 <meta property="og:site_name" content="本立2道生">
 <meta property="og:description" content="动机在计算机视觉领域，经常需要检测极值位置，比如SIFT关键点检测、模板匹配获得最大响应位置、统计直方图峰值位置、边缘检测等等，有时只需要像素精度就可以，有时则需要亚像素精度。本文尝试总结几种常用的一维离散数据极值检测方法，几个算法主要来自论文《A Comparison of Algorithms  for Subpixel Peak Detection》，加上自己的理解和推导。 问题定义给定如下">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180726/aEJ4LB516D.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180726/05jaDF46Ei.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180804/EKfff2AKjH.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180804/6mB6BHEK76.png?imageslim">
-<meta property="og:updated_time" content="2019-01-07T03:31:53.586Z">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izOixs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izzoIP.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izz7Pf.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izzbRS.png">
+<meta property="og:updated_time" content="2019-01-07T07:27:37.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="亚像素数值极值检测算法总结">
 <meta name="twitter:description" content="动机在计算机视觉领域，经常需要检测极值位置，比如SIFT关键点检测、模板匹配获得最大响应位置、统计直方图峰值位置、边缘检测等等，有时只需要像素精度就可以，有时则需要亚像素精度。本文尝试总结几种常用的一维离散数据极值检测方法，几个算法主要来自论文《A Comparison of Algorithms  for Subpixel Peak Detection》，加上自己的理解和推导。 问题定义给定如下">
-<meta name="twitter:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180726/aEJ4LB516D.png?imageslim">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/izOixs.png">
 
 
 
@@ -428,7 +428,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-07 11:31:53" itemprop="dateModified" datetime="2019-01-07T11:31:53+08:00">2019-01-07</time>
+                <time title="修改时间：2019-01-07 15:27:37" itemprop="dateModified" datetime="2019-01-07T15:27:37+08:00">2019-01-07</time>
               
             
           </span>
@@ -516,12 +516,12 @@
 <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>假设<strong>$x$的邻域</strong>可通过某个模型进行近似，如高斯近似、抛物线近似，则可以利用$x$的邻域信息根据模型估计出极值。使用的模型不同就有不同的算法，具体如下。</p>
 <h2 id="高斯近似"><a href="#高斯近似" class="headerlink" title="高斯近似"></a>高斯近似</h2><p>一维<a href="https://wiki2.org/en/Gaussian_function" target="_blank" rel="noopener">高斯函数</a>如下：</p>
 <p>$$y = y_{max} \cdot exp(-\frac{(x-\mu)^2}{2\sigma^2})$$<br>当$y_{max}=\frac{1}{\sqrt{2\sigma}\pi}$时为标准高斯函数，形如</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180726/aEJ4LB516D.png?imageslim" alt="标准高斯函数"><figcaption class="image-caption">标准高斯函数</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izOixs.png" alt="标准高斯函数"><figcaption class="image-caption">标准高斯函数</figcaption></figure></p>
 <p>假设$x$的邻域可用高斯近似，用$(x, f(x))$、$(x-1, f(x-1))$、$(x+1, f(x+1))$三点对高斯函数进行拟合，获得模型参数$\mu$即为峰值位置，$\hat{\delta}=\mu - x$。将三点带入上面的高斯函数两边同时取对数求得：</p>
 <p>$$\hat{\delta} = \frac{1}{2} \frac{\ln(f(x-1)) - \ln(f(x+1))}{\ln(f(x-1)) - 2\ln(f(x)) + \ln(f(x+1))}$$</p>
 <p>下面可以看到，<strong>高斯近似相当于取对数后的抛物线近似</strong>。</p>
 <h2 id="抛物线近似"><a href="#抛物线近似" class="headerlink" title="抛物线近似"></a>抛物线近似</h2><p>使用抛物线近似$x$的局部，可以将$(x, f(x))$、$(x-1, f(x-1))$、$(x+1, f(x+1))$三点带入$y=a(x-b)^2+c$求参数$b$即为估计的极值位置，也可采用<a href="https://wiki2.org/en/Taylor_series" target="_blank" rel="noopener">泰勒展开</a>（<a href="https://wiki2.org/en/Newton%27s_method" target="_blank" rel="noopener">牛顿法</a>）来求极值。泰勒公式实际上是一种利用高阶导数通过多项式近似函数的方法，下面的图示可直观理解这种近似，图示为通过泰勒公式近似原点附近的正弦曲线：</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180726/05jaDF46Ei.png?imageslim" alt="泰勒近似正弦曲线"><figcaption class="image-caption">泰勒近似正弦曲线</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izzoIP.png" alt="泰勒近似正弦曲线"><figcaption class="image-caption">泰勒近似正弦曲线</figcaption></figure></p>
 <p>泰勒近似$x$附近，如只取到二阶则为抛物线近似。假设高阶可导，极值为$f(x+\delta)$，则根据泰勒公式，</p>
 <p>$$f(x+\delta) = f(x) + f’(x)\delta + \frac{1}{2} f’’(x)\delta^2 + O(\delta^3)$$</p>
 <p>极值处导数为0，这里$x$为常数$\delta$为变量，两边同时对$\delta$求导，忽略高阶项可得</p>
@@ -531,7 +531,7 @@
 <h2 id="质心算法"><a href="#质心算法" class="headerlink" title="质心算法"></a>质心算法</h2><blockquote>
 <p>In physics, the <strong>center of mass</strong> of a distribution of mass in space is <strong>the unique point where the weighted relative position of the distributed mass sums to zero</strong>, or the point where if a force is applied it moves in the direction of the force without rotating.——<a href="https://wiki2.org/en/Center_of_mass" target="_blank" rel="noopener">Center of mass wiki</a></p>
 </blockquote>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180804/EKfff2AKjH.png?imageslim" alt="质心"><figcaption class="image-caption">质心</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izz7Pf.png" alt="质心"><figcaption class="image-caption">质心</figcaption></figure></p>
 <p>若将$x$、$x-1$、$x+1$看成质点，将$f(x)$、$f(x-1)$、$f(x+1)$看成质点的质量，则可以把质心作为极值的估计。根据质点相对质心位置的质量加权和为零，可求得质心位置。令$R$为质心坐标，$m$和$r$分别为质点质量和坐标，则$n$个质点的质心满足</p>
 <p>$$\sum_{i=1}^n m_i(r_i - R) = 0$$</p>
 <p>令$M = \sum_{i=1}^n m_i$，质心坐标为</p>
@@ -548,7 +548,7 @@
 <p>同理，若$f(x-1)&gt;f(x+1)$求得</p>
 <p>$$\hat{\delta}=\frac{1}{2}\frac{f(x+1)-f(x-1)}{f(x)-f(x+1)}$$</p>
 <h2 id="数值微分滤波"><a href="#数值微分滤波" class="headerlink" title="数值微分滤波"></a>数值微分滤波</h2><p>这个方法是利用极值处导数为0的性质，<strong>在微分滤波结果上插值得到导数为0的位置</strong>，因已知极值点在$x$附近，因此只需在$x$附近做微分和插值即可。插值时取极值点两侧正负值连线的过零点作为极值点的估计，如下图所示</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180804/6mB6BHEK76.png?imageslim" alt="Linear  interpolation of the peak position"><figcaption class="image-caption">Linear  interpolation of the peak position</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izzbRS.png" alt="Linear  interpolation of the peak position"><figcaption class="image-caption">Linear  interpolation of the peak position</figcaption></figure></p>
 <p>论文<a href="https://dl.acm.org/citation.cfm?id=10782" target="_blank" rel="noopener">Real-time numerical peak detector</a>中定义了4阶和8阶线性滤波器$[1, 1, 0, -1, -1]$和$[1,1,1,1,0,-1,-1,-1,-1]$，对应的函数形式为</p>
 <p>$$g_4(x)=f(x-2)+f(x-1)-f(x+1)-f(x+2)$$</p>
 <p>$$g_8(x)=f(x-4)+f(x-3)+f(x-2)+f(x-1) \<br>-f(x+1)-f(x+2)-f(x+3)-f(x+4)$$</p>
@@ -562,6 +562,7 @@
 <li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.380.5886&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">A Comparison of Algorithms  for Subpixel Peak Detection</a></li>
 <li><a href="https://dl.acm.org/citation.cfm?id=10782" target="_blank" rel="noopener">Real-time numerical peak detector</a></li>
 </ul>
+<p>个人博客地址：<a href="https://blog.shinelee.me/2018/08-04-%E4%BA%9A%E5%83%8F%E7%B4%A0%E6%95%B0%E5%80%BC%E6%9E%81%E5%80%BC%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html">亚像素数值极值检测算法总结</a></p>
 
       
     </div>
@@ -744,11 +745,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

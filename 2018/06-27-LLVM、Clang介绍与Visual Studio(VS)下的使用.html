@@ -167,25 +167,25 @@
 
 
 
-  <meta name="description" content="写在前面因项目需要，想在VS中检测内存越界，检索到了AddressSanitizer，然后发现了Clang，又进一步找到了LLVM。借此，总结一下查阅到的相关内容。 编译与链接在正式开始之前，插播一段编译器和链接器。编译器主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。链接器主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（exe）">
+  <meta name="description" content="写在前面因项目需要，想在VS中检测内存越界，检索到了AddressSanitizer，然后发现了Clang，又进一步找到了LLVM。借此，总结一下查阅到的相关内容。 编译与链接在正式开始之前，插播一段编译器和链接器。 编译器 主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。 链接器 主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（">
 <meta name="keywords" content="编译器,开发环境">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LLVM、Clang介绍与Visual Studio(VS)下的使用">
 <meta property="og:url" content="https://blog.shinelee.me/2018/06-27-LLVM、Clang介绍与Visual Studio(VS)下的使用.html">
 <meta property="og:site_name" content="本立2道生">
-<meta property="og:description" content="写在前面因项目需要，想在VS中检测内存越界，检索到了AddressSanitizer，然后发现了Clang，又进一步找到了LLVM。借此，总结一下查阅到的相关内容。 编译与链接在正式开始之前，插播一段编译器和链接器。编译器主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。链接器主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（exe）">
+<meta property="og:description" content="写在前面因项目需要，想在VS中检测内存越界，检索到了AddressSanitizer，然后发现了Clang，又进一步找到了LLVM。借此，总结一下查阅到的相关内容。 编译与链接在正式开始之前，插播一段编译器和链接器。 编译器 主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。 链接器 主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/3gKjGLG2m2.gif">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/fgjhCd423h.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/66cJ256gg1.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/c6B5Ac33jm.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/blekBDI6mg.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/0mD4BjfJF2.png?imageslim">
-<meta property="og:updated_time" content="2019-01-07T03:31:53.585Z">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/FSpgnH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/FSp2Bd.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/FSpRHA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/FSphNt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/FSpo38.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/FSp7jg.png">
+<meta property="og:updated_time" content="2019-01-07T07:23:53.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LLVM、Clang介绍与Visual Studio(VS)下的使用">
-<meta name="twitter:description" content="写在前面因项目需要，想在VS中检测内存越界，检索到了AddressSanitizer，然后发现了Clang，又进一步找到了LLVM。借此，总结一下查阅到的相关内容。 编译与链接在正式开始之前，插播一段编译器和链接器。编译器主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。链接器主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（exe）">
-<meta name="twitter:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180404/3gKjGLG2m2.gif">
+<meta name="twitter:description" content="写在前面因项目需要，想在VS中检测内存越界，检索到了AddressSanitizer，然后发现了Clang，又进一步找到了LLVM。借此，总结一下查阅到的相关内容。 编译与链接在正式开始之前，插播一段编译器和链接器。 编译器 主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。 链接器 主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/FSpgnH.png">
 
 
 
@@ -430,7 +430,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-07 11:31:53" itemprop="dateModified" datetime="2019-01-07T11:31:53+08:00">2019-01-07</time>
+                <time title="修改时间：2019-01-07 15:23:53" itemprop="dateModified" datetime="2019-01-07T15:23:53+08:00">2019-01-07</time>
               
             
           </span>
@@ -511,11 +511,13 @@
 
       
         <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>因项目需要，想在VS中检测内存越界，检索到了<a href="https://github.com/google/sanitizers" target="_blank" rel="noopener">AddressSanitizer</a>，然后发现了Clang，又进一步找到了<a href="https://wiki2.org/en/Compiler" target="_blank" rel="noopener">LLVM</a>。借此，总结一下查阅到的相关内容。</p>
-<h1 id="编译与链接"><a href="#编译与链接" class="headerlink" title="编译与链接"></a>编译与链接</h1><p>在正式开始之前，插播一段编译器和链接器。<br><strong><a href="https://wiki2.org/en/Compiler" target="_blank" rel="noopener">编译器</a></strong>主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。<br><strong><a href="https://wiki2.org/en/Linker_(computing)" target="_blank" rel="noopener">链接器</a></strong>主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（exe）或者库文件（lib、dll等）。</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180404/3gKjGLG2m2.gif" alt="编译与链接"><figcaption class="image-caption">编译与链接</figcaption></figure></p>
-<p>编译器可分为前端（front end）和后端（back end），两者以中间代码（IR，Intermediate Representation）为分界。<br><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180404/fgjhCd423h.png?imageslim" alt="编译器的前端和后端"><figcaption class="image-caption">编译器的前端和后端</figcaption></figure></p>
+<h1 id="编译与链接"><a href="#编译与链接" class="headerlink" title="编译与链接"></a>编译与链接</h1><p>在正式开始之前，插播一段编译器和链接器。</p>
+<p><strong><a href="https://wiki2.org/en/Compiler" target="_blank" rel="noopener">编译器</a></strong> 主要用于将源代码从高级语言翻译成低级语言（汇编语言、目标代码、机器码），输出目标文件。</p>
+<p><strong><a href="https://wiki2.org/en/Linker_(computing)" target="_blank" rel="noopener">链接器</a></strong> 主要用于将一个或多个目标文件（obj）与库文件（lib）合并成一个可执行文件（exe）或者库文件（lib、dll等）。</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/FSpgnH.png" alt="编译与链接"><figcaption class="image-caption">编译与链接</figcaption></figure></p>
+<p>编译器可分为前端（front end）和后端（back end），两者以中间代码（IR，Intermediate Representation）为分界。<br><figure><img src="https://s1.ax1x.com/2018/11/18/FSp2Bd.png" alt="编译器的前端和后端"><figcaption class="image-caption">编译器的前端和后端</figcaption></figure></p>
 <p>也可划分成前端、中端和后端，这里的<strong>中端主要完成对IR的优化工作</strong>，输出仍为IR。</p>
-<h1 id="LLVM与Clang等"><a href="#LLVM与Clang等" class="headerlink" title="LLVM与Clang等"></a>LLVM与Clang等</h1><p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180404/66cJ256gg1.png?imageslim" alt="LLVM_Logo"><figcaption class="image-caption">LLVM_Logo</figcaption></figure></p>
+<h1 id="LLVM与Clang等"><a href="#LLVM与Clang等" class="headerlink" title="LLVM与Clang等"></a>LLVM与Clang等</h1><p><figure><img src="https://s1.ax1x.com/2018/11/18/FSpRHA.png" alt="LLVM_Logo"><figcaption class="image-caption">LLVM_Logo</figcaption></figure></p>
 <p><a href="http://llvm.org/" target="_blank" rel="noopener">LLVM</a>全称为Low Level Virtual Machine，按wiki的说法，它是“a collection of <strong>modular and reusable compiler</strong> and <strong>toolchain technologies</strong>”，起初只支持C/C++，现已支持多种语言。提及LLVM可能指代的是LLVM project/infrastructure（框架，编译器各个环节对应项目的集合）、An LLVM-based compiler、LLVM libraries（库）、LLVM core（编译器的后端）、The LLVM IR，具体如下：</p>
 <blockquote>
 <ul>
@@ -526,15 +528,15 @@
 <li><strong>The LLVM IR</strong>: This is the LLVM compiler <strong>intermediate representation</strong>. LLVM has this meaning when used in sentences such as “I built a frontend that translates my own language to LLVM”.<br>——<a href="https://stackoverflow.com/questions/2354725/what-exactly-is-llvm" target="_blank" rel="noopener">What exactly is LLVM</a></li>
 </ul>
 </blockquote>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180404/c6B5Ac33jm.png?imageslim" alt="LLVM Compiler Infrastructure"><figcaption class="image-caption">LLVM Compiler Infrastructure</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/FSphNt.png" alt="LLVM Compiler Infrastructure"><figcaption class="image-caption">LLVM Compiler Infrastructure</figcaption></figure></p>
 <p>而<a href="https://wiki2.org/en/Clang" target="_blank" rel="noopener">Clang</a>呢？Clang是a C language family frontend for LLVM，是C-like语言的编译器前端，支持C, C++, Objective C/C++, OpenCL C等。后端使用LLVM，现已兼容GCC——<a href="https://clang.llvm.org/" target="_blank" rel="noopener">Clang.LLVM</a>。</p>
 <h1 id="Visual-Studio-下使用LLVM与Clang"><a href="#Visual-Studio-下使用LLVM与Clang" class="headerlink" title="Visual Studio 下使用LLVM与Clang"></a>Visual Studio 下使用LLVM与Clang</h1><p>官网上提供的方式</p>
 <blockquote>
-<p>To use the LLVM toolchain from Visual Studio, select a project in Solution Explorer, open its Property Page (Alt+F7 by default), and in the “General” section of “<strong>Configuration Properties</strong>“ change “<strong>Platform Toolset</strong>“ to “LLVM-vs2012”, “LLVM-vs2013”, etc.<br>Alternatively, invoke MSBuild with /p:PlatformToolset=LLVM-vs2013 to try out the toolchain without modifying the project files. ——<a href="http://llvm.org/builds/" target="_blank" rel="noopener">LLVM builds</a></p>
+<p>To use the LLVM toolchain from Visual Studio, select a project in Solution Explorer, open its Property Page (Alt+F7 by default), and in the “General” section of “<strong>Configuration Properties</strong>“ change “<strong>Platform Toolset</strong>“ to “LLVM-vs2012”, “LLVM-vs2013”, etc.<br>Alternatively, invoke MSBuild with /p:PlatformToolset=LLVM-vs2013 to try out the toolchain without modifying the project files.<br>——<a href="http://llvm.org/builds/" target="_blank" rel="noopener">LLVM builds</a></p>
 </blockquote>
 <p>在VS2010中，设置如下，设置完成后，发现调试时遇到断点不停，需要将<strong>调试信息格式</strong>设置为“<strong>程序设置库/Zi</strong>”而不是“<strong>用于编辑并继续的程序设置库/ZI</strong>”。</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180404/blekBDI6mg.png?imageslim" alt="VS2010-LLVM"><figcaption class="image-caption">VS2010-LLVM</figcaption></figure></p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180404/0mD4BjfJF2.png?imageslim" alt="VS2010-LLVM-ZI"><figcaption class="image-caption">VS2010-LLVM-ZI</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/FSpo38.png" alt="VS2010-LLVM"><figcaption class="image-caption">VS2010-LLVM</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/FSp7jg.png" alt="VS2010-LLVM-ZI"><figcaption class="image-caption">VS2010-LLVM-ZI</figcaption></figure></p>
 
       
     </div>
@@ -721,11 +723,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

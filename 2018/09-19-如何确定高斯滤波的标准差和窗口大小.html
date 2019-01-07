@@ -175,16 +175,16 @@
 <meta property="og:site_name" content="本立2道生">
 <meta property="og:description" content="高斯函数与高斯滤波一维高斯函数我们都熟悉，形式如下： $$G(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp(-\frac{x^2}{2\sigma^2})$$ 计算机视觉中，高斯滤波使用的高斯核为$x$和$y$两个一维高斯的乘积，两个维度上的标准差$\sigma$通常相同，形式如下： $$G(x, y) = \frac{1}{2\pi\sigma^2}\exp(-\f">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180914/DhdKDflAai.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180726/aEJ4LB516D.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180918/2FKIEdBDEC.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180918/j5I6d2KDBA.png?imageslim">
-<meta property="og:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180918/CKad0h21B8.png?imageslim">
-<meta property="og:updated_time" content="2019-01-07T03:31:53.587Z">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izvye1.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izOixs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izOkMn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izOEq0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izOeaT.png">
+<meta property="og:updated_time" content="2019-01-07T07:28:35.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何确定高斯滤波的标准差和窗口大小">
 <meta name="twitter:description" content="高斯函数与高斯滤波一维高斯函数我们都熟悉，形式如下： $$G(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp(-\frac{x^2}{2\sigma^2})$$ 计算机视觉中，高斯滤波使用的高斯核为$x$和$y$两个一维高斯的乘积，两个维度上的标准差$\sigma$通常相同，形式如下： $$G(x, y) = \frac{1}{2\pi\sigma^2}\exp(-\f">
-<meta name="twitter:image" content="http://p48vt5kn0.bkt.clouddn.com/blog/180914/DhdKDflAai.png?imageslim">
+<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/izvye1.png">
 
 
 
@@ -429,7 +429,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-07 11:31:53" itemprop="dateModified" datetime="2019-01-07T11:31:53+08:00">2019-01-07</time>
+                <time title="修改时间：2019-01-07 15:28:35" itemprop="dateModified" datetime="2019-01-07T15:28:35+08:00">2019-01-07</time>
               
             
           </span>
@@ -485,7 +485,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.2k</span>
+                <span title="本文字数">2.3k</span>
               
 
               
@@ -514,22 +514,22 @@
 <p>计算机视觉中，高斯滤波使用的高斯核为$x$和$y$两个一维高斯的乘积，两个维度上的标准差$\sigma$通常相同，形式如下：</p>
 <p>$$G(x, y) = \frac{1}{2\pi\sigma^2}\exp(-\frac{x^2+y^2}{2\sigma^2})$$</p>
 <p>高斯滤波（平滑），即用某一尺寸的二维高斯核与图像进行卷积。高斯核是对连续高斯函数的离散近似，通常对高斯曲面进行离散采样和归一化得出，这里，归一化指的是卷积核所有元素之和为1，下图为标准高斯和$\sigma=1.4$大小为$5\times5$的高斯核。</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180914/DhdKDflAai.png?imageslim" alt="高斯核"><figcaption class="image-caption">高斯核</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izvye1.png" alt="高斯核"><figcaption class="image-caption">高斯核</figcaption></figure></p>
 <h1 id="标准差"><a href="#标准差" class="headerlink" title="标准差"></a>标准差</h1><p>当$\mu=0$时，唯一需要控制的参数就是标准差$\sigma$，多少合适呢？$\sigma$的确定十分依赖于问题背景，需要具体问题具体分析。但理解$\sigma$的作用，可以指导调整的方向。</p>
-<p>高斯核可以看成是与中心距离负相关的权重。平滑时，调整$\sigma$实际是在调整周围像素对当前像素的影响程度，<strong>调大$\sigma$即提高了远处像素对中心像素的影响程度</strong>，滤波结果也就越平滑。高斯曲线随$\sigma$变化的曲线如下：<br><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180726/aEJ4LB516D.png?imageslim" alt="高斯函数"><figcaption class="image-caption">高斯函数</figcaption></figure></p>
+<p>高斯核可以看成是与中心距离负相关的权重。平滑时，调整$\sigma$实际是在调整周围像素对当前像素的影响程度，<strong>调大$\sigma$即提高了远处像素对中心像素的影响程度</strong>，滤波结果也就越平滑。高斯曲线随$\sigma$变化的曲线如下：<br><figure><img src="https://s1.ax1x.com/2018/11/18/izOixs.png" alt="标准高斯函数"><figcaption class="image-caption">标准高斯函数</figcaption></figure></p>
 <p>从频域角度看，高斯函数的傅立叶变换仍是高斯，两者标准差间的关系如下：</p>
 <p>$$\sigma_x = \frac{1}{2\pi \sigma_w}$$</p>
 <p>其中，$\sigma_x$为空域高斯的标准差，$\sigma_w$为对应频域高斯的标准差，在空域进行高斯平滑相当于频域低通滤波，$\sigma_x$越大，$\sigma_w$越小，频域高斯越集中，高频成分削弱得越多，图像越平滑。</p>
 <p>从低通滤波角度考虑，可以对图像做傅立叶变换进行频谱分析，叠加上频域高斯并调整查看效果，找到适合的$\sigma_w$，再推算出空域高斯所需的$\sigma_x$。</p>
 <h1 id="窗口大小"><a href="#窗口大小" class="headerlink" title="窗口大小"></a>窗口大小</h1><p>标准差$\sigma$确定后，接下来需要确定窗口大小。上面讲了高斯核是对连续高斯的离散近似，窗口越大自然近似越好，但高斯函数是钟形曲线，距离中心越远数值越小，足够远处可以忽略不计，但多远算远呢？</p>
 <p>钟型曲线在区间$(\mu - \sigma, \mu +\sigma)$范围内的面积占曲线下总面积的$68\%$，$(\mu - 2\sigma, \mu +2\sigma)$范围占$95\%$，$(\mu - 3\sigma, \mu +3\sigma)$范围占$99.7\%$，一般$3\sigma$外的数值已接近于0，可忽略，半径为$3\sigma$即窗口大小为$6\sigma \times 6\sigma$即可，通常取最近的奇数。上述3个范围在一维和二维高斯中示意如下：</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180918/2FKIEdBDEC.png?imageslim" alt="Gaussian n sigma 范围"><figcaption class="image-caption">Gaussian n sigma 范围</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izOkMn.png" alt="Gaussian n sigma 范围"><figcaption class="image-caption">Gaussian n sigma 范围</figcaption></figure></p>
 <h1 id="OpenCV中标准差与窗口大小的换算"><a href="#OpenCV中标准差与窗口大小的换算" class="headerlink" title="OpenCV中标准差与窗口大小的换算"></a>OpenCV中标准差与窗口大小的换算</h1><p>在OpenCV函数<code>createGaussianFilter</code>中，若未指定窗口大小，通过$\sigma$推算窗口大小方式如下，半径为$\sigma$的3或4倍：</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180918/j5I6d2KDBA.png?imageslim" alt="Gaussian kernel size"><figcaption class="image-caption">Gaussian kernel size</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izOEq0.png" alt="Gaussian kernel size"><figcaption class="image-caption">Gaussian kernel size</figcaption></figure></p>
 <p>若指定了窗口大小，但未指定$\sigma$大小，则通过窗口大小推算$\sigma$的方式如下：</p>
 <p>$$\sigma = 0.3\times((ksize - 1)\times0.5 - 1) + 0.8$$</p>
 <p>具体地，在函数<code>getGaussianKernel</code>中，当<code>ksize</code>不大于7时，直接从内部的$small_gaussian_tab$取对应大小的高斯核，若大于7，则使用上式计算出$\sigma$然后套用高斯公式，最后再归一化。</p>
-<p><figure><img src="http://p48vt5kn0.bkt.clouddn.com/blog/180918/CKad0h21B8.png?imageslim" alt="getGaussianKernel"><figcaption class="image-caption">getGaussianKernel</figcaption></figure></p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izOeaT.png" alt="getGaussianKernel"><figcaption class="image-caption">getGaussianKernel</figcaption></figure></p>
 <p>在实际使用时，为了高效，卷积核通常取$[0, 255]$范围内的整数（1个Byte），因此高斯核中心最大取值为255时，窗口尺寸的选取只需让高斯核边界值刚好大于0即可。令高斯核尺寸为$n$，半径为$r$，$r = \frac{n-1}{2}$，高斯核$x$轴上边界$(r, 0)$处与中心$(0, 0)$处数值之比如下：</p>
 <p>$$\frac{G(r, 0)}{G(0, 0)} = \exp(-\frac{r^2}{2 \times (0.3(r-1)+0.8)^2})$$</p>
 <p>当$r$足够大，其极限为$\exp(-\frac{1}{2\times0.3^2})=0.00386592$，若中心值为255，则边界值为$255*0.00386592=0.9858096 \approx 1$，是合适的。但公式是如何设计出来的还不清楚，这里只是校验了其性质，sigh。</p>
@@ -543,6 +543,7 @@
 <li><a href="https://ieeexplore.ieee.org/document/5692551/" target="_blank" rel="noopener">Fast Almost-Gaussian Filtering</a></li>
 <li><a href="http://www.cse.dmu.ac.uk/~sexton/WWWPages/HIPR/html/gsmooth.html" target="_blank" rel="noopener">Gaussian Smoothing</a></li>
 </ul>
+<p>本文出自本人博客：<a href="https://blog.shinelee.me/2018/09-19-如何确定高斯滤波的标准差和窗口大小.html">如何确定高斯滤波的标准差和窗口大小</a></p>
 
       
     </div>
@@ -731,11 +732,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
