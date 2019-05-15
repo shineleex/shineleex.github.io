@@ -11,7 +11,6 @@ categories:
 
 博客：[blog.shinelee.me](https://blog.shinelee.me/) | [博客园](https://www.cnblogs.com/shine-lee/) | [CSDN](https://blog.csdn.net/blogshinelee)
 
-@[toc]
 # 写在前面
 **Group Convolution分组卷积**，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下：
 
