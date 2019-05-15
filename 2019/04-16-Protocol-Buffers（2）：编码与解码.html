@@ -167,22 +167,22 @@
 
 
 
-  <meta name="description" content="[toc] Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个f">
+  <meta name="description" content="Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个field对应">
 <meta name="keywords" content="protobuf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Protocol Buffers（2）：编码与解码">
 <meta property="og:url" content="https://blog.shinelee.me/2019/04-16-Protocol-Buffers（2）：编码与解码.html">
 <meta property="og:site_name" content="本立2道生">
-<meta property="og:description" content="[toc] Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个f">
+<meta property="og:description" content="Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个field对应">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/15/Aj3lwV.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/15/Aj3zkT.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/15/AjtFPK.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/04/15/AjaWon.png">
-<meta property="og:updated_time" content="2019-05-15T11:37:51.126Z">
+<meta property="og:updated_time" content="2019-05-15T11:51:57.535Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Protocol Buffers（2）：编码与解码">
-<meta name="twitter:description" content="[toc] Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个f">
+<meta name="twitter:description" content="Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个field对应">
 <meta name="twitter:image" content="https://s2.ax1x.com/2019/04/15/Aj3lwV.png">
 
 
@@ -428,7 +428,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-15 19:37:51" itemprop="dateModified" datetime="2019-05-15T19:37:51+08:00">2019-05-15</time>
+                <time title="修改时间：2019-05-15 19:51:57" itemprop="dateModified" datetime="2019-05-15T19:51:57+08:00">2019-05-15</time>
               
             
           </span>
@@ -508,8 +508,7 @@
       
 
       
-        <p>[toc]</p>
-<h1 id="Message-Structure"><a href="#Message-Structure" class="headerlink" title="Message Structure"></a>Message Structure</h1><p>在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“<strong>从哪里到哪里是哪个数据成员</strong>”。</p>
+        <h1 id="Message-Structure"><a href="#Message-Structure" class="headerlink" title="Message Structure"></a>Message Structure</h1><p>在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“<strong>从哪里到哪里是哪个数据成员</strong>”。</p>
 <p>message中每一个field的格式为：<br><code>required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）</code><br>在序列化时，一个field对应一个<strong>key-value</strong>对，整个二进制文件就是一连串紧密排列的<strong>key-value</strong>对，key也称为tag，先上图直观感受一下，图片来自<a href="https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/ch04.html" target="_blank" rel="noopener">Encoding and Evolution</a>：<br><figure><img src="https://s2.ax1x.com/2019/04/15/Aj3lwV.png" alt="Example record encoded using Protocol Buffers"><figcaption class="image-caption">Example record encoded using Protocol Buffers</figcaption></figure></p>
 <p>key由wire type和FieldNumber两部分编码而成， 具体地<code>key = (field_number &lt;&lt; 3) | wire_type</code>，<strong>field_number 部分指示了当前是哪个数据成员，通过它将cc和h文件中的数据成员与当前的key-value对应起来</strong>。</p>
 <p>key的最低3个bit为wire type，<strong>什么是wire type？</strong>如下表所示：</p>

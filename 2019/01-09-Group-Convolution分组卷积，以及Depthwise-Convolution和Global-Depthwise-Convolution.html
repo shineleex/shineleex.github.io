@@ -167,22 +167,22 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN @[toc] 写在前面Group Convolution分组卷积，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下： AlexNet Convolution VS Group Convolution在介绍Group">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Group Convolution分组卷积，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下： AlexNet Convolution VS Group Convolution在介绍Group Convol">
 <meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Group Convolution分组卷积，以及Depthwise Convolution和Global Depthwise Convolution">
 <meta property="og:url" content="https://blog.shinelee.me/2019/01-09-Group-Convolution分组卷积，以及Depthwise-Convolution和Global-Depthwise-Convolution.html">
 <meta property="og:site_name" content="本立2道生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN @[toc] 写在前面Group Convolution分组卷积，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下： AlexNet Convolution VS Group Convolution在介绍Group">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Group Convolution分组卷积，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下： AlexNet Convolution VS Group Convolution在介绍Group Convol">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://s2.ax1x.com/2019/01/08/FLPm1P.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/01/08/FLPc1x.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/01/08/FLkxED.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/01/08/FLEneK.png">
-<meta property="og:updated_time" content="2019-05-15T10:10:39.653Z">
+<meta property="og:updated_time" content="2019-05-15T11:51:51.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Group Convolution分组卷积，以及Depthwise Convolution和Global Depthwise Convolution">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN @[toc] 写在前面Group Convolution分组卷积，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下： AlexNet Convolution VS Group Convolution在介绍Group">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Group Convolution分组卷积，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下： AlexNet Convolution VS Group Convolution在介绍Group Convol">
 <meta name="twitter:image" content="https://s2.ax1x.com/2019/01/08/FLPm1P.png">
 
 
@@ -428,7 +428,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-15 18:10:39" itemprop="dateModified" datetime="2019-05-15T18:10:39+08:00">2019-05-15</time>
+                <time title="修改时间：2019-05-15 19:51:51" itemprop="dateModified" datetime="2019-05-15T19:51:51+08:00">2019-05-15</time>
               
             
           </span>
@@ -509,7 +509,6 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<p>@[toc]</p>
 <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p><strong>Group Convolution分组卷积</strong>，最早见于AlexNet——2012年Imagenet的冠军方法，Group Convolution被用来切分网络，使其在2个GPU上并行运行，AlexNet网络结构如下：</p>
 <p><figure><img src="https://s2.ax1x.com/2019/01/08/FLPm1P.png" alt="AlexNet"><figcaption class="image-caption">AlexNet</figcaption></figure></p>
 <h1 id="Convolution-VS-Group-Convolution"><a href="#Convolution-VS-Group-Convolution" class="headerlink" title="Convolution VS Group Convolution"></a>Convolution VS Group Convolution</h1><p>在介绍<strong>Group Convolution</strong>前，先回顾下<strong>常规卷积</strong>是怎么做的，具体可以参见博文<a href="https://blog.shinelee.me/2018/11-08-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E3%80%81%E4%BD%9C%E7%94%A8%E4%B8%8E%E6%80%9D%E6%83%B3.html">《卷积神经网络之卷积计算、作用与思想》</a>。如果输入feature map尺寸为$C<em>H</em>W$，卷积核有$N$个，输出feature map与卷积核的数量相同也是$N$，每个卷积核的尺寸为$C<em>K</em>K$，$N$个卷积核的总参数量为$N<em>C</em>K*K$，输入map与输出map的连接方式如下图左所示，图片来自<a href="https://www.researchgate.net/figure/The-transformations-within-a-layer-in-DenseNets-left-and-CondenseNets-at-training-time_fig2_321325862" target="_blank" rel="noopener">链接</a>：</p>
