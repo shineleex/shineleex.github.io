@@ -8,21 +8,21 @@
     
     <url>
         <loc>https://blog.shinelee.me/tags/</loc>
-        <lastmod>2019-01-07T03:31:53.589Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://blog.shinelee.me/about/</loc>
-        <lastmod>2019-01-07T03:31:53.588Z</lastmod>
+        <lastmod>2019-05-15T09:36:31.408Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>https://blog.shinelee.me/categories/</loc>
-        <lastmod>2019-01-07T03:31:53.588Z</lastmod>
+        <lastmod>2019-05-15T09:36:31.406Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://blog.shinelee.me/about/</loc>
+        <lastmod>2019-05-15T09:36:31.405Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
