@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="[toc] Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个f">
+<meta name="keywords" content="protobuf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Protocol Buffers（2）：编码与解码">
+<meta property="og:url" content="https://blog.shinelee.me/2019/04-16-Protocol-Buffers（2）：编码与解码.html">
+<meta property="og:site_name" content="本立2道生">
+<meta property="og:description" content="[toc] Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个f">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/15/Aj3lwV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/15/Aj3zkT.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/15/AjtFPK.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/15/AjaWon.png">
+<meta property="og:updated_time" content="2019-05-15T11:37:51.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Protocol Buffers（2）：编码与解码">
+<meta name="twitter:description" content="[toc] Message Structure在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“从哪里到哪里是哪个数据成员”。 message中每一个field的格式为：required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）在序列化时，一个f">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/15/Aj3lwV.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2019/04-16-Protocol-Buffers（2）：编码与解码.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Protocol Buffers（2）：编码与解码 | 本立2道生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">本立2道生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/04-16-Protocol-Buffers（2）：编码与解码.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="胸怀万里，不如脚下一步">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="本立2道生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Protocol Buffers（2）：编码与解码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-16 15:32:49" itemprop="dateCreated datePublished" datetime="2019-04-16T15:32:49+08:00">2019-04-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-15 19:37:51" itemprop="dateModified" datetime="2019-05-15T19:37:51+08:00">2019-05-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04-16-Protocol-Buffers（2）：编码与解码.html" class="leancloud_visitors" data-flag-title="Protocol Buffers（2）：编码与解码">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.8k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[toc]</p>
+<h1 id="Message-Structure"><a href="#Message-Structure" class="headerlink" title="Message Structure"></a>Message Structure</h1><p>在上一篇文章中我们提到，对于序列化后字节流，需要回答的一个重要问题是“<strong>从哪里到哪里是哪个数据成员</strong>”。</p>
+<p>message中每一个field的格式为：<br><code>required/optional/repeated FieldType FieldName = FieldNumber（a unique number in current message）</code><br>在序列化时，一个field对应一个<strong>key-value</strong>对，整个二进制文件就是一连串紧密排列的<strong>key-value</strong>对，key也称为tag，先上图直观感受一下，图片来自<a href="https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/ch04.html" target="_blank" rel="noopener">Encoding and Evolution</a>：<br><figure><img src="https://s2.ax1x.com/2019/04/15/Aj3lwV.png" alt="Example record encoded using Protocol Buffers"><figcaption class="image-caption">Example record encoded using Protocol Buffers</figcaption></figure></p>
+<p>key由wire type和FieldNumber两部分编码而成， 具体地<code>key = (field_number &lt;&lt; 3) | wire_type</code>，<strong>field_number 部分指示了当前是哪个数据成员，通过它将cc和h文件中的数据成员与当前的key-value对应起来</strong>。</p>
+<p>key的最低3个bit为wire type，<strong>什么是wire type？</strong>如下表所示：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/04/15/Aj3zkT.png" alt="wire types"><figcaption class="image-caption">wire types</figcaption></figure><br>wire type被如此设计，主要是为了解决一个问题，<strong>如何知道接下来value部分的长度（字节数）</strong>，如果</p>
+<ul>
+<li>wire type = 0、1、5，编码为 <strong>key + 数据</strong>，只有一个数据，可能占数个字节，<strong>数据在编码时自带终止标记</strong></li>
+<li>wire type = 2，编码为 <strong>key + length + 数据</strong>，length指示了数据长度，可能有多个数据，顺序排在length后</li>
+</ul>
+<h1 id="解码代码一窥"><a href="#解码代码一窥" class="headerlink" title="解码代码一窥"></a>解码代码一窥</h1><p>接下来，我们直接看一下example.pb.cc及相关的源码，看下key-value对是如何解析的。<strong>解码过程相对简单，理解了解码过程，编码也就比较显然了</strong>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// example.proto</span></span><br><span class="line">package example;</span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">  required <span class="built_in">string</span> name = <span class="number">1</span>;</span><br><span class="line">  required int32 id = <span class="number">2</span>;</span><br><span class="line">  optional <span class="built_in">string</span> email = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in example.pb.cc</span></span><br><span class="line"><span class="keyword">bool</span> Person::MergePartialFromCodedStream(</span><br><span class="line">    ::google::protobuf::io::CodedInputStream* input) &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DO_(EXPRESSION) <span class="meta-keyword">if</span> (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure</span></span><br><span class="line">  ::google::protobuf::uint32 tag;</span><br><span class="line">  <span class="comment">// @@protoc_insertion_point(parse_start:example.Person)</span></span><br><span class="line">  <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">    ::<span class="built_in">std</span>::pair&lt;::google::protobuf::uint32, <span class="keyword">bool</span>&gt; p = input-&gt;ReadTagWithCutoffNoLastTag(<span class="number">127u</span>);</span><br><span class="line">    tag = p.first;</span><br><span class="line">    <span class="keyword">if</span> (!p.second) <span class="keyword">goto</span> handle_unusual;</span><br><span class="line">    <span class="keyword">switch</span> (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) &#123;</span><br><span class="line">      <span class="comment">// required string name = 1;</span></span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">static_cast</span>&lt; ::google::protobuf::uint8&gt;(tag) == (<span class="number">10</span> &amp; <span class="number">0xFF</span>)) &#123; <span class="comment">// 10 = (1 &lt;&lt; 3) + 2</span></span><br><span class="line">          DO_(::google::protobuf::internal::WireFormatLite::ReadString(</span><br><span class="line">                input, <span class="keyword">this</span>-&gt;mutable_name()));</span><br><span class="line">          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(</span><br><span class="line">            <span class="keyword">this</span>-&gt;name().data(), <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(<span class="keyword">this</span>-&gt;name().length()),</span><br><span class="line">            ::google::protobuf::internal::WireFormat::PARSE,</span><br><span class="line">            <span class="string">"example.Person.name"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">goto</span> handle_unusual;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// required int32 id = 2;</span></span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">static_cast</span>&lt; ::google::protobuf::uint8&gt;(tag) == (<span class="number">16</span> &amp; <span class="number">0xFF</span>)) &#123; <span class="comment">// 16 = (2 &lt;&lt; 8) + 0</span></span><br><span class="line">          HasBitSetters::set_has_id(<span class="keyword">this</span>);</span><br><span class="line">          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive&lt;</span><br><span class="line">                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32&gt;(</span><br><span class="line">                 input, &amp;id_)));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">goto</span> handle_unusual;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// optional string email = 3;</span></span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>: &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">static_cast</span>&lt; ::google::protobuf::uint8&gt;(tag) == (<span class="number">26</span> &amp; <span class="number">0xFF</span>)) &#123;</span><br><span class="line">          DO_(::google::protobuf::internal::WireFormatLite::ReadString(</span><br><span class="line">                input, <span class="keyword">this</span>-&gt;mutable_email()));</span><br><span class="line">          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(</span><br><span class="line">            <span class="keyword">this</span>-&gt;email().data(), <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(<span class="keyword">this</span>-&gt;email().length()),</span><br><span class="line">            ::google::protobuf::internal::WireFormat::PARSE,</span><br><span class="line">            <span class="string">"example.Person.email"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">goto</span> handle_unusual;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">default</span>: &#123;</span><br><span class="line">      handle_unusual:</span><br><span class="line">        <span class="keyword">if</span> (tag == <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">goto</span> success;</span><br><span class="line">        &#125;</span><br><span class="line">        DO_(::google::protobuf::internal::WireFormat::SkipField(</span><br><span class="line">              input, tag, _internal_metadata_.mutable_unknown_fields()));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">success:</span><br><span class="line">  <span class="comment">// @@protoc_insertion_point(parse_success:example.Person)</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">failure:</span><br><span class="line">  <span class="comment">// @@protoc_insertion_point(parse_failure:example.Person)</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DO_</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整段代码在循环地解析<code>input</code>流，遇到1个<code>tag</code>（key），根据其wire type和数据类型调用相应的解析函数，如果是<code>string</code>，则调用<code>ReadString</code>，<code>ReadString</code>会一直调用到<code>ReadBytesToString</code>，如果是<code>int32</code>，则调用<code>ReadPrimitive</code>，<code>ReadPrimitive</code>中会进一步调用<code>ReadVarint32</code>。可以看到，生成的example.pb.cc决定了遇到哪个<code>tag</code>调用哪个解析函数，从输入流中解析出值，赋给对应的成员变量，而真正进行解析的代码实际上是Protobuf的源码，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in wire_format_lit.cc</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">ReadBytesToString</span><span class="params">(io::CodedInputStream* input,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="built_in">string</span>* value)</span> </span>&#123;</span><br><span class="line">  uint32 length;</span><br><span class="line">  <span class="keyword">return</span> input-&gt;ReadVarint32(&amp;length) &amp;&amp;</span><br><span class="line">      input-&gt;InternalReadStringInline(value, length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in wire_format_lit.h</span></span><br><span class="line"><span class="keyword">template</span> &lt;&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">bool</span> WireFormatLite::ReadPrimitive&lt;int32, WireFormatLite::TYPE_INT32&gt;(</span><br><span class="line">    io::CodedInputStream* input,</span><br><span class="line">    int32* value) &#123;</span><br><span class="line">  uint32 temp;</span><br><span class="line">  <span class="keyword">if</span> (!input-&gt;ReadVarint32(&amp;temp)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  *value = <span class="keyword">static_cast</span>&lt;int32&gt;(temp);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in coded_stream.h</span></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">bool</span> CodedInputStream::ReadVarint32(uint32* value) &#123;</span><br><span class="line">  uint32 v = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (PROTOBUF_PREDICT_TRUE(buffer_ &lt; buffer_end_)) &#123;</span><br><span class="line">    v = *buffer_;</span><br><span class="line">    <span class="keyword">if</span> (v &lt; <span class="number">0x80</span>) &#123;</span><br><span class="line">      *value = v;</span><br><span class="line">      Advance(<span class="number">1</span>);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  int64 result = ReadVarint32Fallback(v);</span><br><span class="line">  *value = <span class="keyword">static_cast</span>&lt;uint32&gt;(result);</span><br><span class="line">  <span class="keyword">return</span> result &gt;= <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，如果遇到<code>int32</code>的<code>tag</code>，直接读取接下来的数据，如果遇到<code>string</code>的<code>tag</code>，会先读一个Varint32的<code>length</code>，然后再读<code>length</code>个字节的数据。</p>
+<p>这里频繁出现了varint，<code>length</code>是varint，存储的<code>int32</code>数据也是varint，那varint是什么？</p>
+<h1 id="varint"><a href="#varint" class="headerlink" title="varint"></a>varint</h1><p>varint是一种<strong>可变长编码</strong>，使用1个或多个字节对整数进行编码，可编码任意大的整数，<strong>小整数占用的字节少，大整数占用的字节多</strong>，如果小整数更频繁出现，则通过varint可实现压缩存储。</p>
+<p>varint中每个字节的最高位bit称之为<strong>most significant bit (MSB)</strong>，如果该bit为0意味着这个字节为表示当前整数的最后一个字节，如果为1则表示后面还有至少1个字节，可见，<strong>varint的终止位置其实是自解释的</strong>。</p>
+<p><strong>在Protobuf中，tag和length都是使用varint编码的</strong>。<code>length</code>和<code>tag</code>中的field_number都是正整数<code>int32</code>，这里提一下<code>tag</code>，它的低3位bit为wire type，如果只用1个字节表示的话，最高位bit为0，则留给field_number只有4个bit位，1到15，如果field_number大于等于16，就需要用2个字节，所以对于频繁使用的field其field_number应设置为1到15。</p>
+<p>比如正整数150，其使用varint编码如下（小端存储）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// proto file</span></span><br><span class="line">message Test1 &#123;</span><br><span class="line">  optional int32 a = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// c++ file</span></span><br><span class="line"><span class="comment">// set a = 150</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// binary file, in hex</span></span><br><span class="line"><span class="comment">// 08 96 01</span></span><br></pre></td></tr></table></figure>
+<p>其中<code>08</code>为key， <code>96 01</code>为150的varint编码，解释如下<br><figure><img src="https://s2.ax1x.com/2019/04/15/AjtFPK.png" alt="varint 150"><figcaption class="image-caption">varint 150</figcaption></figure><br>有关varint的更多内容，可以参见<a href="https://wiki2.org/en/Variable-length_quantity" target="_blank" rel="noopener">wiki Variable-length quantity</a>。</p>
+<p>至此，key-value的编码方式我们已经解决了一半，还剩value部分没有解决，接下来看看Protobuf数据部分是如何编码的。</p>
+<h1 id="Protobuf中的整数和浮点数"><a href="#Protobuf中的整数和浮点数" class="headerlink" title="Protobuf中的整数和浮点数"></a>Protobuf中的整数和浮点数</h1><p>Protobuf中整数也是通过varint进行编码，移除每个字节的MSB，然后拼接在一起，可以得到一个含有数个字节的buffer，这个buffer该怎么解释还需要<strong>参考具体的数据类型</strong>。</p>
+<p>对于<code>int32</code>或<code>int64</code>，正数直接按varint编码，数据类型为<code>int32</code>或<code>int64</code>的负数统一被编码为10个字节长的varint（补码）。</p>
+<p>如果是<code>sint32</code>或<code>sint64</code>，则采用ZigZag方式进行编码，如下表所示：<br><figure><img src="https://s2.ax1x.com/2019/04/15/AjaWon.png" alt="Varint ZigZag encoding"><figcaption class="image-caption">Varint ZigZag encoding</figcaption></figure><br><code>sint32 n</code>被编码为 <code>(n &lt;&lt; 1) ^ (n &gt;&gt; 31)</code>对应的varint，<code>sint64 n</code>被编码为 <code>(n &lt;&lt; 1) ^ (n &gt;&gt; 63)</code>对应的varint，这样，<strong>绝对值较小的整数只需要较少的字节就可以表示</strong>。</p>
+<p>至于浮点数，对应的wire type为1或5，直接按小端存储。</p>
+<h1 id="Length-delimited相关类型"><a href="#Length-delimited相关类型" class="headerlink" title="Length-delimited相关类型"></a>Length-delimited相关类型</h1><p>主要有3类：string、嵌套message以及packed repeated fields。它们的编码方式统一为 <code>tag + length + 数据</code>，只是数据部分有所差异。</p>
+<p><strong>string</strong>的编码为 <strong>key + length + 字符</strong>，参看开篇的图片已经很清晰了。</p>
+<p><strong>嵌套message</strong>也很简单，直接将嵌套message部分的编码接在<code>length</code>后即可，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// proto file</span></span><br><span class="line">message Test1 &#123;</span><br><span class="line">  optional int32 a = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">message Test3 &#123;</span><br><span class="line">  optional Test1 c = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// cpp file</span></span><br><span class="line"><span class="comment">// set a = 150</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// message Test3 binary file, in hex</span></span><br><span class="line"><span class="comment">// 1a 03 08 96 01</span></span><br></pre></td></tr></table></figure>
+<p>其中，<code>1a</code>为<code>c</code>的key，<code>03</code>为<code>c</code>的长度，接下来的<code>08 96 01</code>为<code>a</code>的key+value。</p>
+<p><strong>packed repeated fields</strong>，指的是proto2中声明了<code>[packed=true]</code>的repeated varint、32bit or 64bit数据，proto3中repeated默认packed，如下所示</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in proto2</span></span><br><span class="line">message Test4 &#123;</span><br><span class="line">  repeated int32 d = <span class="number">4</span> [packed=<span class="literal">true</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in proto3</span></span><br><span class="line">message Test4 &#123;</span><br><span class="line">  repeated int32 d = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3, 270, 86942压缩存储如下，in hex</span></span><br><span class="line"><span class="number">22</span>        <span class="comment">// key (field number 4, wire type 2), 0x22 = 34 = (4 &lt;&lt; 3) + 2</span></span><br><span class="line"><span class="number">06</span>        <span class="comment">// payload size (6 bytes), length</span></span><br><span class="line"><span class="number">03</span>        <span class="comment">// first element (varint 3)</span></span><br><span class="line"><span class="number">8</span>E <span class="number">02</span>     <span class="comment">// second element (varint 270)</span></span><br><span class="line"><span class="number">9</span>E A7 <span class="number">05</span>  <span class="comment">// third element (varint 86942)</span></span><br></pre></td></tr></table></figure>
+<p>6个字节根据varint的MSB可自动分割成3个数据。对这种packed repeated fields，在Protobuf中会以<code>RepeatedField</code>对象承载，支持get-by-index、set-by-index和add（添加元素）操作。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>至此，二进制文件中key-value对的编码方式已基本介绍完毕，后面将通过一个相对复杂的例子，将这些琐碎的编码方式串起来，以加深理解。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://developers.google.com/protocol-buffers/docs/encoding" target="_blank" rel="noopener">Protocol Buffers Encoding</a></li>
+<li><a href="https://wiki2.org/en/Variable-length_quantity" target="_blank" rel="noopener">Variable-length quantity</a></li>
+<li><a href="https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/ch04.html" target="_blank" rel="noopener">Chapter 4. Encoding and Evolution, Designing Data-Intensive Applications by Martin Kleppmann</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2019/04-16-Protocol-Buffers（2）：编码与解码.html" title="Protocol Buffers（2）：编码与解码">https://blog.shinelee.me/2019/04-16-Protocol-Buffers（2）：编码与解码.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/protobuf/" rel="tag"># protobuf</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04-13-Protocol-Buffers（1）：序列化、编译与使用.html" rel="next" title="Protocol Buffers（1）：序列化、编译与使用">
+                <i class="fa fa-chevron-left"></i> Protocol Buffers（1）：序列化、编译与使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04-20-Protocol-Buffers（3）：阅读一个二进制文件.html" rel="prev" title="Protocol Buffers（3）：阅读一个二进制文件">
+                Protocol Buffers（3）：阅读一个二进制文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">胸怀万里，不如脚下一步</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/blogshinelee" title="csdn" target="_blank">csdn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/shine-lee/" title="cnblogs" target="_blank">cnblogs</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Message-Structure"><span class="nav-number">1.</span> <span class="nav-text">Message Structure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解码代码一窥"><span class="nav-number">2.</span> <span class="nav-text">解码代码一窥</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#varint"><span class="nav-number">3.</span> <span class="nav-text">varint</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Protobuf中的整数和浮点数"><span class="nav-number">4.</span> <span class="nav-text">Protobuf中的整数和浮点数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Length-delimited相关类型"><span class="nav-number">5.</span> <span class="nav-text">Length-delimited相关类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">120k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.3.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.3.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
