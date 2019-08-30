@@ -552,7 +552,7 @@
 <p><figure><img src="https://s1.ax1x.com/2018/12/12/Ft9KpT.md.png" alt="MTCNN loss function"><figcaption class="image-caption">MTCNN loss function</figcaption></figure></p>
 <p>对于第$i$个样本，$L_i^{det}$为判断是不是人脸的交叉熵损失，$L_i^{box}$为bounding box回归的欧式距离损失，$L_i^{landmark}$为关键点定位的欧氏距离损失，任务间权重通过$\alpha_j$协调，配置如下：</p>
 <p><figure><img src="https://s1.ax1x.com/2018/12/12/Ft9d1O.png" alt="Ft9d1O.png"><figcaption class="image-caption">Ft9d1O.png</figcaption></figure></p>
-<p>同时，训练数据中有含人脸的、有不含人脸的、有标注了关键点的、有没标注关键点的，<strong>不同数据能参与的训练任务不同</strong>，比如不含人脸的负样本自然无法用于训练bounding box回归和关键点定位，于是有了$\beta_i^j \in { 0, 1}$，<strong>指示每个样本能参与的训练任务</strong>，例如对于不含人脸的负样本其$\beta_i^{det}=1, \beta_i^{box}=0, \beta_i^{landmark}=0$。</p>
+<p>同时，训练数据中有含人脸的、有不含人脸的、有标注了关键点的、有没标注关键点的，<strong>不同数据能参与的训练任务不同</strong>，比如不含人脸的负样本自然无法用于训练bounding box回归和关键点定位，于是有了$\beta_i^j \in \{ 0, 1\}$，<strong>指示每个样本能参与的训练任务</strong>，例如对于不含人脸的负样本其$\beta_i^{det}=1, \beta_i^{box}=0, \beta_i^{landmark}=0$。</p>
 <p>至此，我们已经清楚了MTCNN多任务学习的损失函数。</p>
 <h2 id="训练数据准备"><a href="#训练数据准备" class="headerlink" title="训练数据准备"></a>训练数据准备</h2><p>MTCNN准备了4种训练数据：</p>
 <ol>

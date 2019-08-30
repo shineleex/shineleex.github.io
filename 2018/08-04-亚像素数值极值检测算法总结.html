@@ -551,7 +551,7 @@
 <p><figure><img src="https://s1.ax1x.com/2018/11/18/izzbRS.png" alt="Linear  interpolation of the peak position"><figcaption class="image-caption">Linear  interpolation of the peak position</figcaption></figure></p>
 <p>论文<a href="https://dl.acm.org/citation.cfm?id=10782" target="_blank" rel="noopener">Real-time numerical peak detector</a>中定义了4阶和8阶线性滤波器$[1, 1, 0, -1, -1]$和$[1,1,1,1,0,-1,-1,-1,-1]$，对应的函数形式为</p>
 <p>$$g_4(x)=f(x-2)+f(x-1)-f(x+1)-f(x+2)$$</p>
-<p>$$g_8(x)=f(x-4)+f(x-3)+f(x-2)+f(x-1) \<br>-f(x+1)-f(x+2)-f(x+3)-f(x+4)$$</p>
+<p>$$g_8(x)=f(x-4)+f(x-3)+f(x-2)+f(x-1) \\<br>-f(x+1)-f(x+2)-f(x+3)-f(x+4)$$</p>
 <p>2阶形式为$g_2(x) = f(x-1) -f(x+1)$，这些滤波器的表现与数值微分滤波器相似。</p>
 <p>当$f(x+1)&gt;f(x-1)$时，极值点位于$(x, x+1)$之间，$g(x)&lt;0$，$g(x+1)&gt;0$，极值点位置为$g(x)$与$g(x+1)$连线的过零点，通过斜率求得</p>
 <p>$$\hat{\delta} = \frac{g(x)}{g(x+1)-g(x)}$$</p>
