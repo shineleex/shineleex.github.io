@@ -3,13 +3,15 @@ title: 论文学习-深度学习目标检测2014至201901综述-Deep Learning fo
 mathjax: true
 date: 2019-02-14 18:19:17
 tags:
+- 综述
+- paper
 categories:
 - 目标检测
 ---
 
 博客：[blog.shinelee.me](https://blog.shinelee.me/) | [博客园](https://www.cnblogs.com/shine-lee/) | [CSDN](https://blog.csdn.net/blogshinelee)
 
-[toc]
+[TOC]
 # 写在前面
 
 paper：https://arxiv.org/abs/1809.02165

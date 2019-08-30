@@ -3,6 +3,7 @@ title: MTCNN算法与代码理解—人脸检测和人脸对齐联合学习
 mathjax: true
 date: 2018-12-13 18:12:19
 tags:
+- paper
 categories:
 - 人脸识别
 ---

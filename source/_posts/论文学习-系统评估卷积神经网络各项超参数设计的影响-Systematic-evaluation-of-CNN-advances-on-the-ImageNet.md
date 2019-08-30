@@ -6,6 +6,8 @@ mathjax: true
 date: 2018-11-10 11:23:17
 tags:
 - CNN
+- 综述
+- paper
 categories:
 - 深度学习
 ---
@@ -80,14 +82,14 @@ github地址：https://github.com/ducha-aiki/caffenet-benchmark
 ## 学习率
 ![Learning rate policy](https://s1.ax1x.com/2018/11/18/izq4hQ.png)
  ![Learning rate policy ](https://s1.ax1x.com/2018/11/18/izqIpj.png)
- 
+
  **linear decay取得最优效果**。
 
 ## BatchSize与学习率
 ![Batch size and initial learning rate impact to the accuracy](https://s1.ax1x.com/2018/11/18/izqbn0.png)
- 
+
  文章中仅实验了固定学习调整BatchSize以及学习率与Batch Size同比增减两个实验，在整个训练过程中Batch Size保持不变，得出了 **学习率与Batch Size同比增减 策略是有效的**结论。
- 
+
 ##  图像预处理
 
 ![learned colorspace transformations](https://s1.ax1x.com/2018/11/18/izqqBV.png)
