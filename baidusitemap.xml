@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://blog.shinelee.me/2019/08-30-%E4%BB%8EAlexNet(2012)%E5%BC%80%E5%A7%8B.html</loc>
+    <lastmod>2019-09-10T06:45:38.053Z</lastmod>
+    <data>
+        <display>
+        <title>从AlexNet(2012)开始</title>
+        <pubTime>2019-08-30T05:35:53.000Z</pubTime>
+        
+        <tag>CNN</tag>
+         
+         
+           
+             
+              <breadCrumb title="backbone网络" url="https://blog.shinelee.me/categories/backbone%E7%BD%91%E7%BB%9C/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blog.shinelee.me/2019/05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html</loc>
     <lastmod>2019-08-30T03:54:35.185Z</lastmod>
     <data>
@@ -93,11 +113,11 @@
         <title>论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet</title>
         <pubTime>2018-11-10T03:23:17.000Z</pubTime>
         
+        <tag>CNN</tag>
+         
         <tag>综述</tag>
          
         <tag>paper</tag>
-         
-        <tag>CNN</tag>
          
          
            

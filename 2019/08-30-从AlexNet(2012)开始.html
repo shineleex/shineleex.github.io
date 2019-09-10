@@ -167,25 +167,37 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 2018年12月21日，最近要装新电脑，借此将自己常用的工具总结一下。 系统工具 wox，软件快速启动工具，有翻译等插件 everything，本地文件文件夹快速检索工具 ditto，剪贴板增强工具，缓存剪切历史 Total Commander 飞扬时空版，文件管理软件，替代系统资源管理器，有众多特色功能 CCleaner，系统优化">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
+<meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我的Windows装机必备软件与生产力工具">
-<meta property="og:url" content="https://blog.shinelee.me/2018/12-21-我的Windows装机必备软件与生产力工具.html">
+<meta property="og:title" content="从AlexNet(2012)开始">
+<meta property="og:url" content="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 2018年12月21日，最近要装新电脑，借此将自己常用的工具总结一下。 系统工具 wox，软件快速启动工具，有翻译等插件 everything，本地文件文件夹快速检索工具 ditto，剪贴板增强工具，缓存剪切历史 Total Commander 飞扬时空版，文件管理软件，替代系统资源管理器，有众多特色功能 CCleaner，系统优化">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-07T06:48:59.602Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPLg74.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPX9R1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPv5Ie.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/05/nmUy2d.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNy2XF.gif">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNr4u4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nN6U9x.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nN2Wgx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNRRoQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNR7LT.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNhFGd.png">
+<meta property="og:updated_time" content="2019-09-10T06:45:38.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的Windows装机必备软件与生产力工具">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 2018年12月21日，最近要装新电脑，借此将自己常用的工具总结一下。 系统工具 wox，软件快速启动工具，有翻译等插件 everything，本地文件文件夹快速检索工具 ditto，剪贴板增强工具，缓存剪切历史 Total Commander 飞扬时空版，文件管理软件，替代系统资源管理器，有众多特色功能 CCleaner，系统优化">
+<meta name="twitter:title" content="从AlexNet(2012)开始">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/02/nPLg74.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/12-21-我的Windows装机必备软件与生产力工具.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
 
 
 
@@ -195,7 +207,7 @@
   };
 </script>
 
-  <title>我的Windows装机必备软件与生产力工具 | 进击的小学生</title>
+  <title>从AlexNet(2012)开始 | 进击的小学生</title>
   
 
 
@@ -364,7 +376,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-21-我的Windows装机必备软件与生产力工具.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -381,7 +393,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">我的Windows装机必备软件与生产力工具
+          <h1 class="post-title" itemprop="name headline">从AlexNet(2012)开始
               
             
           </h1>
@@ -406,7 +418,7 @@
                 
               
 
-              <time title="创建时间：2018-12-21 18:19:15" itemprop="dateCreated datePublished" datetime="2018-12-21T18:19:15+08:00">2018-12-21</time>
+              <time title="创建时间：2019-08-30 13:35:53" itemprop="dateCreated datePublished" datetime="2019-08-30T13:35:53+08:00">2019-08-30</time>
             
 
             
@@ -423,7 +435,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-07 14:48:59" itemprop="dateModified" datetime="2019-01-07T14:48:59+08:00">2019-01-07</time>
+                <time title="修改时间：2019-09-10 14:45:38" itemprop="dateModified" datetime="2019-09-10T14:45:38+08:00">2019-09-10</time>
               
             
           </span>
@@ -440,7 +452,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/电脑技巧/" itemprop="url" rel="index"><span itemprop="name">电脑技巧</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
 
                 
                 
@@ -454,7 +466,7 @@
 
           
           
-             <span id="/2018/12-21-我的Windows装机必备软件与生产力工具.html" class="leancloud_visitors" data-flag-title="我的Windows装机必备软件与生产力工具">
+             <span id="/2019/08-30-从AlexNet(2012)开始.html" class="leancloud_visitors" data-flag-title="从AlexNet(2012)开始">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -479,7 +491,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1.2k</span>
+                <span title="本文字数">3.2k</span>
               
 
               
@@ -504,64 +516,72 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<p>2018年12月21日，最近要装新电脑，借此将自己常用的工具总结一下。</p>
-<h1 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h1><ul>
-<li><a href="http://www.wox.one/" target="_blank" rel="noopener">wox</a>，软件快速启动工具，有翻译等插件</li>
-<li><a href="http://www.voidtools.com/" target="_blank" rel="noopener">everything</a>，本地文件文件夹快速检索工具</li>
-<li><a href="https://ditto-cp.sourceforge.io/" target="_blank" rel="noopener">ditto</a>，剪贴板增强工具，缓存剪切历史</li>
-<li><a href="http://blog.sina.com.cn/s/blog_89a729a40102wjwe.html" target="_blank" rel="noopener">Total Commander 飞扬时空版</a>，文件管理软件，替代系统资源管理器，有众多特色功能</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=ccleaner" target="_blank" rel="noopener">CCleaner</a>，系统优化清理软件</li>
-<li><a href="https://www.rapidee.com/en/download" target="_blank" rel="noopener">Rapid Environment Editor</a>，环境变量编辑工具</li>
-<li><a href="http://www.rs.iobit.com/en/iobit-unlocker.php" target="_blank" rel="noopener">IObit Unlocker</a>，解除文件、文件夹占用</li>
-<li><a href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/process-explorer" target="_blank" rel="noopener">Process Explorer</a>，替代系统任务管理器</li>
-<li><a href="http://www.uderzo.it/main_products/space_sniffer/" target="_blank" rel="noopener">space sniffer</a>，磁盘占用情况</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=beyond%20compare" target="_blank" rel="noopener">beyond compare</a>，文件比较工具</li>
-<li><a href="http://www.bandisoft.com/" target="_blank" rel="noopener">bandzip</a>，文件压缩解压工具</li>
-<li><a href="http://zhannei.baidu.com/cse/site?q=Enounce+MySpeed&amp;cc=52pojie.cn&amp;ie=gbk" target="_blank" rel="noopener">Enounce MySpeed</a>，flash在线播放倍速</li>
-<li><a href="https://gifcam.en.softonic.com/" target="_blank" rel="noopener">gifcam</a>，gif录制工具</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=bandicam" target="_blank" rel="noopener">bandicam</a>，录屏工具</li>
-<li><a href="https://anydesk.com/remote-desktop" target="_blank" rel="noopener">AnyDesk</a>，远程桌面软件，支持多平台</li>
-<li><a href="https://www.dexpot.de/" target="_blank" rel="noopener">dexpot</a>，虚拟桌面</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=IDM" target="_blank" rel="noopener">IDM</a>，极速下载工具，可识别网站视频、音频等</li>
-<li><a href="http://dl.xunlei.com/mini.html" target="_blank" rel="noopener">迅雷精简版</a>，干净的迅雷，作为IDM的补充，支持磁力链接和种子</li>
-<li><a href="https://www.freedownloadmanager.org/" target="_blank" rel="noopener">FDM</a>，IDM的补充</li>
-<li><a href="http://www.flvcd.com/" target="_blank" rel="noopener">硕鼠</a>，网站视频下载</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=PDF-XChange%20Viewer" target="_blank" rel="noopener">PDF-XChange</a>，PDF阅读器</li>
-<li><a href="https://www.irfanview.com/" target="_blank" rel="noopener">irfanview</a>，图片浏览器</li>
-<li><a href="http://potplayer.daum.net/?lang=zh_CN" target="_blank" rel="noopener">PotPlayer</a>，视频播放器</li>
-<li><a href="https://www.google.cn/chrome/" target="_blank" rel="noopener">chrome</a>，浏览器</li>
-<li><a href="http://www.firefox.com.cn/" target="_blank" rel="noopener">firefox</a>，浏览器，作为chrome的补充</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=total%20uninstall" target="_blank" rel="noopener">total uninstall</a>，软件卸载</li>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本文重点在于回顾深度神经网络在CV领域的<strong>First Blood</strong>——<strong>AlexNet</strong>，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血洗CV各领域的开端，如下图所示（SuperVision即AlexNet）。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPLg74.png" alt="ImageNet Classification error throughout years and groups"><figcaption class="image-caption">ImageNet Classification error throughout years and groups</figcaption></figure></p>
+<p>截止本文时间2019年9月2日，AlexNet论文的引用量达45305，论文作者Alex Krizhevsky、Ilya Sutskever和“深度学习之父”Geoff Hinton。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPX9R1.png" alt="citations"><figcaption class="image-caption">citations</figcaption></figure></p>
+<h1 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h1><p>AlexNet的原始网络结构如下，可以参见caffe的网络定义<a href="https://github.com/BVLC/caffe/blob/master/models/bvlc_alexnet/deploy.prototxt" target="_blank" rel="noopener">bvlc_alexnet</a>，pytorch等也给出了变种实现，见<a href="https://github.com/pytorch/vision/blob/master/torchvision/models/alexnet.py" target="_blank" rel="noopener">torchvision/models/alexnet.py</a>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPv5Ie.png" alt="AlexNet architecture"><figcaption class="image-caption">AlexNet architecture</figcaption></figure></p>
+<p>整个网络大体由5个卷积层和3个全连接层组成，受限于当时的计算资源，网络通过2块GTX580 3GB的GPU训练，上图可见，整个网络上下一分为二，各用1块GPU训练（在caffe中通过group层实现），每个GPU放一半的神经元，网络中第3个卷积层和3个全连接层跨GPU连接。<strong>与使用单个GPU和50%神经元的网络相比，这个双GPU方案的Top1和Top5错误率分别降低了1.7%和1.2%。</strong></p>
+<p>每层的配置如下，第一个卷积层的kernel size为11，stride为4：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/05/nmUy2d.png" alt="AlexNet architecture"><figcaption class="image-caption">AlexNet architecture</figcaption></figure></p>
+<h1 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h1><p>为了获得最佳表现，论文中综合应用了很多技术，有些后来已成为通用的标准做法。</p>
+<ul>
+<li><p><strong>使用ReLU作为激活函数</strong>，作为non-saturating非线性激活函数有效避免了梯度消失问题，同时与tanh（saturating非线性激活函数）相比，训练速度提升了数倍（CIFAR-10上训练达到25%错误率速度快了6倍）。</p>
+</li>
+<li><p><strong>多GPU训练</strong>，实际上相当于<strong>增加了网络的宽度</strong>，如上节所述，Top1和Top5错误率比单GPU网络分别降低了1.7%和1.2%。</p>
+</li>
+<li><p>提出了<strong>LRN（Local Response Normalization）层</strong>，使用相邻$n$个特征图上同位置的值对当前值进行归一化，公式如下。<strong>LRN被认为没有太大效果，已不被后来者采用。</strong><br>$$<br>b_{x, y}^{i}=a_{x, y}^{i} /\left(k+\alpha \sum_{j=\max (0, i-n / 2)}^{\min (N-1, i+n / 2)}\left(a_{x, y}^{j}\right)^{2}\right)^{\beta}<br>$$</p>
+</li>
+<li><p>使用<strong>Overlapping Max-Pooling</strong>，如上节图中，Pooling层的kernel size $z=3$，stride $s=2$，$z &gt; s$，与$s=z=2$相比，Top1和Top5错误率分别下降了0.4%和0.3%。</p>
+</li>
+<li><p><strong>通过Data Augmentation数据增广降低过拟合，提高预测准确度</strong></p>
+<ul>
+<li>训练阶段，<strong>通过生成大量训练数据来降低过拟合</strong>，生成数据的方式有2种，<ul>
+<li>第1种方式从$256\times 256$图像中随机裁剪+左右翻转出$224\times 224$的图像，将训练数据扩大了2048倍；</li>
+<li>第2种方式对每张训练图像RGB通道做数值扰动，扰动量通过对整个训练集的RGB像素进行PCA获得，扰动量为$\left[\mathbf{P}<em>{1}, \mathbf{P}</em>{2}, \mathbf{P}<em>{3}\right]\left[\alpha</em>{1} \lambda_{1}, \alpha_{2} \lambda_{2}, \alpha_{3} \lambda_{3}\right]^{T}$，$\mathbf{P}<em>{i}$和 $\lambda</em>{i}$为RGB像素协方差矩阵的特征向量和特征值，$\alpha_{i}$为0均值0.1标准差的高斯随机值。</li>
 </ul>
-<h1 id="工作学习"><a href="#工作学习" class="headerlink" title="工作学习"></a>工作学习</h1><ul>
-<li><a href="https://www.amazon.com/kindle-dbs/fd/kcp" target="_blank" rel="noopener">kindle PC</a>，电子书阅读</li>
-<li><a href="https://calibre-ebook.com/download_windows" target="_blank" rel="noopener">calibre</a>，电子书管理软件</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=xmind" target="_blank" rel="noopener">xmind</a>，思维导图制作</li>
-<li><a href="https://www.mockplus.cn/" target="_blank" rel="noopener">Mockplus</a>，产品设计工具（原型图、线框图、交互）</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=Office%20Tab" target="_blank" rel="noopener">office tab</a>，office 多标签</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=geogebra" target="_blank" rel="noopener">geogebra</a>，几何制图软件</li>
-<li><a href="https://www.mendeley.com/download-desktop/" target="_blank" rel="noopener">Mendelay</a>，文献管理软件</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=endnote" target="_blank" rel="noopener">Endnote</a>，文献管理软件</li>
-<li><a href="http://www.wiz.cn/" target="_blank" rel="noopener">wiz</a>，个人笔记</li>
-<li><a href="https://evernote.com/" target="_blank" rel="noopener">evernote</a>，同步读书笔记</li>
+</li>
+<li>预测阶段，从待预测$256\times 256$图中上下左右中间crop+左右翻转得到10张$224\times 224$的图像，逐一输入网，络对输出结果取平均，来提升预测阶段的准确率，相当于<strong>数据层面的集成学习</strong>。</li>
 </ul>
-<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><ul>
-<li><a href="https://notepad-plus-plus.org/" target="_blank" rel="noopener">notepad++</a>，日常文本编辑器</li>
-<li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a>，代码编辑器</li>
-<li><a href="https://conemu.github.io/" target="_blank" rel="noopener">ConEmu</a>，多终端管理</li>
-<li><a href="http://babun.github.io/" target="_blank" rel="noopener">babun</a>，a windows shell you will love!</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=xshell" target="_blank" rel="noopener">xshell</a>，远程连接终端模拟器</li>
-<li><a href="http://www.zdfans.com/search.asp?keyword=source%20insight" target="_blank" rel="noopener">source insight</a>，看代码</li>
-<li><a href="https://git-scm.com/" target="_blank" rel="noopener">git</a>，git</li>
-<li><a href="https://www.sourcetreeapp.com/" target="_blank" rel="noopener">source tree</a>，git GUI</li>
-<li><a href="https://www.visualsvn.com/" target="_blank" rel="noopener">VisualSVN (Server)</a>、<a href="https://tortoisesvn.net/" target="_blank" rel="noopener">TortoiseSVN</a>，SVN</li>
-<li><a href="https://zealdocs.org/" target="_blank" rel="noopener">zeal</a>，离线开发文档</li>
+</li>
+<li><p>对前2个全连接层使用<strong>Dropout</strong>技术，训练时每次随机让50%的神经元输出为0，以此来降低过拟合，预测时将权重乘以0.5。这样可以强迫网络学习到更鲁棒的特征，也可以从集成学习的视角理解，预测阶段相当于对随机到的所有模型求了个期望。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNy2XF.gif" alt="dropout"><figcaption class="image-caption">dropout</figcaption></figure></p>
+</li>
+<li><p>batchsize 128，SGD Momentum 0.9，weight decay 0.0005，initial learning rate 0.01 停滞时divide by 10，</p>
+</li>
 </ul>
-<h1 id="VS插件"><a href="#VS插件" class="headerlink" title="VS插件"></a>VS插件</h1><ul>
-<li><a href="https://www.chinapyg.com/thread-74596-1-1.html" target="_blank" rel="noopener">Visual Assist</a>，小助手</li>
-<li><a href="http://zhannei.baidu.com/cse/site?q=visualgdb&amp;cc=52pojie.cn&amp;ie=gbk" target="_blank" rel="noopener">visualGDB</a>，通过VS插件跨平台开发</li>
-<li><a href="https://kinddragon.github.io/vld/" target="_blank" rel="noopener">Visual Leak Detector</a>，内存泄露检测</li>
-<li>Image Watch、Viasfora、Powershell Tools、Productivity Power Tools、AsmHighlighter，通过扩展安装</li>
+<p>$$<br>\begin{aligned} v_{i+1} &amp; :=0.9 \cdot v_{i}-0.0005 \cdot \epsilon \cdot w_{i}-\epsilon \cdot\left\langle\left.\frac{\partial L}{\partial w}\right|_{w_{i}}\right\rangle_{D_{i}} \\ w_{i+1} &amp; :=w_{i}+v_{i+1} \end{aligned}<br>$$</p>
+<h1 id="其他有意思的点"><a href="#其他有意思的点" class="headerlink" title="其他有意思的点"></a>其他有意思的点</h1><p>回顾AlexNet论文，发现论文中提及了很多有意思的点，有些仅仅是一笔带过，但是可能启发了后面大量的工作，翻回来看才发现“祖师爷”早有预兆。</p>
+<ul>
+<li><p><strong>finetune</strong>，在一个库上训练，在另一个库上finetune</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNr4u4.png" alt="AlexNet finetune"><figcaption class="image-caption">AlexNet finetune</figcaption></figure></p>
+</li>
+<li><p><strong>权重可视化</strong>，仅可视化第1个卷积层的96个卷积核权重，发现网络学到了频率方向性的特征，更有意思的是，GPU1上的48个卷积核是颜色无关的，GPU2上的是颜色相关的。</p>
+</li>
+</ul>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nN6U9x.png" alt="96 Convolutional Kernels"><figcaption class="image-caption">96 Convolutional Kernels</figcaption></figure></p>
+<ul>
+<li><p>匹配与检索，使用最后一个全连接层的输出作为特征，通过欧氏距离可计算图像间的特征相似度，可做匹配，提出可以通过auto-encoder进一步压缩获取到short binary code，可用于检索，如下图所示，检索与最左边一列特征最近的图像</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nN2Wgx.png" alt="retrieve images"><figcaption class="image-caption">retrieve images</figcaption></figure></p>
+</li>
+<li><p><strong>深度十分重要</strong>，增加深度可以进一步提升性能，当前性能只是受限于计算资源和训练时间（微笑）</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNRRoQ.png" alt="depth is important"><figcaption class="image-caption">depth is important</figcaption></figure></p>
+</li>
+</ul>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNR7LT.png" alt="depth is important"><figcaption class="image-caption">depth is important</figcaption></figure></p>
+<ul>
+<li><p>在ILSVRC 2012上做的报告展示了使用AlexNet做<strong>detection</strong>的结果，如下</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNhFGd.png" alt="AlexNet Localization"><figcaption class="image-caption">AlexNet Localization</figcaption></figure></p>
+</li>
+</ul>
+<p>不愧是开创性工作的paper，给这含金量跪了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">paper: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
+<li><a href="http://www.image-net.org/challenges/LSVRC/2012/supervision.pdf" target="_blank" rel="noopener">slides LSVRC 2012: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
+<li><a href="http://vision.stanford.edu/teaching/cs231b_spring1415/slides/alexnet_tugce_kyunghee.pdf" target="_blank" rel="noopener">slides 2015: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
+<li><a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture9.pdf" target="_blank" rel="noopener">cs231n_2017_lecture9</a></li>
+<li><a href="http://www.image-net.org/challenges/LSVRC/2012/" target="_blank" rel="noopener">Large Scale Visual Recognition Challenge 2012 (ILSVRC2012)</a></li>
 </ul>
 
       
@@ -584,7 +604,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/12-21-我的Windows装机必备软件与生产力工具.html" title="我的Windows装机必备软件与生产力工具">https://blog.shinelee.me/2018/12-21-我的Windows装机必备软件与生产力工具.html</a>
+    <a href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html" title="从AlexNet(2012)开始">https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -594,6 +614,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+        </div>
       
 
       
@@ -619,8 +645,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" rel="next" title="Caffe源码理解3：Layer基类与template method设计模式">
-                <i class="fa fa-chevron-left"></i> Caffe源码理解3：Layer基类与template method设计模式
+              <a href="/2019/08-28-ImageNet主要网络benchmark对比.html" rel="next" title="ImageNet主要网络benchmark对比">
+                <i class="fa fa-chevron-left"></i> ImageNet主要网络benchmark对比
               </a>
             
           </div>
@@ -628,10 +654,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12-24-真win10官方原版ISO下载方法.html" rel="prev" title="真win10官方原版ISO下载方法">
-                真win10官方原版ISO下载方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -861,7 +883,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统工具"><span class="nav-number">1.</span> <span class="nav-text">系统工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工作学习"><span class="nav-number">2.</span> <span class="nav-text">工作学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发工具"><span class="nav-number">3.</span> <span class="nav-text">开发工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VS插件"><span class="nav-number">4.</span> <span class="nav-text">VS插件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络结构"><span class="nav-number">2.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创新点"><span class="nav-number">3.</span> <span class="nav-text">创新点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他有意思的点"><span class="nav-number">4.</span> <span class="nav-text">其他有意思的点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -1223,6 +1245,30 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
