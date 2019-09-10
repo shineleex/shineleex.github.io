@@ -61,7 +61,7 @@ AlexNet的原始网络结构如下，可以参见caffe的网络定义[bvlc_alexn
     - 第2种方式对每张训练图像RGB通道做数值扰动，扰动量通过对整个训练集的RGB像素进行PCA获得，扰动量为$[P_1, P_2, P_3] [\alpha_{1} \lambda_{1}, \alpha_{2} \lambda_{2}, \alpha_{3} \lambda_{3}]^{T}$，其中，$P_i$和 $\lambda_{i}$为RGB像素协方差矩阵的特征向量和特征值，$\alpha_{i}$为0均值0.1标准差的高斯随机值。
   - 预测阶段，从待预测$256\times 256$图中上下左右中间crop + 左右翻转得到10张$224\times 224$的图像，逐一输入网，络对输出结果取平均，来提升预测阶段的准确率，相当于**数据层面的集成学习**。
 
-- 对前2个全连接层使用**Dropout**技术，训练时每次随机让50%的神经元输出为0，以此来降低过拟合，预测时将权重乘以0.5。这样可以强迫网络学习到更鲁棒的特征，也可以从集成学习的视角理解，预测阶段相当于对随机到的所有模型求了个期望。
+- 对前2个全连接层使用**Dropout**技术，训练时每次随机让50%的神经元输出为0，以此来降低过拟合，预测时将权重乘以0.5。这样可以强迫网络学习到更鲁棒的特征，也可以从集成学习的视角理解，预测阶段相当于对随机到的所有模型求了个期望。关于Dropout的更多信息可参见论文[《Improving neural networks by preventing co-adaptation of feature detectors》](https://arxiv.org/abs/1207.0580)
 
   ![dropout](https://s2.ax1x.com/2019/09/10/nNy2XF.gif)
 
@@ -81,7 +81,7 @@ $$
 
 - **权重可视化**，仅可视化第1个卷积层的96个卷积核权重，发现网络学到了频率方向性的特征，更有意思的是，GPU1上的48个卷积核是颜色无关的，GPU2上的是颜色相关的。
 
-![96 Convolutional Kernels](https://s2.ax1x.com/2019/09/10/nN6U9x.png)
+  ![96 Convolutional Kernels](https://s2.ax1x.com/2019/09/10/nN6U9x.png)
 
 - 匹配与检索，使用最后一个全连接层的输出作为特征，通过欧氏距离可计算图像间的特征相似度，可做匹配，提出可以通过auto-encoder进一步压缩获取到short binary code，可用于检索，如下图所示，检索与最左边一列特征最近的图像
 
@@ -91,7 +91,7 @@ $$
 
   ![depth is important](https://s2.ax1x.com/2019/09/10/nNRRoQ.png)
 
-![depth is important](https://s2.ax1x.com/2019/09/10/nNR7LT.png)
+  ![depth is important](https://s2.ax1x.com/2019/09/10/nNR7LT.png)
 
 - 在ILSVRC 2012上做的报告展示了使用AlexNet做**detection**的结果，如下
 
