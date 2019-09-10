@@ -186,7 +186,7 @@
 <meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNRRoQ.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNR7LT.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNhFGd.png">
-<meta property="og:updated_time" content="2019-09-10T06:45:38.053Z">
+<meta property="og:updated_time" content="2019-09-10T07:13:03.656Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从AlexNet(2012)开始">
 <meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
@@ -435,7 +435,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-10 14:45:38" itemprop="dateModified" datetime="2019-09-10T14:45:38+08:00">2019-09-10</time>
+                <time title="修改时间：2019-09-10 15:13:03" itemprop="dateModified" datetime="2019-09-10T15:13:03+08:00">2019-09-10</time>
               
             
           </span>
@@ -491,7 +491,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.2k</span>
+                <span title="本文字数">3.1k</span>
               
 
               
@@ -539,10 +539,10 @@
 <ul>
 <li>训练阶段，<strong>通过生成大量训练数据来降低过拟合</strong>，生成数据的方式有2种，<ul>
 <li>第1种方式从$256\times 256$图像中随机裁剪+左右翻转出$224\times 224$的图像，将训练数据扩大了2048倍；</li>
-<li>第2种方式对每张训练图像RGB通道做数值扰动，扰动量通过对整个训练集的RGB像素进行PCA获得，扰动量为$\left[\mathbf{P}<em>{1}, \mathbf{P}</em>{2}, \mathbf{P}<em>{3}\right]\left[\alpha</em>{1} \lambda_{1}, \alpha_{2} \lambda_{2}, \alpha_{3} \lambda_{3}\right]^{T}$，$\mathbf{P}<em>{i}$和 $\lambda</em>{i}$为RGB像素协方差矩阵的特征向量和特征值，$\alpha_{i}$为0均值0.1标准差的高斯随机值。</li>
+<li>第2种方式对每张训练图像RGB通道做数值扰动，扰动量通过对整个训练集的RGB像素进行PCA获得，扰动量为$[P_1, P_2, P_3] [\alpha_{1} \lambda_{1}, \alpha_{2} \lambda_{2}, \alpha_{3} \lambda_{3}]^{T}$，其中，$P_i$和 $\lambda_{i}$为RGB像素协方差矩阵的特征向量和特征值，$\alpha_{i}$为0均值0.1标准差的高斯随机值。</li>
 </ul>
 </li>
-<li>预测阶段，从待预测$256\times 256$图中上下左右中间crop+左右翻转得到10张$224\times 224$的图像，逐一输入网，络对输出结果取平均，来提升预测阶段的准确率，相当于<strong>数据层面的集成学习</strong>。</li>
+<li>预测阶段，从待预测$256\times 256$图中上下左右中间crop + 左右翻转得到10张$224\times 224$的图像，逐一输入网，络对输出结果取平均，来提升预测阶段的准确率，相当于<strong>数据层面的集成学习</strong>。</li>
 </ul>
 </li>
 <li><p>对前2个全连接层使用<strong>Dropout</strong>技术，训练时每次随机让50%的神经元输出为0，以此来降低过拟合，预测时将权重乘以0.5。这样可以强迫网络学习到更鲁棒的特征，也可以从集成学习的视角理解，预测阶段相当于对随机到的所有模型求了个期望。</p>
