@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>https://blog.shinelee.me/2019/09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html</loc>
+    <lastmod>2019-09-20T12:54:33.517Z</lastmod>
+    <data>
+        <display>
+        <title>一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution</title>
+        <pubTime>2019-09-16T10:07:18.000Z</pubTime>
+        
+        <tag>CNN</tag>
+         
+         
+           
+             
+              <breadCrumb title="深度学习" url="https://blog.shinelee.me/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blog.shinelee.me/2019/08-30-%E4%BB%8EAlexNet(2012)%E5%BC%80%E5%A7%8B.html</loc>
-    <lastmod>2019-09-10T07:13:03.656Z</lastmod>
+    <lastmod>2019-09-10T09:02:56.398Z</lastmod>
     <data>
         <display>
         <title>从AlexNet(2012)开始</title>

@@ -167,27 +167,32 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面最近因项目需要，得把OpenCV捡起来，登录OpenCV官网，竟然发现release了4.0.0-beata版本，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：  新版本的产生是为了顺应当下的需要，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决">
-<meta name="keywords" content="opencv">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面deconvolution in segmentation 开篇先上图，图为deconvolution在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。 本文将深入deconvolution的细节，并通过如下方式展开：  先回答 什么是de">
+<meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OpenCV各版本差异与演化，1.x To 4.0">
-<meta property="og:url" content="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html">
+<meta property="og:title" content="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
+<meta property="og:url" content="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面最近因项目需要，得把OpenCV捡起来，登录OpenCV官网，竟然发现release了4.0.0-beata版本，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：  新版本的产生是为了顺应当下的需要，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面deconvolution in segmentation 开篇先上图，图为deconvolution在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。 本文将深入deconvolution的细节，并通过如下方式展开：  先回答 什么是de">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLDET.png">
-<meta property="og:updated_time" content="2019-05-15T09:36:31.347Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/n7qMDI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/20/nvk2VA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/n75lfs.gif">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/n7BHgJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/19/nqvOYR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/20/njW8CF.gif">
+<meta property="og:updated_time" content="2019-09-20T12:54:33.517Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OpenCV各版本差异与演化，1.x To 4.0">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面最近因项目需要，得把OpenCV捡起来，登录OpenCV官网，竟然发现release了4.0.0-beata版本，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：  新版本的产生是为了顺应当下的需要，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/izLDET.png">
+<meta name="twitter:title" content="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面deconvolution in segmentation 开篇先上图，图为deconvolution在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。 本文将深入deconvolution的细节，并通过如下方式展开：  先回答 什么是de">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/18/n7qMDI.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html">
 
 
 
@@ -197,7 +202,7 @@
   };
 </script>
 
-  <title>OpenCV各版本差异与演化，1.x To 4.0 | 进击的小学生</title>
+  <title>一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution | 进击的小学生</title>
   
 
 
@@ -366,7 +371,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -383,7 +388,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">OpenCV各版本差异与演化，1.x To 4.0
+          <h1 class="post-title" itemprop="name headline">一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution
               
             
           </h1>
@@ -408,7 +413,7 @@
                 
               
 
-              <time title="创建时间：2018-10-31 17:44:51" itemprop="dateCreated datePublished" datetime="2018-10-31T17:44:51+08:00">2018-10-31</time>
+              <time title="创建时间：2019-09-16 18:07:18" itemprop="dateCreated datePublished" datetime="2019-09-16T18:07:18+08:00">2019-09-16</time>
             
 
             
@@ -425,7 +430,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-15 17:36:31" itemprop="dateModified" datetime="2019-05-15T17:36:31+08:00">2019-05-15</time>
+                <time title="修改时间：2019-09-20 20:54:33" itemprop="dateModified" datetime="2019-09-20T20:54:33+08:00">2019-09-20</time>
               
             
           </span>
@@ -442,7 +447,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
 
                 
                 
@@ -456,7 +461,7 @@
 
           
           
-             <span id="/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html" class="leancloud_visitors" data-flag-title="OpenCV各版本差异与演化，1.x To 4.0">
+             <span id="/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" class="leancloud_visitors" data-flag-title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -481,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.4k</span>
+                <span title="本文字数">6.9k</span>
               
 
               
@@ -506,36 +511,96 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>最近因项目需要，得把OpenCV捡起来，登录<a href="https://opencv.org/" target="_blank" rel="noopener">OpenCV官网</a>，竟然发现release了<a href="https://opencv.org/releases.html" target="_blank" rel="noopener">4.0.0-beata版本</a>，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p><figure><img src="https://s2.ax1x.com/2019/09/18/n7qMDI.png" alt="deconvolution in segmentation"><figcaption class="image-caption">deconvolution in segmentation</figcaption></figure></p>
+<p>开篇先上图，图为<strong>deconvolution</strong>在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。</p>
+<p>本文将深入deconvolution的细节，并通过如下方式展开：</p>
+<ul>
+<li>先回答 什么是<strong>deconvolution</strong>？为什么会有<strong>transposed convolutionon</strong>、<strong>subpixel or fractional convolution</strong>这样的名字？</li>
+<li>再介绍 各种情形下 <strong>transposed convolution</strong>是如何进行的，并提供<strong>一种统一的计算方法</strong>。</li>
+</ul>
+<h1 id="什么是deconvolution"><a href="#什么是deconvolution" class="headerlink" title="什么是deconvolution"></a>什么是deconvolution</h1><p>首先要明确的是，<strong>deconvolution并不是个好名字</strong>，因为它存在歧义：</p>
 <ol>
-<li><strong>新版本的产生是为了顺应当下的需要</strong>，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决固有问题等</li>
-<li><strong>新技术新方法会优先加入到新的大版本中</strong>，即使新的技术方法可以在旧版本中实现，但为了推动用户向新版本迁移，仍会优先加入到新版本中（这条看着与第1条差不多，实际意义是不同的）</li>
-<li><strong>新版本不可避免地会带有旧版本的痕迹</strong>，毕竟新版本是从旧版本基础上“生长”出来的，新老版本间能看到比较明显的过渡痕迹，同时出于降低迁移成本的考虑，需要（部分）向前兼容</li>
+<li><strong>deconvolution</strong>最初被定义为“inverse of convolution”或者“inverse filter”或者“解卷积”，是指<strong>消除先前滤波作用的方法</strong>。比如，我们认为原始图像是清晰的，但是通过透镜观测到的图像却变得模糊，如果假设透镜的作用相当于以某个kernel作用在原始图像上，由此导致图像变得模糊，那么根据模糊的图像估计这个kernel或者根据模糊图像恢复原始清晰图像的过程就叫<strong>deconvolution</strong>。</li>
+<li>后来论文<a href="https://cs.nyu.edu/~fergus/drafts/deconv_iccv_names.pdf" target="_blank" rel="noopener">Adaptive Deconvolutional Networks for Mid and High Level Feature Learning</a>和<a href="https://arxiv.org/abs/1311.2901" target="_blank" rel="noopener">Visualizing and Understanding Convolutional Networks</a>又重新定义了<strong>deconvolution</strong>，实际上与transposed convolution、sub-pixel or fractional convolution指代相同。<strong>transposed convolution</strong>是一个更好的名字，sub-pixel or fractional convolution可以看成是transposed convolution的一个特例。对一个常规的卷积层而言，前向传播时是convolution，将input feature map映射为output feature map，反向传播时则是transposed convolution，根据output feature map的梯度计算出input feature map的梯度，梯度图的尺寸与feature map的尺寸相同。</li>
 </ol>
-<p>因此，如果新版本已经稳定，且需要从头开始新项目，先考虑拥抱新版本。若碰到问题，可到旧版本的资料中找找答案。但这并不绝对，具体情况还得具体分析。</p>
-<p>下面分析下各版本的差异以及演化路径。</p>
-<h1 id="OpenCV版本差异与演化，1-x-To-4-0"><a href="#OpenCV版本差异与演化，1-x-To-4-0" class="headerlink" title="OpenCV版本差异与演化，1.x To 4.0"></a>OpenCV版本差异与演化，1.x To 4.0</h1><p><figure><img src="https://s1.ax1x.com/2018/11/18/izLDET.png" alt="OpenCV"><figcaption class="image-caption">OpenCV</figcaption></figure></p>
-<h2 id="OpenCV-1-x"><a href="#OpenCV-1-x" class="headerlink" title="OpenCV 1.x"></a>OpenCV 1.x</h2><p>OpenCV 最初基于<strong>C语言</strong>开发，API也都是基于C的，面临内存管理、指针等C语言固有的麻烦。</p>
-<p><strong>2006年10月1.0</strong>发布时，部分使用了C++，同时支持Python，其中已经有了random trees、boosted trees、neural nets等机器学习方法，完善对图形界面的支持。</p>
-<p><strong>2008年10月1.1pre1</strong>发布，使用 VS2005构建，Python bindings支持<strong>Python 2.6</strong>，Linux下支持<strong>Octave bindings</strong>，在这一版本中加入了SURF、RANSAC、Fast approximate nearest neighbor search等，Face Detection (cvHaarDetectObjects)也变得更快。</p>
-<h2 id="OpenCV-2-x"><a href="#OpenCV-2-x" class="headerlink" title="OpenCV 2.x"></a>OpenCV 2.x</h2><p>当C++流行起来，OpenCV 2.x发布，其尽量使用C++而不是C，但是为了向前兼容，仍保留了对C API的支持。从2010年开始，2.x决定不再频繁支持和更新C API，而是focus在<strong>C++ API</strong>，C API仅作备份。</p>
-<p><strong>2009年9月2.0 beta</strong>发布，主要使用<strong>CMake构建</strong>，加入了很多新特征、描述子等，如FAST、LBP等。</p>
-<p><strong>2010年4月2.1</strong>版本，加入了Grabcut等，可以使用<strong>SSE/SSE2…</strong>指令集。</p>
-<p><strong>2010年10月2.2</strong>版本发布，OpenCV的模块变成了大家熟悉的模样，像<strong>opencv_imgproc</strong>、<strong>opencv_features2d</strong>等，同时有了<strong>opencv_contrib</strong>用于放置尚未成熟的代码，<strong>opencv_gpu</strong>放置使用CUDA加速的OpenCV函数。</p>
-<p><strong>2011年6月起的2.3.x</strong>版本、<strong>2012年4月起的2.4.x</strong>版本，一面增加新方法，一面修复bug，同时加强对GPU、Java  for Android、 OpenCL、并行化的支持等等，OpenCV愈加稳定完善，值得注意的是 SIFT和SURF从2.4开始被放到了<strong>nonfree</strong> 模块（因为专利）。</p>
-<p>考虑到过渡，OpenCV 2.4.x仍在维护，不过以后可能仅做bug修复和效率提升，不再增加新功能——鼓励向3.x迁移。</p>
-<h2 id="OpenCV-3-x"><a href="#OpenCV-3-x" class="headerlink" title="OpenCV 3.x"></a>OpenCV 3.x</h2><p>随着3.x的发布，1.x的C API将被淘汰不再被支持，以后C API可能通过C++源代码自动生成。3.x与2.x不完全兼容，与2.x相比，主要的不同之处在于OpenCV 3.x 的大部分方法都使用了<strong>OpenCL加速</strong>。</p>
-<p><strong>2014年8月3.0 alpha</strong>发布，除大部分方法都使用OpenCL加速外，3.x默认包含以及使用<a href="https://wiki2.org/en/Integrated_Performance_Primitives" target="_blank" rel="noopener">IPP</a>，同时，matlab bindings、Face Recognition、SIFT、SURF、 text detector、motion templates &amp; simple flow 等都移到了<strong>opencv_contrib</strong>下（opencv_contrib不仅存放了尚未稳定的代码，同时也存放了涉及专利保护的技术实现），大量涌现的新方法也包含在其中。</p>
-<p><strong>2017年8月3.3</strong>版本，<strong>2017年12月开始的3.4.x</strong>版本，opencv_dnn从opencv_contrib移至opencv，同时OpenCV开始支持C++ 11构建，之后明显感到对<strong>神经网络</strong>的支持在加强，opencv_dnn被持续改进和扩充。</p>
-<h2 id="OpenCV-4-0"><a href="#OpenCV-4-0" class="headerlink" title="OpenCV 4.0"></a>OpenCV 4.0</h2><p><strong>2018年10月4.0.0</strong>发布，OpenCV开始需要支持<strong>C++11</strong>的编译器才能编译，同时对几百个基础函数使用 <strong>“wide universal intrinsics”</strong>重写，这些内联函数可以根据目标平台和编译选项映射为SSE2、 SSE4、 AVX2、NEON 或者 VSX 内联函数，获得性能提升。此外，还加入了QR code的检测和识别，以及Kinect Fusion algorithm，DNN也在持续改善和扩充。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这些年来，计算机视觉领域的新技术新方法不断涌现，指令集、编程语言和并行化技术越发先进，OpenCV也在紧跟时代的脚步，不断吸收完善自身。本文仅对OpenCV的演化过程仅总结了部分要点，详细可参见 OpenCV 在 github上的ChangeLog。</p>
+<p>本文谈论的是deconvolution的第2个含义，后面统一使用<strong>transposed convolution</strong>这个名字。</p>
+<p>什么是transposed convolution？<a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a>中有这样一段话：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/20/nvk2VA.png" alt="transposed convolution definition"><figcaption class="image-caption">transposed convolution definition</figcaption></figure></p>
+<p>看完好像仍不是很直观，transposed convolution到底对应的是什么操作？等到文章的后面，这个问题的答案会逐渐清晰起来。</p>
+<p>下面先以1个例子来对比convolution过程和transposed convolution过程，采用与<a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a>相同的设置：</p>
+<ul>
+<li>2-D transposed convolutions ($N=2$)</li>
+<li>square inputs ($i_1=i_2=i$)</li>
+<li>square kernel size ($k_1=k_2=k$)</li>
+<li>same strides along both axes ($s_1=s_2=s$)</li>
+<li>same zero padding along both axes ($p_1=p_2=p$)</li>
+<li>square outputs ($o_1=o_2=o$)</li>
+</ul>
+<p>若令$i=4$、$s=1$、$p=0$、$k=3$，输出尺寸$o=2$，则convolution过程是将$4\times 4$的map映射为$2\times 2$的map，而transposed convolution过程则是将$2\times 2$的map映射为$4\times 4$的map，两者的kernel size均为3，如下图所示：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/18/n75lfs.gif" alt="convolution vs transposed convolution"><figcaption class="image-caption">convolution vs transposed convolution</figcaption></figure></p>
+<p>可以看到，convolution过程zero padding的数量与超参数$p$一致，但是transposed convolution实际的zero padding的数量为2，为什么会这样？是<strong>为了保持连接方式相同</strong>，下面具体看一下。</p>
+<h2 id="convolution过程"><a href="#convolution过程" class="headerlink" title="convolution过程"></a>convolution过程</h2><p>先看convolution过程，连接方式 如下图所示，绿色表示输出，蓝色表示输入，每个绿色块具与9个蓝色块连接。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/18/n7BHgJ.png" alt="direct convolution"><figcaption class="image-caption">direct convolution</figcaption></figure></p>
+<p>令卷积核$\mathbf{w} = \left(\begin{array}{ccc} {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} \\ {w_{1,0}} &amp; {w_{1,2}} &amp; {w_{1,2}} \\ {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} \end{array}\right)$，为了便于理解，<strong>将卷积写成矩阵乘法形式</strong>，令$\mathbf{x}$为$4\times 4$输入矩阵以行优先方式拉成的长度为16的向量，$\mathbf{y}$为$2\times 2$输出矩阵以同样方式拉成的长度为4的向量，同时将$\mathbf{w}$表示成$4\times 16$的稀疏矩阵$\mathbf{C}$，</p>
+<p>$$<br>\mathbf{C} = \left(\begin{array}{cccccccccccccccc}{w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp; {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} &amp; {0} &amp; {0} &amp; {0} &amp; {0} &amp; {0} \\<br>{0} &amp; {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp; {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} &amp; {0} &amp; {0} &amp; {0} &amp; {0} \\<br>{0} &amp; {0} &amp; {0} &amp; {0} &amp; {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp;  {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} &amp; {0} \\<br>{0} &amp; {0} &amp; {0} &amp; {0} &amp; {0} &amp; {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp; {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}}\end{array}\right)<br>$$</p>
+<p>则convolution过程可以描述为$\mathbf{C} \mathbf{x} = \mathbf{y}$，若<strong>$\mathbf{C}_{i,j}=0$表示$\mathbf{x}_j$和$\mathbf{y}_i$间没有连接</strong>。</p>
+<h2 id="transposed-convolution过程"><a href="#transposed-convolution过程" class="headerlink" title="transposed convolution过程"></a>transposed convolution过程</h2><p>再看transposed convolution过程，如何将长度为4的向量$\mathbf{y}$映射为长度为16的向量且<strong>保持连接方式相同</strong>？只需将$\mathbf{C}$转置，令$\mathbf{C}^T \mathbf{y} = \mathbf{x}’$，同样地，<strong>$\mathbf{C}^T_{j,i}=0$表示$\mathbf{x}’_j$和$\mathbf{y}_i$间没有连接</strong>。</p>
+<p>此时，$\mathbf{C}^T$对应的卷积操作恰好相当于<strong>将kernel中心对称</strong>，FULL zero padding，然后卷积，此时，1个蓝色块与9个绿色块连接，且权重与Convolution过程相同</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/19/nqvOYR.png" alt="transposed convolution"><figcaption class="image-caption">transposed convolution</figcaption></figure></p>
+<p><strong>需要注意的是</strong>，transposed convolution的kernel与convolution的kernel可以有关，也可以无关，需要看应用在什么场景，</p>
+<ul>
+<li>在<strong>特征可视化</strong>、<strong>训练阶段的反向传播</strong>中应用的transposed convolution，<strong>并不是作为一个真正的layer存在于网络中</strong>，其kernel与convolution共享（但要经过中心对称后再卷积，相当于上面的 $ \mathbf{C} ^T $）。</li>
+<li>在<strong>图像分割</strong>、<strong>生成模型</strong>、<strong>decoder</strong>中使用的transposed convolution，<strong>是网络中真实的layer</strong>，其kernel经初始化后需要通过学习获得（所以卷积核也就无所谓中心对称不对称了）。</li>
+<li>前向传播为convolution/transposed convolution，则反向传播为transposed convolution/convolution。</li>
+</ul>
+<p>在上面举的简化的例子中，我们可以通过分析得知transposed convolution该如何进行，但是，对于更一般情况应该怎么做？</p>
+<h1 id="transposed-convolution的计算"><a href="#transposed-convolution的计算" class="headerlink" title="transposed convolution的计算"></a>transposed convolution的计算</h1><p>对于一般情况，只需把握一个<strong>宗旨：transposed convolution将output size恢复为input size且保持连接方式相同</strong>。</p>
+<p>对于convolution过程，我们知道其output map与input map的尺寸关系如下：</p>
+<p>$$o=\left\lfloor \frac{i+2p-k}{s} \right\rfloor + 1$$</p>
+<p>若要将$o$恢复为$i$，需考虑2种情况，$\frac{i+2p-k}{s}$整除以及不整除，先看整除的情况。</p>
+<h2 id="整除的情况"><a href="#整除的情况" class="headerlink" title="整除的情况"></a>整除的情况</h2><p>如果$\frac{i+2p-k}{s}$可以整除，则由上式可得</p>
+<p>$$i = so-s+k-2p = [o+(s-1)(o-1)]+(k-2p-1)$$</p>
+<p>因为transposed convolution也是卷积，<strong>为了符合上面卷积操作尺寸关系的数学形式</strong>，可进一步整理成</p>
+<p>$$i = \frac{[o+(s-1)(o-1)] + [(k-1)+(k-2p-1)] - k}{1} + 1$$</p>
+<p>令$i’=o+(s-1)(o-1)$、$p’=\frac{(k-1)+(k-2p-1)}{2} = k-p-1 $、$s’=1$、$k’=k$，即transposed convolution实际卷积时使用的超参数，可以这样理解：</p>
+<ul>
+<li><p>$i’=o+(s-1)(o-1)$：convolution的输出为$o\times o$，每行每列都是$o$个元素，有$o-1$个间隔，transposed convolution时在每个间隔处插入$s-1$个0，整体构成transposed convolution的input map；</p>
+</li>
+<li><p>$p’=\frac{(k-1)+(k-2p-1)}{2} = k-p-1 $：在上一步input map的基础上再进行padding，考虑convolution常用的几种padding情况：</p>
+<ul>
+<li><strong>VALID</strong>：$p=0$，transposed convolution则需padding $p’=k-1$，即<strong>FULL</strong> padding</li>
+<li><strong>SAME</strong>：$p=\frac{k-1}{2}=r$，这里考虑$k=2r+1$为奇数的一般情况，此时$p’=r$，即<strong>SAME</strong> padding</li>
+<li><p><strong>FULL</strong>：$p=k-1$，则$p’=0$，即<strong>VALID</strong> padding</p>
+<p>可见，convolution和transposed convolution的padding也具有某种对称性$p’+p=k-1$；</p>
+</li>
+</ul>
+</li>
+<li><p>$k’=k$：transposed convolution的kernel size与convolution相同；</p>
+</li>
+<li><p>$s’=1$：<strong>transposed convolution的stride均为1</strong>，但也可以换个角度理解，如果认为$o\times o$相邻元素间的距离为1个像素，那么在间隔处插入$s-1$个0后（$s &gt; 1$），得到的input map相邻元素间的距离就是亚像素的（sub-pixel），所以此时也可以称之为 <strong>sub-pixel or fractional convolution</strong>；</p>
+</li>
+<li>$o’=i=\frac{i’+2p’-k’}{s’}+1$：transposed convolution的输出与convolution的输入具有相同尺寸。</li>
+</ul>
+<h2 id="不整除的情况"><a href="#不整除的情况" class="headerlink" title="不整除的情况"></a>不整除的情况</h2><p>接下来再看$\frac{i+2p-k}{s}$不整除的情况，此时再按上面的方式计算得到的$o’=\frac{i’+2p’-k’}{s’}+1$将小于$i$，小多少呢？不难得出少$a = [(i+2p-k) \mod s]$，即</p>
+<p>$$o’=\frac{i’+2p’-k’}{s’}+1=i-a$$</p>
+<p>为了让$o’=i$，可写成</p>
+<p>$$o’= \frac{i’+2p’+a-k’}{s’}+1$$</p>
+<p><strong>只需在padding后，在下边和右边再扩展$a$行和列0，然后进行卷积即可</strong>。<strong>注意</strong>，因为$s’=1$，我们可以将$a$放在分母也可以放在外面，之所以放在分母，是因为convolution过程中input map下边和右边的$a$行或列中的元素可能参与了运算，即与output map间存在连接，所以在transposed convolution时，为了保持同样的连接，最后扩展的$a$行和列也要参与卷积，所以放在分母。</p>
+<p>至此，再看transposed convolution的各种情况，就很容易推算了，更多例子可参见<a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/20/njW8CF.gif" alt="transposed convolution"><figcaption class="image-caption">transposed convolution</figcaption></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>最后，总结一下，</p>
+<ul>
+<li><strong>convolution和transposed convolution互为对称过程</strong>，存在一个convolution，就存在一个与之对应的transposed convolution，反之亦然；</li>
+<li>convolution是将input size的map映射为output size的map，transposed convolution是将output size的map映射为input size的map——<strong>旨在将尺寸恢复</strong>；</li>
+<li><strong>两者均使用卷积操作</strong>，为了方便，<strong>两者使用同样的stride、padding、kernel size超参数，但实际执行时的操作不同</strong>，一般情况下，transposed convolution与convolution实际超参数关系为：$i’=o+(s-1)(o-1)$、$p’=\frac{(k-1)+(k-2p-1)}{2} = k-p-1 $、$s’=1$、$k’=k$。</li>
+<li>之所以做这样的操作，是为了<strong>保证map间的连接方式相同（权重不一定相同）</strong>，权重的设置需根据应用的场景，可能通过学习得到，也可能与convolution共享（但需要中心对称后再使用）。</li>
+</ul>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://github.com/opencv/opencv/wiki/ChangeLog_v10-v21" target="_blank" rel="noopener">OpenCV ChangeLog 1.0 – 2.1</a></li>
-<li><a href="https://github.com/opencv/opencv/wiki/ChangeLog" target="_blank" rel="noopener">OpenCV Change Logs</a></li>
-<li><a href="http://answers.opencv.org/question/92583/why-there-are-two-versions-of-opencv-3x-and-24xx/" target="_blank" rel="noopener">Why there are two versions of OpenCV 3.x and 2.4.xx ?</a></li>
-<li><a href="https://stackoverflow.com/questions/29579801/what-is-the-difference-between-opencv-2-4-11-and-3-0-0" target="_blank" rel="noopener">what is the difference between OpenCV 2.4.11 and 3.0.0</a></li>
-<li><a href="https://www.pyimagesearch.com/2015/07/16/where-did-sift-and-surf-go-in-opencv-3/" target="_blank" rel="noopener">Where did SIFT and SURF go in OpenCV 3?</a></li>
-<li><a href="https://github.com/opencv/opencv_contrib" target="_blank" rel="noopener">opencv_contrib</a></li>
+<li><a href="https://github.com/vdumoulin/conv_arithmetic" target="_blank" rel="noopener">vdumoulin/conv_arithmetic</a></li>
+<li><a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a></li>
+<li><a href="http://cs231n.stanford.edu/slides/2016/winter1516_lecture13.pdf" target="_blank" rel="noopener">winter1516_lecture13.pdf</a></li>
+<li><a href="https://arxiv.org/abs/1609.07009" target="_blank" rel="noopener">Is   the   deconvolution  layer   the   same   as   a   convolutional  layer?</a></li>
+<li><a href="https://datascience.stackexchange.com/questions/6107/what-are-deconvolutional-layers" target="_blank" rel="noopener">What are deconvolutional layers?</a></li>
 </ul>
 
       
@@ -558,7 +623,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html" title="OpenCV各版本差异与演化，1.x To 4.0">https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html</a>
+    <a href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -571,7 +636,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/opencv/" rel="tag"># opencv</a>
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
           
         </div>
       
@@ -599,8 +664,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09-27-高斯滤波对图像方差有什么影响.html" rel="next" title="高斯滤波对图像方差有什么影响">
-                <i class="fa fa-chevron-left"></i> 高斯滤波对图像方差有什么影响
+              <a href="/2019/08-30-从AlexNet(2012)开始.html" rel="next" title="从AlexNet(2012)开始">
+                <i class="fa fa-chevron-left"></i> 从AlexNet(2012)开始
               </a>
             
           </div>
@@ -608,10 +673,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11-08-卷积神经网络之卷积计算、作用与思想.html" rel="prev" title="卷积神经网络之卷积计算、作用与思想">
-                卷积神经网络之卷积计算、作用与思想 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -841,7 +902,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenCV版本差异与演化，1-x-To-4-0"><span class="nav-number">2.</span> <span class="nav-text">OpenCV版本差异与演化，1.x To 4.0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-1-x"><span class="nav-number">2.1.</span> <span class="nav-text">OpenCV 1.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-2-x"><span class="nav-number">2.2.</span> <span class="nav-text">OpenCV 2.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-3-x"><span class="nav-number">2.3.</span> <span class="nav-text">OpenCV 3.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-4-0"><span class="nav-number">2.4.</span> <span class="nav-text">OpenCV 4.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是deconvolution"><span class="nav-number">2.</span> <span class="nav-text">什么是deconvolution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#convolution过程"><span class="nav-number">2.1.</span> <span class="nav-text">convolution过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transposed-convolution过程"><span class="nav-number">2.2.</span> <span class="nav-text">transposed convolution过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transposed-convolution的计算"><span class="nav-number">3.</span> <span class="nav-text">transposed convolution的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整除的情况"><span class="nav-number">3.1.</span> <span class="nav-text">整除的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不整除的情况"><span class="nav-number">3.2.</span> <span class="nav-text">不整除的情况</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -1203,6 +1264,30 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
