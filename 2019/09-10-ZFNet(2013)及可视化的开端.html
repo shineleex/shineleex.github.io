@@ -167,47 +167,33 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN [TOC] 写在前面paper：https://arxiv.org/abs/1809.02165github：https://github.com/hoya012/deep_learning_object_detection，A paper list of object detection using deep learning 这">
-<meta name="keywords" content="综述,paper">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面ZFNet出自论文《 Visualizing and Understanding Convolutional Networks》，作者Matthew D. Zeiler和Rob Fergus——显然ZFNet是以两位作者名字的首字母命名的，截止20190911，论文引用量为4207。ZFNet通常被认为是ILSVRC 201">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="论文学习-深度学习目标检测2014至201901综述-Deep Learning for Generic Object Detection A Survey">
-<meta property="og:url" content="https://blog.shinelee.me/2019/02-14-论文学习-深度学习目标检测2014至201901综述-Deep-Learning-for-Generic-Object-Detection-A-Survey.html">
+<meta property="og:title" content="ZFNet(2013)及特征可视化的开端">
+<meta property="og:url" content="https://blog.shinelee.me/2019/09-10-ZFNet(2013)及可视化的开端.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN [TOC] 写在前面paper：https://arxiv.org/abs/1809.02165github：https://github.com/hoya012/deep_learning_object_detection，A paper list of object detection using deep learning 这">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面ZFNet出自论文《 Visualizing and Understanding Convolutional Networks》，作者Matthew D. Zeiler和Rob Fergus——显然ZFNet是以两位作者名字的首字母命名的，截止20190911，论文引用量为4207。ZFNet通常被认为是ILSVRC 201">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0rACF.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kBHdW4.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0w3Ox.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0rWV0.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0sEIf.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0Dk6A.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0DahF.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0WF1K.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/13/k0fnrF.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kBo0SA.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB3OuF.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB8eUA.jpg">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kBc7PP.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kBcb28.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kBgvQO.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB2peH.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB56jP.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB5fAg.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB5XEF.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kB5zC9.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/02/14/kBIpg1.png">
-<meta property="og:updated_time" content="2019-08-30T03:41:57.391Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/11/naIoOs.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/11/ndSmPH.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/11/ndpQfJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/11/ndAFEt.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/11/nd0MLQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/11/ndsbNj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLYCQ.png">
+<meta property="og:updated_time" content="2019-09-21T07:16:25.243Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="论文学习-深度学习目标检测2014至201901综述-Deep Learning for Generic Object Detection A Survey">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN [TOC] 写在前面paper：https://arxiv.org/abs/1809.02165github：https://github.com/hoya012/deep_learning_object_detection，A paper list of object detection using deep learning 这">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/02/13/k0rACF.png">
+<meta name="twitter:title" content="ZFNet(2013)及特征可视化的开端">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面ZFNet出自论文《 Visualizing and Understanding Convolutional Networks》，作者Matthew D. Zeiler和Rob Fergus——显然ZFNet是以两位作者名字的首字母命名的，截止20190911，论文引用量为4207。ZFNet通常被认为是ILSVRC 201">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/11/naIoOs.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/02-14-论文学习-深度学习目标检测2014至201901综述-Deep-Learning-for-Generic-Object-Detection-A-Survey.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/09-10-ZFNet(2013)及可视化的开端.html">
 
 
 
@@ -217,7 +203,7 @@
   };
 </script>
 
-  <title>论文学习-深度学习目标检测2014至201901综述-Deep Learning for Generic Object Detection A Survey | 进击的小学生</title>
+  <title>ZFNet(2013)及特征可视化的开端 | 进击的小学生</title>
   
 
 
@@ -386,7 +372,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/02-14-论文学习-深度学习目标检测2014至201901综述-Deep-Learning-for-Generic-Object-Detection-A-Survey.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/09-10-ZFNet(2013)及可视化的开端.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -403,7 +389,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">论文学习-深度学习目标检测2014至201901综述-Deep Learning for Generic Object Detection A Survey
+          <h1 class="post-title" itemprop="name headline">ZFNet(2013)及特征可视化的开端
               
             
           </h1>
@@ -428,7 +414,7 @@
                 
               
 
-              <time title="创建时间：2019-02-14 18:19:17" itemprop="dateCreated datePublished" datetime="2019-02-14T18:19:17+08:00">2019-02-14</time>
+              <time title="创建时间：2019-09-10 16:34:13" itemprop="dateCreated datePublished" datetime="2019-09-10T16:34:13+08:00">2019-09-10</time>
             
 
             
@@ -445,7 +431,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-30 11:41:57" itemprop="dateModified" datetime="2019-08-30T11:41:57+08:00">2019-08-30</time>
+                <time title="修改时间：2019-09-21 15:16:25" itemprop="dateModified" datetime="2019-09-21T15:16:25+08:00">2019-09-21</time>
               
             
           </span>
@@ -462,7 +448,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/目标检测/" itemprop="url" rel="index"><span itemprop="name">目标检测</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
 
                 
                 
@@ -476,7 +462,7 @@
 
           
           
-             <span id="/2019/02-14-论文学习-深度学习目标检测2014至201901综述-Deep-Learning-for-Generic-Object-Detection-A-Survey.html" class="leancloud_visitors" data-flag-title="论文学习-深度学习目标检测2014至201901综述-Deep Learning for Generic Object Detection A Survey">
+             <span id="/2019/09-10-ZFNet(2013)及可视化的开端.html" class="leancloud_visitors" data-flag-title="ZFNet(2013)及特征可视化的开端">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -526,45 +512,54 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<p>[TOC]</p>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>paper：<a href="https://arxiv.org/abs/1809.02165" target="_blank" rel="noopener">https://arxiv.org/abs/1809.02165</a><br>github：<a href="https://github.com/hoya012/deep_learning_object_detection，A" target="_blank" rel="noopener">https://github.com/hoya012/deep_learning_object_detection，A</a> paper list of object detection using deep learning</p>
-<p>这篇综述对深度学习目标检测2014至201901取得的进展进行了总结，包括：</p>
-<blockquote>
-<p>More than 250 key contributions are included in this survey, covering many aspects of generic object detection research: <strong>leading detection frameworks</strong> and fundamental subprob-lems including <strong>object feature representation</strong>, <strong>object proposal generation</strong>, <strong>context information modeling</strong> and <strong>training strategies</strong>; <strong>evaluation issues</strong>, <strong>specifically benchmark datasets</strong>, <strong>evaluation metrics</strong>, and <strong>state of the art performance</strong>.</p>
-</blockquote>
-<p>本文的主要目的在于摘录paper中的一些重要图表和结论，作为系统学习的索引，不做详细的展开。</p>
-<p>下面两张图来自github，分别为paper list和performance table，红色为作者认为必读的paper。<br><figure><img src="https://s2.ax1x.com/2019/02/13/k0rACF.png" alt="目标检测DCNN paper list"><figcaption class="image-caption">目标检测DCNN paper list</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/14/kBHdW4.png" alt="performance table"><figcaption class="image-caption">performance table</figcaption></figure></p>
-<h1 id="目标检测任务与挑战"><a href="#目标检测任务与挑战" class="headerlink" title="目标检测任务与挑战"></a>目标检测任务与挑战</h1><p><strong>目标检测任务的输入是一张图像，输出是图像中的物体位置和类别</strong>，如下图所示，位置可通过Bounding Box描述，也可描述为像素的集合。<br><figure><img src="https://s2.ax1x.com/2019/02/13/k0w3Ox.png" alt="通用目标检测任务"><figcaption class="image-caption">通用目标检测任务</figcaption></figure><br>为了确定图片中物体的位置和类别，要面临很多挑战，一个好的检测器要做到<strong>定位准确</strong>、<strong>分类准确</strong>还要<strong>效率高</strong>，需要对光照、形变、尺度、视角、尺寸、姿态、遮挡、模糊、噪声等情况鲁棒，需要能容忍可能存在的较大的类内差异，又能区分开较小的类间差异，同时还要保证高效。<br><figure><img src="https://s2.ax1x.com/2019/02/13/k0rWV0.png" alt="目标检测任务的挑战"><figcaption class="image-caption">目标检测任务的挑战</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/13/k0sEIf.png" alt="目标检测任务的挑战"><figcaption class="image-caption">目标检测任务的挑战</figcaption></figure></p>
-<h1 id="目标检测方法汇总"><a href="#目标检测方法汇总" class="headerlink" title="目标检测方法汇总"></a>目标检测方法汇总</h1><p>在2012年前，目标检测方法主要是人工特征工程+分类器，2012年后主要是基于DCNN的方法，如下图所示：<br><figure><img src="https://s2.ax1x.com/2019/02/13/k0Dk6A.png" alt="目标检测Milestones"><figcaption class="image-caption">目标检测Milestones</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/13/k0DahF.png" alt="DCNN目标检测"><figcaption class="image-caption">DCNN目标检测</figcaption></figure></p>
-<p>目标检测的框架可以分成2类：</p>
-<ol>
-<li><strong>Two stage detection framework</strong>：含region proposal，先获取ROI，然后对ROI进行识别和回归bounding box，以RCNN系列方法为代表。</li>
-<li><strong>One stage detection framework</strong>：不含region proposal，将全图grid化，对每个grid进行识别和回归，以YOLO系列方法为代表。</li>
-</ol>
-<p>Pipeline对比与演化如下：<br><figure><img src="https://s2.ax1x.com/2019/02/13/k0WF1K.jpg" alt="目标检测方法Pipeline对比与演化"><figcaption class="image-caption">目标检测方法Pipeline对比与演化</figcaption></figure><br><strong>主干网络、检测框架设计、大规模高质量的数据集</strong>是决定检测性能的3个最重要的因素，决定了学到特征的好坏以及特征使用的好坏。</p>
-<h1 id="基础子问题"><a href="#基础子问题" class="headerlink" title="基础子问题"></a>基础子问题</h1><p>这一节谈论的重点包括：基于DCNN的特征表示、候选区生成、上下文信息、训练策略等。</p>
-<h2 id="基于DCNN的特征表示"><a href="#基于DCNN的特征表示" class="headerlink" title="基于DCNN的特征表示"></a>基于DCNN的特征表示</h2><h3 id="主干网络（network-backbone）"><a href="#主干网络（network-backbone）" class="headerlink" title="主干网络（network backbone）"></a>主干网络（network backbone）</h3><p>ILSVRC（ImageNet Large Scale Visual Recognition Competition）极大促进了DCNN architecture的改进，在计算机视觉的各种任务中，往往将这些经典网络作为主干网络（backbone），再在其上做各种文章，常用在目标检测任务中的DCNN architectures如下：<br><figure><img src="https://s2.ax1x.com/2019/02/13/k0fnrF.png" alt="DCNN architectures"><figcaption class="image-caption">DCNN architectures</figcaption></figure></p>
-<h3 id="Methods-For-Improving-Object-Representation"><a href="#Methods-For-Improving-Object-Representation" class="headerlink" title="Methods For Improving Object Representation"></a>Methods For Improving Object Representation</h3><p>物体在图像中的尺寸是未知的，图片中的不同物体尺寸也可能是不同的，而DCNN越深层的感受野越大，因此只在某一层上进行预测显然是难以达到最优的，一个自然的想法是利用不同层提取到的信息进行预测，称之为<strong>multiscale object detection</strong>，可分成3类：</p>
-<ol>
-<li>Detecting with combined features of multiple CNN layers</li>
-<li>Detecting at multiple CNN layers; </li>
-<li>Combinations of the above two methods</li>
-</ol>
-<p>直接看图比较直观：<br><figure><img src="https://s2.ax1x.com/2019/02/14/kBo0SA.png" alt="ION和HyperNet"><figcaption class="image-caption">ION和HyperNet</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/14/kB3OuF.jpg" alt="RFB 与 ZIP"><figcaption class="image-caption">RFB 与 ZIP</figcaption></figure><br>尝试对几何变形进行建模也是改善Object Representation的一个方向，方法包括结合Deformable Part based Models (DPMs)的方法、Deformable Convolutional Networks (DCN)方法等。<br><figure><img src="https://s2.ax1x.com/2019/02/14/kB8eUA.jpg" alt="改善DCNN特征表示的方法"><figcaption class="image-caption">改善DCNN特征表示的方法</figcaption></figure></p>
-<h2 id="Context-Modeling"><a href="#Context-Modeling" class="headerlink" title="Context Modeling"></a>Context Modeling</h2><p>上下文信息可以分为3类：</p>
-<ol>
-<li><strong>Semantic context</strong>: The likelihood of an object to be found in some scenes but not in others;</li>
-<li><strong>Spatial context</strong>: The likelihood of finding an object in some position and not others with respect to other objects in the scene; </li>
-<li><strong>Scale context</strong>: Objects have a limited set of sizes relative to other objects in the scene. </li>
-</ol>
-<p>DCNN通过学习不同抽象层级的特征可能已经隐式地使用了contextual information，因此目前的state-of-art目标检测方法并没有显式地利用contextual information，但近来也有一些显式利用contextual information的DCNN方法，可分为2类：Global context和Local context。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/02/14/kBc7PP.png" alt="context information"><figcaption class="image-caption">context information</figcaption></figure></p>
-<p><figure><img src="https://s2.ax1x.com/2019/02/14/kBcb28.png" alt="Local Context"><figcaption class="image-caption">Local Context</figcaption></figure><br>感觉可以在某种程度上看成是数据层面的集成学习。</p>
-<h2 id="Detection-Proposal-Methods"><a href="#Detection-Proposal-Methods" class="headerlink" title="Detection Proposal Methods"></a>Detection Proposal Methods</h2><p>Two stage detection framework需要生成ROI。</p>
-<p>生成ROI的方法，可以分为<strong>Bounding Box Proposal Methods</strong>和<strong>Object Segment Proposal Methods</strong>，前者回归出Bounding Box来描述ROI，后者通过分割得到像素集合来描述ROI。<br><figure><img src="https://s2.ax1x.com/2019/02/14/kBgvQO.png" alt="object proposal methods"><figcaption class="image-caption">object proposal methods</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/14/kB2peH.png" alt="Region Proposal Network"><figcaption class="image-caption">Region Proposal Network</figcaption></figure></p>
-<h2 id="Other-Special-Issues"><a href="#Other-Special-Issues" class="headerlink" title="Other Special Issues"></a>Other Special Issues</h2><p>通过data augmentation tricks（数据增广）可以得到更鲁棒的特征表示，可以看成是数据层面上的集成学习，考虑到物体尺度可大可小的问题，scaling是使用最多的数据增广方法。<br><figure><img src="https://s2.ax1x.com/2019/02/14/kB56jP.png" alt="representative methods for training strategies and class imbalance handling"><figcaption class="image-caption">representative methods for training strategies and class imbalance handling</figcaption></figure></p>
-<h1 id="Datasets-and-Performance-Evaluation"><a href="#Datasets-and-Performance-Evaluation" class="headerlink" title="Datasets and Performance Evaluation"></a>Datasets and Performance Evaluation</h1><p><figure><img src="https://s2.ax1x.com/2019/02/14/kB5fAg.png" alt="popular databases for object recognition"><figcaption class="image-caption">popular databases for object recognition</figcaption></figure></p>
-<p><figure><img src="https://s2.ax1x.com/2019/02/14/kB5XEF.png" alt="example images"><figcaption class="image-caption">example images</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/14/kB5zC9.png" alt="Statistics of commonly used object detection datasets"><figcaption class="image-caption">Statistics of commonly used object detection datasets</figcaption></figure><br><figure><img src="https://s2.ax1x.com/2019/02/14/kBIpg1.png" alt="metrics"><figcaption class="image-caption">metrics</figcaption></figure><br>以上。</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>ZFNet出自论文<a href="https://arxiv.org/abs/1311.2901" target="_blank" rel="noopener">《 Visualizing and Understanding Convolutional Networks》</a>，作者Matthew D. Zeiler和Rob Fergus——显然ZFNet是以两位作者名字的首字母命名的，截止20190911，论文引用量为4207。ZFNet通常被认为是<strong>ILSVRC 2013</strong>的冠军方法，但实际上ZFNet排在第3名，前两名分别是Clarifai和NUS，不过Clarifai和ZFNet都出自Matthew D. Zeiler之手，见<a href="http://www.image-net.org/challenges/LSVRC/2013/results.php#cls" target="_blank" rel="noopener">ILSVRC2013 results</a>。</p>
+<p>ZFNet(2013)在AlexNet(2012)的基础上，性能再次提升，如下图所示，图片来自<a href="http://cs231n.stanford.edu/slides/2019/cs231n_2019_lecture09.pdf" target="_blank" rel="noopener">cs231n_2019_lecture09</a>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/11/naIoOs.png" alt="ImageNet Winners"><figcaption class="image-caption">ImageNet Winners</figcaption></figure></p>
+<p>论文最大的贡献有2个：</p>
+<ul>
+<li>提出了<strong>ZFNet</strong>，一种比AlexNet性能更好的网络架构</li>
+<li>提出了一种<strong>特征可视化</strong>的方法，并据此来分析和理解网络</li>
+</ul>
+<p>本文将围绕上述2点展开，先介绍网络架构，再介绍特征可视化的方法。</p>
+<h1 id="网络架构与动机"><a href="#网络架构与动机" class="headerlink" title="网络架构与动机"></a>网络架构与动机</h1><p>ZFNet的网络架构如下</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/11/ndSmPH.png" alt="ZFNet Architecture"><figcaption class="image-caption">ZFNet Architecture</figcaption></figure></p>
+<p>ZFNet的网络架构是在AlexNet基础上修改而来，与AlexNet相比，差异不大：</p>
+<ul>
+<li>第1个卷积层，kernel size从11减小为7，将stride从4减小为2（这将导致feature map增大1倍）</li>
+<li>为了让后续feature map的尺寸保持一致，第2个卷积层的stride从1变为2</li>
+</ul>
+<p>仅这2项修改，就获得了几个点的性能提升。所以，重要的是<strong>为什么这样修改？这样修改的动机是什么？</strong>文中这样叙述：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/11/ndpQfJ.png" alt="ZFNet Architecture Selection"><figcaption class="image-caption">ZFNet Architecture Selection</figcaption></figure></p>
+<p>通过对AlexNet的特征进行可视化，文章作者发现第2层出现了<strong>aliasing</strong>。在数字信号处理中，<strong>aliasing是指在采样频率过低时出现的不同信号混淆的现象</strong>，作者认为这是第1个卷积层stride过大引起的，为了解决这个问题，可以<strong>提高采样频率</strong>，所以将stride从4调整为2，与之相应的将kernel size也缩小（可以认为stride变小了，kernel没有必要看那么大范围了），这样修改前后，特征的变化情况如下图所示，第1层呈现了更多更具区分力的特征，第二2层的特征也更加清晰，没有aliasing现象。更多关于aliasing的内容，可以参见<a href="https://wiki2.org/En/Nyquist%E2%80%93Shannon_sampling_theorem" target="_blank" rel="noopener">Nyquist–Shannon sampling theorem</a>和<a href="https://wiki2.org/en/Aliasing" target="_blank" rel="noopener">Aliasing</a>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/11/ndAFEt.png" alt="stride 2 vs 4, kernel size 7x7 vs 11x11"><figcaption class="image-caption">stride 2 vs 4, kernel size 7x7 vs 11x11</figcaption></figure></p>
+<p>这就引出了另外一个问题，如何将特征可视化？正如论文标题Visualizing and Understanding Convolutional Networks所显示的那样，<strong>与提出一个性能更好的网络结构相比，这篇论文更大的贡献在于提出一种将卷积神经网络深层特征可视化的方法</strong>。</p>
+<h1 id="特征可视化"><a href="#特征可视化" class="headerlink" title="特征可视化"></a>特征可视化</h1><p>在博文《卷积神经万络之卷积计算、作用与思想》 <a href="https://www.cnblogs.com/shine-lee/p/9932226.html" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee/article/details/83858851" target="_blank" rel="noopener">CSDN</a> | <a href="https://blog.shinelee.me/2018/11-08-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E3%80%81%E4%BD%9C%E7%94%A8%E4%B8%8E%E6%80%9D%E6%83%B3.html">blog.shinelee.me</a> 中，我们讲到<strong>卷积神经网络通过逐层卷积将原始像素空间逐层映射到特征空间，深层feature map上每个位置的值都代表与某种模式的相似程度，但因为其位于特征空间，不利于人眼直接观察对应的模式，为了便于观察理解，需要将其映射回像素空间</strong>，“从群众中来，到群众中去”，论文<a href="https://arxiv.org/abs/1311.2901" target="_blank" rel="noopener">《 Visualizing and Understanding Convolutional Networks》</a>就重点介绍了如何“到群众中去”。</p>
+<p><strong>可视化操作，针对的是已经训练好的网络，或者训练过程中的网络快照，可视化操作不会改变网络的权重，只是用于分析和理解在给定输入图像时网络观察到了什么样的特征，以及训练过程中特征发生了什么变化。</strong></p>
+<p>下面这张图截自<a href="https://www.bilibili.com/video/av67354448/" target="_blank" rel="noopener">论文同款talk</a>：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/11/nd0MLQ.png" alt="Projecting Back"><figcaption class="image-caption">Projecting Back</figcaption></figure></p>
+<p>给定1张输入图像，先前向传播，得到每一层的feature map，如果想可视化第$i$层学到的特征，保留该层feature map的最大值，将其他位置和其他feature map置0，将其反向映射回原始输入所在的像素空间。对于一般的卷积神经网络，前向传播时不断经历 input image→conv → rectification → pooling →……，可视化时，则从某一层的feature map开始，依次反向经历 unpooling → rectification → deconv → …… → input space，如下图所示，上方对应更深层，下方对应更浅层，前向传播过程在右半侧从下至上，特征可视化过程在左半侧从上至下：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/11/ndsbNj.png" alt="deconvnet"><figcaption class="image-caption">deconvnet</figcaption></figure></p>
+<p>可视化时每一层的操作如下：</p>
+<ul>
+<li><strong>Unpooling</strong>：在前向传播时，<strong>记录相应max pooling层每个最大值来自的位置</strong>，在unpooling时，根据来自上层的map直接填在相应位置上，如上图所示，Max Locations “Switches”是一个与pooling层输入等大小的二值map，标记了每个局部极值的位置。</li>
+<li><strong>Rectification</strong>：因为使用的ReLU激活函数，前向传播时只将正值原封不动输出，负值置0，<strong>“反激活”过程与激活过程没什么分别</strong>，直接将来自上层的map通过ReLU。</li>
+<li><strong>Deconvolution</strong>：可能称为transposed convolution更合适，卷积操作output map的尺寸一般小于等于input map的尺寸，transposed convolution可以将尺寸恢复到与输入相同，相当于上采样过程，该操作的做法是，与convolution共享同样的卷积核，但需要将其<strong>左右上下翻转</strong>（即中心对称），然后作用在来自上层的feature map进行卷积，结果继续向下传递。关于Deconvolution的更细致介绍，可以参见博文《一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution》 <a href="(https://www.cnblogs.com/shine-lee/p/11559825.html">博客园</a>) | <a href="https://blog.csdn.net/firelx/article/details/101078452" target="_blank" rel="noopener">CSDN</a> | <a href="https://blog.shinelee.me/2019/09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html">blog.shinelee.me</a>。</li>
+</ul>
+<p>不断经历上述过程，将特征映射回输入所在的像素空间，就可以呈现出人眼可以理解的特征。给定不同的输入图像，看看每一层关注到最显著的特征是什么，如下图所示：</p>
+<p><figure><img src="https://s1.ax1x.com/2018/11/18/izLYCQ.png" alt="Visualization of features in a fully trained model"><figcaption class="image-caption">Visualization of features in a fully trained model</figcaption></figure></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>除了网络架构和可视化方法，论文中还有其他一些值得留意的点，限于篇幅就不展开了，这里仅做记录，详细内容可以读一读论文：</p>
+<ul>
+<li><strong>Occlusion Sensitivity</strong> 实验：使用一个灰色的小块，遮挡输入图像的不同区域，观察对正类输出概率的影响，以此来分析哪个区域对分类结果的影响最大，即对当前输入图像，网络最关注哪个区域。结果发现，feature map最强响应可视化后对应的区域影响最大。</li>
+<li><strong>Feature Generalization</strong>：在ImageNet上预训练，固定权重，然后迁移到其他库上（Caltech-101、Caltech-256），重新训练最后的softmax classifier，只需要很少的样本就能快速收敛，且性能不错。</li>
+<li><strong>Feature Analysis</strong>：对训练好的网络，基于每一层的特征单独训练SVM或Softmax分类器，来评估不同层特征的区分能力，发现越深层的特征区分能力越强。</li>
+</ul>
+<p>以上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://arxiv.org/abs/1311.2901" target="_blank" rel="noopener">paper: Visualizing and Understanding Convolutional Networks</a></li>
+<li><a href="https://www.bilibili.com/video/av67354448/" target="_blank" rel="noopener">talk: Visualizing and Understanding Deep Neural Networks by Matt Zeiler</a></li>
+<li><a href="http://users.wfu.edu/matthews/misc/DigPhotog/alias/" target="_blank" rel="noopener">Aliasing</a></li>
+<li><a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a></li>
+</ul>
 
       
     </div>
@@ -586,7 +581,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/02-14-论文学习-深度学习目标检测2014至201901综述-Deep-Learning-for-Generic-Object-Detection-A-Survey.html" title="论文学习-深度学习目标检测2014至201901综述-Deep Learning for Generic Object Detection A Survey">https://blog.shinelee.me/2019/02-14-论文学习-深度学习目标检测2014至201901综述-Deep-Learning-for-Generic-Object-Detection-A-Survey.html</a>
+    <a href="https://blog.shinelee.me/2019/09-10-ZFNet(2013)及可视化的开端.html" title="ZFNet(2013)及特征可视化的开端">https://blog.shinelee.me/2019/09-10-ZFNet(2013)及可视化的开端.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -596,14 +591,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/综述/" rel="tag"># 综述</a>
-          
-            <a href="/tags/paper/" rel="tag"># paper</a>
-          
-        </div>
       
 
       
@@ -629,8 +616,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01-26-单变量微分、导数与链式法则.html" rel="next" title="单变量微分、导数与链式法则">
-                <i class="fa fa-chevron-left"></i> 单变量微分、导数与链式法则
+              <a href="/2019/08-30-从AlexNet(2012)开始.html" rel="next" title="从AlexNet(2012)开始">
+                <i class="fa fa-chevron-left"></i> 从AlexNet(2012)开始
               </a>
             
           </div>
@@ -639,8 +626,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04-13-Protocol-Buffers（1）：序列化、编译与使用.html" rel="prev" title="Protocol Buffers（1）：序列化、编译与使用">
-                Protocol Buffers（1）：序列化、编译与使用 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" rel="prev" title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
+                一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -871,7 +858,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标检测任务与挑战"><span class="nav-number">2.</span> <span class="nav-text">目标检测任务与挑战</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标检测方法汇总"><span class="nav-number">3.</span> <span class="nav-text">目标检测方法汇总</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础子问题"><span class="nav-number">4.</span> <span class="nav-text">基础子问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于DCNN的特征表示"><span class="nav-number">4.1.</span> <span class="nav-text">基于DCNN的特征表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主干网络（network-backbone）"><span class="nav-number">4.1.1.</span> <span class="nav-text">主干网络（network backbone）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods-For-Improving-Object-Representation"><span class="nav-number">4.1.2.</span> <span class="nav-text">Methods For Improving Object Representation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context-Modeling"><span class="nav-number">4.2.</span> <span class="nav-text">Context Modeling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Detection-Proposal-Methods"><span class="nav-number">4.3.</span> <span class="nav-text">Detection Proposal Methods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-Special-Issues"><span class="nav-number">4.4.</span> <span class="nav-text">Other Special Issues</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Datasets-and-Performance-Evaluation"><span class="nav-number">5.</span> <span class="nav-text">Datasets and Performance Evaluation</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络架构与动机"><span class="nav-number">2.</span> <span class="nav-text">网络架构与动机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特征可视化"><span class="nav-number">3.</span> <span class="nav-text">特征可视化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -1233,30 +1220,6 @@
   
   
 
-  
-    
-      <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-    
   
 
 
