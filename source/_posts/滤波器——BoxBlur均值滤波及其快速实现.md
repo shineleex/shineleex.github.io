@@ -2,8 +2,10 @@
 title: 滤波器——BoxBlur均值滤波及其快速实现
 mathjax: true
 date: 2018-07-13 10:20:57
-tags: 滤波器
-categories: 计算机视觉
+tags: 
+- 滤波器
+categories: 
+- 传统计算机视觉
 ---
 
 
