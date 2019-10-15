@@ -4,7 +4,7 @@ mathjax: true
 date: 2018-12-06 17:32:12
 tags:
 categories:
-- 深度学习
+- 深度学习基础
 ---
 
 

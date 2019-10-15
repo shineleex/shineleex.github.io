@@ -5,7 +5,7 @@ date: 2019-04-26 18:03:05
 tags:
 - CNN
 categories:
-- 深度学习
+- 深度学习基础
 ---
 
 博客：[blog.shinelee.me](https://blog.shinelee.me/) | [博客园](https://www.cnblogs.com/shine-lee/) | [CSDN](https://blog.csdn.net/blogshinelee)

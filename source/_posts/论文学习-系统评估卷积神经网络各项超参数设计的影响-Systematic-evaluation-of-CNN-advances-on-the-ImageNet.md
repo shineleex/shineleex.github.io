@@ -9,7 +9,7 @@ tags:
 - 综述
 - paper
 categories:
-- 深度学习
+- 深度学习基础
 ---
 
 
