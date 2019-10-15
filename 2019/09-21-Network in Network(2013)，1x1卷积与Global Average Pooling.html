@@ -167,27 +167,35 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面最近因项目需要，得把OpenCV捡起来，登录OpenCV官网，竟然发现release了4.0.0-beata版本，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：  新版本的产生是为了顺应当下的需要，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决">
-<meta name="keywords" content="opencv">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面《Network in Network》简称NIN，出自颜水成老师团队，首次发表在arxiv的时间为2013年12月，至20190921引用量为2871（google scholar）。 citations NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如下：  提出了mlpconv layer：mlpco">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OpenCV各版本差异与演化，1.x To 4.0">
-<meta property="og:url" content="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html">
+<meta property="og:title" content="Network in Network(2013)，1x1卷积与Global Average Pooling">
+<meta property="og:url" content="https://blog.shinelee.me/2019/09-21-Network in Network(2013)，1x1卷积与Global Average Pooling.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面最近因项目需要，得把OpenCV捡起来，登录OpenCV官网，竟然发现release了4.0.0-beata版本，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：  新版本的产生是为了顺应当下的需要，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面《Network in Network》简称NIN，出自颜水成老师团队，首次发表在arxiv的时间为2013年12月，至20190921引用量为2871（google scholar）。 citations NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如下：  提出了mlpconv layer：mlpco">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izLDET.png">
-<meta property="og:updated_time" content="2019-05-15T09:36:31.347Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/25/uZazad.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/09/u4W4Q1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/09/u4hlHf.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/10/u7ktQU.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/11/ubCbI1.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/11/ubmT1A.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/11/ubuQ2j.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/11/ubBdYQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/11/ubgCBn.png">
+<meta property="og:updated_time" content="2019-10-15T07:08:05.563Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OpenCV各版本差异与演化，1.x To 4.0">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面最近因项目需要，得把OpenCV捡起来，登录OpenCV官网，竟然发现release了4.0.0-beata版本，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：  新版本的产生是为了顺应当下的需要，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/izLDET.png">
+<meta name="twitter:title" content="Network in Network(2013)，1x1卷积与Global Average Pooling">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面《Network in Network》简称NIN，出自颜水成老师团队，首次发表在arxiv的时间为2013年12月，至20190921引用量为2871（google scholar）。 citations NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如下：  提出了mlpconv layer：mlpco">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/25/uZazad.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/09-21-Network in Network(2013)，1x1卷积与Global Average Pooling.html">
 
 
 
@@ -197,7 +205,7 @@
   };
 </script>
 
-  <title>OpenCV各版本差异与演化，1.x To 4.0 | 进击的小学生</title>
+  <title>Network in Network(2013)，1x1卷积与Global Average Pooling | 进击的小学生</title>
   
 
 
@@ -366,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/09-21-Network in Network(2013)，1x1卷积与Global Average Pooling.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -383,7 +391,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">OpenCV各版本差异与演化，1.x To 4.0
+          <h1 class="post-title" itemprop="name headline">Network in Network(2013)，1x1卷积与Global Average Pooling
               
             
           </h1>
@@ -408,7 +416,7 @@
                 
               
 
-              <time title="创建时间：2018-10-31 17:44:51" itemprop="dateCreated datePublished" datetime="2018-10-31T17:44:51+08:00">2018-10-31</time>
+              <time title="创建时间：2019-09-21 16:55:08" itemprop="dateCreated datePublished" datetime="2019-09-21T16:55:08+08:00">2019-09-21</time>
             
 
             
@@ -425,7 +433,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-15 17:36:31" itemprop="dateModified" datetime="2019-05-15T17:36:31+08:00">2019-05-15</time>
+                <time title="修改时间：2019-10-15 15:08:05" itemprop="dateModified" datetime="2019-10-15T15:08:05+08:00">2019-10-15</time>
               
             
           </span>
@@ -442,7 +450,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
 
                 
                 
@@ -456,7 +464,7 @@
 
           
           
-             <span id="/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html" class="leancloud_visitors" data-flag-title="OpenCV各版本差异与演化，1.x To 4.0">
+             <span id="/2019/09-21-Network in Network(2013)，1x1卷积与Global Average Pooling.html" class="leancloud_visitors" data-flag-title="Network in Network(2013)，1x1卷积与Global Average Pooling">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -481,7 +489,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.4k</span>
+                <span title="本文字数">3.5k</span>
               
 
               
@@ -506,36 +514,42 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>最近因项目需要，得把OpenCV捡起来，登录<a href="https://opencv.org/" target="_blank" rel="noopener">OpenCV官网</a>，竟然发现release了<a href="https://opencv.org/releases.html" target="_blank" rel="noopener">4.0.0-beata版本</a>，所以借此机会，查阅资料，了解下OpenCV各版本的差异及其演化过程，形成了以下几点认识：</p>
-<ol>
-<li><strong>新版本的产生是为了顺应当下的需要</strong>，通过版本更新，接纳新技术和新方法，支持新兴编程语言接口，使用新的指令集，优化性能，解决固有问题等</li>
-<li><strong>新技术新方法会优先加入到新的大版本中</strong>，即使新的技术方法可以在旧版本中实现，但为了推动用户向新版本迁移，仍会优先加入到新版本中（这条看着与第1条差不多，实际意义是不同的）</li>
-<li><strong>新版本不可避免地会带有旧版本的痕迹</strong>，毕竟新版本是从旧版本基础上“生长”出来的，新老版本间能看到比较明显的过渡痕迹，同时出于降低迁移成本的考虑，需要（部分）向前兼容</li>
-</ol>
-<p>因此，如果新版本已经稳定，且需要从头开始新项目，先考虑拥抱新版本。若碰到问题，可到旧版本的资料中找找答案。但这并不绝对，具体情况还得具体分析。</p>
-<p>下面分析下各版本的差异以及演化路径。</p>
-<h1 id="OpenCV版本差异与演化，1-x-To-4-0"><a href="#OpenCV版本差异与演化，1-x-To-4-0" class="headerlink" title="OpenCV版本差异与演化，1.x To 4.0"></a>OpenCV版本差异与演化，1.x To 4.0</h1><p><figure><img src="https://s1.ax1x.com/2018/11/18/izLDET.png" alt="OpenCV"><figcaption class="image-caption">OpenCV</figcaption></figure></p>
-<h2 id="OpenCV-1-x"><a href="#OpenCV-1-x" class="headerlink" title="OpenCV 1.x"></a>OpenCV 1.x</h2><p>OpenCV 最初基于<strong>C语言</strong>开发，API也都是基于C的，面临内存管理、指针等C语言固有的麻烦。</p>
-<p><strong>2006年10月1.0</strong>发布时，部分使用了C++，同时支持Python，其中已经有了random trees、boosted trees、neural nets等机器学习方法，完善对图形界面的支持。</p>
-<p><strong>2008年10月1.1pre1</strong>发布，使用 VS2005构建，Python bindings支持<strong>Python 2.6</strong>，Linux下支持<strong>Octave bindings</strong>，在这一版本中加入了SURF、RANSAC、Fast approximate nearest neighbor search等，Face Detection (cvHaarDetectObjects)也变得更快。</p>
-<h2 id="OpenCV-2-x"><a href="#OpenCV-2-x" class="headerlink" title="OpenCV 2.x"></a>OpenCV 2.x</h2><p>当C++流行起来，OpenCV 2.x发布，其尽量使用C++而不是C，但是为了向前兼容，仍保留了对C API的支持。从2010年开始，2.x决定不再频繁支持和更新C API，而是focus在<strong>C++ API</strong>，C API仅作备份。</p>
-<p><strong>2009年9月2.0 beta</strong>发布，主要使用<strong>CMake构建</strong>，加入了很多新特征、描述子等，如FAST、LBP等。</p>
-<p><strong>2010年4月2.1</strong>版本，加入了Grabcut等，可以使用<strong>SSE/SSE2…</strong>指令集。</p>
-<p><strong>2010年10月2.2</strong>版本发布，OpenCV的模块变成了大家熟悉的模样，像<strong>opencv_imgproc</strong>、<strong>opencv_features2d</strong>等，同时有了<strong>opencv_contrib</strong>用于放置尚未成熟的代码，<strong>opencv_gpu</strong>放置使用CUDA加速的OpenCV函数。</p>
-<p><strong>2011年6月起的2.3.x</strong>版本、<strong>2012年4月起的2.4.x</strong>版本，一面增加新方法，一面修复bug，同时加强对GPU、Java  for Android、 OpenCL、并行化的支持等等，OpenCV愈加稳定完善，值得注意的是 SIFT和SURF从2.4开始被放到了<strong>nonfree</strong> 模块（因为专利）。</p>
-<p>考虑到过渡，OpenCV 2.4.x仍在维护，不过以后可能仅做bug修复和效率提升，不再增加新功能——鼓励向3.x迁移。</p>
-<h2 id="OpenCV-3-x"><a href="#OpenCV-3-x" class="headerlink" title="OpenCV 3.x"></a>OpenCV 3.x</h2><p>随着3.x的发布，1.x的C API将被淘汰不再被支持，以后C API可能通过C++源代码自动生成。3.x与2.x不完全兼容，与2.x相比，主要的不同之处在于OpenCV 3.x 的大部分方法都使用了<strong>OpenCL加速</strong>。</p>
-<p><strong>2014年8月3.0 alpha</strong>发布，除大部分方法都使用OpenCL加速外，3.x默认包含以及使用<a href="https://wiki2.org/en/Integrated_Performance_Primitives" target="_blank" rel="noopener">IPP</a>，同时，matlab bindings、Face Recognition、SIFT、SURF、 text detector、motion templates &amp; simple flow 等都移到了<strong>opencv_contrib</strong>下（opencv_contrib不仅存放了尚未稳定的代码，同时也存放了涉及专利保护的技术实现），大量涌现的新方法也包含在其中。</p>
-<p><strong>2017年8月3.3</strong>版本，<strong>2017年12月开始的3.4.x</strong>版本，opencv_dnn从opencv_contrib移至opencv，同时OpenCV开始支持C++ 11构建，之后明显感到对<strong>神经网络</strong>的支持在加强，opencv_dnn被持续改进和扩充。</p>
-<h2 id="OpenCV-4-0"><a href="#OpenCV-4-0" class="headerlink" title="OpenCV 4.0"></a>OpenCV 4.0</h2><p><strong>2018年10月4.0.0</strong>发布，OpenCV开始需要支持<strong>C++11</strong>的编译器才能编译，同时对几百个基础函数使用 <strong>“wide universal intrinsics”</strong>重写，这些内联函数可以根据目标平台和编译选项映射为SSE2、 SSE4、 AVX2、NEON 或者 VSX 内联函数，获得性能提升。此外，还加入了QR code的检测和识别，以及Kinect Fusion algorithm，DNN也在持续改善和扩充。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这些年来，计算机视觉领域的新技术新方法不断涌现，指令集、编程语言和并行化技术越发先进，OpenCV也在紧跟时代的脚步，不断吸收完善自身。本文仅对OpenCV的演化过程仅总结了部分要点，详细可参见 OpenCV 在 github上的ChangeLog。</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p><a href="https://arxiv.org/abs/1312.4400#" target="_blank" rel="noopener">《Network in Network》</a>简称NIN，出自<a href="https://www.ece.nus.edu.sg/stfpage/eleyans/" target="_blank" rel="noopener">颜水成老师</a>团队，首次发表在arxiv的时间为2013年12月，至20190921引用量为2871（google scholar）。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/09/25/uZazad.png" alt="citations"><figcaption class="image-caption">citations</figcaption></figure></p>
+<p>NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如下：</p>
+<ul>
+<li>提出了<strong>mlpconv layer</strong>：mlpconv layer中使用小的多层全连接神经网络（multilayer perceptron, MLP）“micro network”替换掉卷积操作，<strong>micro network的权重被该层输入feature map的所有local patch共享</strong>。卷积操作可以看成线性变换，而micro network可以拟合更复杂的变换，<strong>相当于增强了conv layer的能力</strong>。多个mlpconv layer堆叠构成整个网络，这也是Network in Network名称的由来。</li>
+<li>提出了<strong>global average pooling（GAP）</strong>：<strong>NIN不再使用全连接层</strong>，最后一层mlpconv layer输出的feature map数与类别数相同，GAP对每个feature map求全图均值，结果直接通过softmax得到每个类别的概率。<strong>GAP在减少参数量的同时，强行引导网络把最后的feature map学习成对应类别的confidence map</strong>。</li>
+<li>$1\times 1$ <strong>convolution</strong>：在mlpconv layer中首次使用了$1\times 1$卷积，$1\times 1$卷积可以在不改变尺寸和感受野的情况下，<strong>灵活调整feature map的channel数</strong>，广泛影响了后续网络的设计，如Inception系列等。</li>
+</ul>
+<p>本文将依次介绍上面的创新点，同时顺带介绍 全连接 与 卷积的关系、全连接与GAP的关系，最后给出NIN的网络结构。</p>
+<h1 id="mlpconv-layer实现"><a href="#mlpconv-layer实现" class="headerlink" title="mlpconv layer实现"></a>mlpconv layer实现</h1><p><figure><img src="https://s2.ax1x.com/2019/10/09/u4W4Q1.png" alt="mlpconv"><figcaption class="image-caption">mlpconv</figcaption></figure></p>
+<p>论文中讲，mlpconv layer使用一个小的全连接神经网络替换掉卷积，convolution layer与mlpconv layer对比示意图如下，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/09/u4hlHf.png" alt="Comparison of linear convolution layer and mlpconv layer"><figcaption class="image-caption">Comparison of linear convolution layer and mlpconv layer</figcaption></figure></p>
+<p>对于convolution layer，假设有N个kernel，每个kernel的尺寸为$k \times k$，卷积操作将每个$k \times k$大小的local recptive field / local patch<strong>线性映射</strong>为N个输出，汇总所有local patch的卷积结果得到N个feature map。</p>
+<p>对于mlpconv layer，使用micro network替换掉卷积，通过micro network将每个$k \times k$的local patch<strong>非线性映射</strong>为N个输出，汇总后仍得到N个feature map。文中说micro network为小的全连接神经网络，但在实现时，这个全连接神经网络却是通过几个卷积层实现的，为什么呢？<strong>因为全连接可以转化成卷积</strong>。</p>
+<p>下面为<a href="https://d2l.ai/chapter_convolutional-modern/nin.html" target="_blank" rel="noopener">《Dive into Deep Learning》</a>中提供一个NIN block（mlpconv layer）的mxnet实现，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/10/u7ktQU.png" alt="NIN block"><figcaption class="image-caption">NIN block</figcaption></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> gluon, nd</span><br><span class="line"><span class="keyword">from</span> mxnet.gluon <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nin_block</span><span class="params">(num_channels, kernel_size, strides, padding)</span>:</span></span><br><span class="line">    blk = nn.Sequential()</span><br><span class="line">    blk.add(nn.Conv2D(num_channels, kernel_size, strides, padding, ctivation=<span class="string">'relu'</span>),</span><br><span class="line">            nn.Conv2D(num_channels, kernel_size=<span class="number">1</span>, activation=<span class="string">'relu'</span>),</span><br><span class="line">            nn.Conv2D(num_channels, kernel_size=<span class="number">1</span>, activation=<span class="string">'relu'</span>))</span><br><span class="line">    <span class="keyword">return</span> blk</span><br></pre></td></tr></table></figure>
+<p>一个NIN block通过1个卷积层和2个$1 \times 1$卷积层堆叠而成，<strong>这3个卷积层的输出channel数相同</strong>。对于第1个卷积层，因为kernel_size与local patch大小相同，所以<strong>对每一个local patch而言，这个卷积等价于全连接</strong>，共num_channels个输出，每个输出与local patch全连接的权重就是对应的整个卷积核，卷积核的数量也为num_channels。对于后面2个$1\times 1$的卷积层，输入都是num_channels维的向量，即num_channels个$1\times 1$的feature map，kernel_size与整个feature map的尺寸相同，这个$1\times 1$的卷积也就相当于全连接了。通过$1\times 1$的卷积实现了不同卷积核结果间的信息交流。</p>
+<p><strong>实际上，通过调整$1\times 1$卷积核的数量，可以在不改变输入feature map尺寸和感受野的情况下，灵活地增加或减少feature map的channel数量，引入更多的非线性，表达能力更强，在实现feature map间信息交流的同时，获得信息的压缩或增广表示</strong>。</p>
+<h1 id="Global-Average-Pooling"><a href="#Global-Average-Pooling" class="headerlink" title="Global Average Pooling"></a>Global Average Pooling</h1><p>卷积神经网络的经典做法是 数个卷积层+几个全连接层，典型视角是将前面的卷积层视为特征提取器，将全连接层视为分类器。<strong>卷积层的计算量高但参数少，全连接层的计算量少但参数多，一种观点认为全连接层大量的参数会导致过拟合</strong>。作者提出了Global Average Pooling（GAP），取代全连接层，最后一层mlpconv layer输出的feature map数与类别数相同，对每一个feature map取平均，全连接层与GAP的对比如下图所示，图片来自<a href="https://towardsdatascience.com/review-nin-network-in-network-image-classification-69e271e499ee" target="_blank" rel="noopener">Review: NIN — Network In Network (Image Classification)</a>，GAP的结果直接输给softmax得到每个类别的概率。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/11/ubCbI1.png" alt="FC vs GAP"><figcaption class="image-caption">FC vs GAP</figcaption></figure></p>
+<p><strong>去掉全连接的GAP强制将feature map与对应的类别建立起对应关系，softmax相当于分数的归一化，GAP的输出可以看成是与每个类别相似程度的某种度量，GAP的输入feature map可以解释为每个类别的置信度图（confidence map）——每个位置为与该类别的某种相似度，GAP操作可以看成是求取每个类别全图置信度的期望。因为只有卷积层，很好地保留了空间信息，增加了可解释性，没有全连接层，减少了参数量，一定程度上降低了过拟合。</strong></p>
+<p>最后一层mlpconv layer输出的feature map如下，可以看到图片label对应的feature map响应最强，强响应基本分布在目标主体所在的位置。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/11/ubmT1A.png" alt="Visualization of the feature maps from the last mlpconv layer"><figcaption class="image-caption">Visualization of the feature maps from the last mlpconv layer</figcaption></figure></p>
+<p>此外，作者还做将GAP与全连接层、全连接+dropout对比，在CIFAR-10库上的测试结果如下，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/11/ubuQ2j.png" alt="GAP comparison"><figcaption class="image-caption">GAP comparison</figcaption></figure></p>
+<p><strong>GAP可以看成是一种正则，全连接层的参数是学习到的，GAP可以看成是权值固定的全连接层</strong>。上面的实验说明，这种正则对改善性能是有效的。</p>
+<h1 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h1><p>论文中给出的整体网络结构如下，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/11/ubBdYQ.png" alt="NIN architecture"><figcaption class="image-caption">NIN architecture</figcaption></figure></p>
+<p>论文中没有给出具体的参数配置，实际上，<strong>NIN仍是在AlexNet基础上修改而来</strong>，相当于在AlexNet的每个卷积层后插入2个$1\times 1$卷积层，移除了Local Response Norm，同时用GAP替换掉全连接层。在这里，mlpconv layer既可以看成是增强了原conv layer的表达能力，也可以看成增加了网络深度。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/11/ubgCBn.png" alt="NIN architecture in d2l"><figcaption class="image-caption">NIN architecture in d2l</figcaption></figure></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://github.com/opencv/opencv/wiki/ChangeLog_v10-v21" target="_blank" rel="noopener">OpenCV ChangeLog 1.0 – 2.1</a></li>
-<li><a href="https://github.com/opencv/opencv/wiki/ChangeLog" target="_blank" rel="noopener">OpenCV Change Logs</a></li>
-<li><a href="http://answers.opencv.org/question/92583/why-there-are-two-versions-of-opencv-3x-and-24xx/" target="_blank" rel="noopener">Why there are two versions of OpenCV 3.x and 2.4.xx ?</a></li>
-<li><a href="https://stackoverflow.com/questions/29579801/what-is-the-difference-between-opencv-2-4-11-and-3-0-0" target="_blank" rel="noopener">what is the difference between OpenCV 2.4.11 and 3.0.0</a></li>
-<li><a href="https://www.pyimagesearch.com/2015/07/16/where-did-sift-and-surf-go-in-opencv-3/" target="_blank" rel="noopener">Where did SIFT and SURF go in OpenCV 3?</a></li>
-<li><a href="https://github.com/opencv/opencv_contrib" target="_blank" rel="noopener">opencv_contrib</a></li>
+<li><a href="https://arxiv.org/abs/1312.4400#" target="_blank" rel="noopener">arxiv: Network in Network</a></li>
+<li><a href="https://d2l.ai/chapter_convolutional-modern/nin.html" target="_blank" rel="noopener">7.3. Network in Network (NiN)</a></li>
+<li><a href="https://towardsdatascience.com/review-nin-network-in-network-image-classification-69e271e499ee" target="_blank" rel="noopener">Review: NIN — Network In Network (Image Classification)</a></li>
+<li><a href="http://teleported.in/posts/network-in-network/" target="_blank" rel="noopener">Network In Network architecture: The beginning of Inception</a></li>
 </ul>
 
       
@@ -558,7 +572,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html" title="OpenCV各版本差异与演化，1.x To 4.0">https://blog.shinelee.me/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html</a>
+    <a href="https://blog.shinelee.me/2019/09-21-Network in Network(2013)，1x1卷积与Global Average Pooling.html" title="Network in Network(2013)，1x1卷积与Global Average Pooling">https://blog.shinelee.me/2019/09-21-Network in Network(2013)，1x1卷积与Global Average Pooling.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -568,12 +582,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/opencv/" rel="tag"># opencv</a>
-          
-        </div>
       
 
       
@@ -599,8 +607,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09-27-高斯滤波对图像方差有什么影响.html" rel="next" title="高斯滤波对图像方差有什么影响">
-                <i class="fa fa-chevron-left"></i> 高斯滤波对图像方差有什么影响
+              <a href="/2019/09-21-ZFNet(2013)及可视化的开端.html" rel="next" title="ZFNet(2013)及可视化的开端">
+                <i class="fa fa-chevron-left"></i> ZFNet(2013)及可视化的开端
               </a>
             
           </div>
@@ -609,8 +617,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/11-08-卷积神经网络之卷积计算、作用与思想.html" rel="prev" title="卷积神经网络之卷积计算、作用与思想">
-                卷积神经网络之卷积计算、作用与思想 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10-11-VGG(2014)，3x3卷积的胜利.html" rel="prev" title="VGG(2014)，3x3卷积的胜利">
+                VGG(2014)，3x3卷积的胜利 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -841,7 +849,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenCV版本差异与演化，1-x-To-4-0"><span class="nav-number">2.</span> <span class="nav-text">OpenCV版本差异与演化，1.x To 4.0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-1-x"><span class="nav-number">2.1.</span> <span class="nav-text">OpenCV 1.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-2-x"><span class="nav-number">2.2.</span> <span class="nav-text">OpenCV 2.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-3-x"><span class="nav-number">2.3.</span> <span class="nav-text">OpenCV 3.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-4-0"><span class="nav-number">2.4.</span> <span class="nav-text">OpenCV 4.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mlpconv-layer实现"><span class="nav-number">2.</span> <span class="nav-text">mlpconv layer实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Global-Average-Pooling"><span class="nav-number">3.</span> <span class="nav-text">Global Average Pooling</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络结构"><span class="nav-number">4.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -1203,6 +1211,30 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
