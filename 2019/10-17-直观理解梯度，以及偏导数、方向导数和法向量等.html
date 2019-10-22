@@ -167,37 +167,32 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
-<meta name="keywords" content="CNN">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，  梯度与偏导数的关系？ 梯度与方向导数的">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从AlexNet(2012)开始">
-<meta property="og:url" content="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
+<meta property="og:title" content="直观理解梯度，以及偏导数、方向导数和法向量等">
+<meta property="og:url" content="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，  梯度与偏导数的关系？ 梯度与方向导数的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPLg74.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPX9R1.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPv5Ie.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/05/nmUy2d.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNy2XF.gif">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNr4u4.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nN6U9x.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nN2Wgx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNRRoQ.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNR7LT.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNhFGd.png">
-<meta property="og:updated_time" content="2019-09-10T09:02:56.398Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/18/KZDeZd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/18/KZ0Hje.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/18/KZ0jAI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/21/Kljnc4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/21/KlsTy9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/21/Kl27an.png">
+<meta property="og:updated_time" content="2019-10-22T06:11:30.886Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从AlexNet(2012)开始">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/02/nPLg74.png">
+<meta name="twitter:title" content="直观理解梯度，以及偏导数、方向导数和法向量等">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，  梯度与偏导数的关系？ 梯度与方向导数的">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/10/18/KZDeZd.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html">
 
 
 
@@ -207,7 +202,7 @@
   };
 </script>
 
-  <title>从AlexNet(2012)开始 | 进击的小学生</title>
+  <title>直观理解梯度，以及偏导数、方向导数和法向量等 | 进击的小学生</title>
   
 
 
@@ -376,7 +371,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -393,7 +388,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从AlexNet(2012)开始
+          <h1 class="post-title" itemprop="name headline">直观理解梯度，以及偏导数、方向导数和法向量等
               
             
           </h1>
@@ -418,7 +413,7 @@
                 
               
 
-              <time title="创建时间：2019-08-30 13:35:53" itemprop="dateCreated datePublished" datetime="2019-08-30T13:35:53+08:00">2019-08-30</time>
+              <time title="创建时间：2019-10-17 17:59:53" itemprop="dateCreated datePublished" datetime="2019-10-17T17:59:53+08:00">2019-10-17</time>
             
 
             
@@ -435,7 +430,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-10 17:02:56" itemprop="dateModified" datetime="2019-09-10T17:02:56+08:00">2019-09-10</time>
+                <time title="修改时间：2019-10-22 14:11:30" itemprop="dateModified" datetime="2019-10-22T14:11:30+08:00">2019-10-22</time>
               
             
           </span>
@@ -452,7 +447,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/数学/" itemprop="url" rel="index"><span itemprop="name">数学</span></a></span>
 
                 
                 
@@ -466,7 +461,7 @@
 
           
           
-             <span id="/2019/08-30-从AlexNet(2012)开始.html" class="leancloud_visitors" data-flag-title="从AlexNet(2012)开始">
+             <span id="/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" class="leancloud_visitors" data-flag-title="直观理解梯度，以及偏导数、方向导数和法向量等">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -491,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.2k</span>
+                <span title="本文字数">4.5k</span>
               
 
               
@@ -516,68 +511,68 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本文重点在于回顾深度神经网络在CV领域的<strong>First Blood</strong>——<strong>AlexNet</strong>，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血洗CV各领域的开端，如下图所示（SuperVision即AlexNet）。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPLg74.png" alt="ImageNet Classification error throughout years and groups"><figcaption class="image-caption">ImageNet Classification error throughout years and groups</figcaption></figure></p>
-<p>截止本文时间2019年9月2日，AlexNet论文的引用量达45305，论文作者Alex Krizhevsky、Ilya Sutskever和“深度学习之父”Geoff Hinton。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPX9R1.png" alt="citations"><figcaption class="image-caption">citations</figcaption></figure></p>
-<h1 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h1><p>AlexNet的原始网络结构如下，可以参见caffe的网络定义<a href="https://github.com/BVLC/caffe/blob/master/models/bvlc_alexnet/deploy.prototxt" target="_blank" rel="noopener">bvlc_alexnet</a>，pytorch等也给出了变种实现，见<a href="https://github.com/pytorch/vision/blob/master/torchvision/models/alexnet.py" target="_blank" rel="noopener">torchvision/models/alexnet.py</a>。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPv5Ie.png" alt="AlexNet architecture"><figcaption class="image-caption">AlexNet architecture</figcaption></figure></p>
-<p>整个网络大体由5个卷积层和3个全连接层组成，受限于当时的计算资源，网络通过2块GTX580 3GB的GPU训练，上图可见，整个网络上下一分为二，各用1块GPU训练（在caffe中通过group层实现），每个GPU放一半的神经元，网络中第3个卷积层和3个全连接层跨GPU连接。<strong>与使用单个GPU和50%神经元的网络相比，这个双GPU方案的Top1和Top5错误率分别降低了1.7%和1.2%。</strong></p>
-<p>每层的配置如下，第一个卷积层的kernel size为11，stride为4：</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/05/nmUy2d.png" alt="AlexNet architecture"><figcaption class="image-caption">AlexNet architecture</figcaption></figure></p>
-<h1 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h1><p>为了获得最佳表现，论文中综合应用了很多技术，有些后来已成为通用的标准做法。</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，</p>
 <ul>
-<li><p><strong>使用ReLU作为激活函数</strong>，作为non-saturating非线性激活函数有效避免了梯度消失问题，同时与tanh（saturating非线性激活函数）相比，训练速度提升了数倍（CIFAR-10上训练达到25%错误率速度快了6倍）。</p>
-</li>
-<li><p><strong>多GPU训练</strong>，实际上相当于<strong>增加了网络的宽度</strong>，如上节所述，Top1和Top5错误率比单GPU网络分别降低了1.7%和1.2%。</p>
-</li>
-<li><p>提出了<strong>LRN（Local Response Normalization）层</strong>，使用相邻$n$个特征图上同位置的值对当前值进行归一化，公式如下。<strong>LRN被认为没有太大效果，已不被后来者采用。</strong><br>$$<br>b_{x, y}^{i}=a_{x, y}^{i} /\left(k+\alpha \sum_{j=\max (0, i-n / 2)}^{\min (N-1, i+n / 2)}\left(a_{x, y}^{j}\right)^{2}\right)^{\beta}<br>$$</p>
-</li>
-<li><p>使用<strong>Overlapping Max-Pooling</strong>，如上节图中，Pooling层的kernel size $z=3$，stride $s=2$，$z &gt; s$，与$s=z=2$相比，Top1和Top5错误率分别下降了0.4%和0.3%。</p>
-</li>
-<li><p><strong>通过Data Augmentation数据增广降低过拟合，提高预测准确度</strong></p>
+<li>梯度与偏导数的关系？</li>
+<li>梯度与方向导数的关系？</li>
+<li>为什么说梯度方向是上升最快的方向，负梯度方向为下降最快的方向？</li>
+<li>梯度的模有什么物理意义？</li>
+<li>等高线图中绘制的梯度为什么垂直于等高线？</li>
+<li>全微分与隐函数的梯度有什么关系？</li>
+<li>梯度为什么有时又成了法向量？</li>
+</ul>
+<p>闲话少说，书归正传。<strong>在全篇“作用域”内，假定函数可导。</strong></p>
+<h1 id="偏导数"><a href="#偏导数" class="headerlink" title="偏导数"></a>偏导数</h1><p>在博文《单变量微分、导数与链式法则 <a href="https://www.cnblogs.com/shine-lee/p/10324601.html" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/firelx/article/details/86544782" target="_blank" rel="noopener">CSDN</a> | <a href="https://blog.shinelee.me/2019/01-26-单变量微分、导数与链式法则.html">blog.shinelee.me</a>》中，我们回顾了常见初等函数的导数，概括地说，</p>
+<p><strong>导数是一元函数的变化率（斜率）</strong>。导数也是函数，是函数的变化率与位置的关系。</p>
+<p>如果是多元函数呢？则为<strong>偏导数</strong>。</p>
+<p><strong>偏导数是多元函数“退化”成一元函数时的导数</strong>，这里“退化”的意思是<strong>固定其他变量的值，只保留一个变量</strong>，依次保留每个变量，则$N$元函数有$N$个偏导数。</p>
+<p>以二元函数为例，令$z=f(x,y)$，绘制在3维坐标系如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/18/KZDeZd.png" alt="z = f(x, y)"><figcaption class="image-caption">z = f(x, y)</figcaption></figure></p>
+<p>在分别固定$y$和$x$的取值后得到下图中的黑色曲线——“退化”为一元函数，二维坐标系中的曲线——则<strong>偏导数</strong>$\frac{\partial{z}}{\partial{x}}$和$\frac{\partial z}{\partial y}$分别为<strong>曲线的导数（切线斜率）</strong>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/18/KZ0Hje.png" alt="partial derivative x"><figcaption class="image-caption">partial derivative x</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/18/KZ0jAI.png" alt="partial derivative y"><figcaption class="image-caption">partial derivative y</figcaption></figure></p>
+<p>由上可知，一个变量对应一个坐标轴，<strong>偏导数为函数在每个位置处沿着自变量坐标轴方向上的导数（切线斜率）</strong>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/21/Kljnc4.png" alt="Partial derivative"><figcaption class="image-caption">Partial derivative</figcaption></figure></p>
+<h1 id="方向导数"><a href="#方向导数" class="headerlink" title="方向导数"></a>方向导数</h1><p>如果说方向不是沿着坐标轴方向，而是任意方向呢？则为<strong>方向导数</strong>。如下图所示，点$P$位置处红色箭头方向的方向导数为黑色切线的斜率，来自链接<a href="https://www.geogebra.org/m/Bx8nFMNc" target="_blank" rel="noopener">Directional Derivative</a></p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/21/KlsTy9.png" alt="Directional Derivative" style="zoom:80%;"><figcaption class="image-caption">Directional Derivative</figcaption></figure></p>
+<p>方向导数为函数在某一个方向上的导数，具体地，定义$xy$平面上一点$(a, b)$以及单位向量$\vec u = (\cos \theta ,\sin \theta )$，在曲面$z=f(x, y)$上，从点$(a,b, f(a,b))$出发，沿$\vec u = (\cos \theta ,\sin \theta )$方向走$t$单位长度后，函数值$z$为$F(t)=f(a+t \cos \theta, b + t \sin \theta)$，则点$(a,b)$处$\vec u = (\cos \theta ,\sin \theta )$方向的方向导数为：<br>$$<br>\begin{aligned} &amp;\left.\frac{d}{d t} f(a+t \cos \theta, b+t \sin \theta)\right|_{t=0} \\<br>=&amp; \lim _{t \rightarrow 0} \frac{f(a+t \cos \theta, b+t \sin \theta) - f(a, b)}{t} \\<br>=&amp; \lim _{t \rightarrow 0} \frac{f(a+t \cos \theta, b+t \sin \theta) - f(a, b+t \sin \theta)}{t} + \lim _{t \rightarrow 0} \frac{f(a, b+t \sin \theta) - f(a, b)}{t} \\<br>=&amp; \frac{\partial}{\partial x} f(a, b) \frac{d x}{d t}+\frac{\partial}{\partial y} f(a, b) \frac{d y}{d t} \\<br>=&amp; f_x (a, b) \cos \theta+ f_y (a, b) \sin \theta \\<br>=&amp;\left(f_x (a, b), f_y (a, b)\right) \cdot(\cos \theta, \sin \theta) \end{aligned}<br>$$<br>上面推导中使用了链式法则。其中，$f_x (a, b)$和$f_y (a, b)$分别为函数在$(a, b)$位置的偏导数。由上面的推导可知：</p>
+<p>该位置处，任意方向的<strong>方向导数为偏导数的线性组合，系数为该方向的单位向量</strong>。当该方向与坐标轴正方向一致时，方向导数即偏导数，换句话说，<strong>偏导数为坐标轴方向上的方向导数，其他方向的方向导数为偏导数的合成</strong>。</p>
+<p>写成向量形式，<strong>偏导数构成的向量</strong>为$\nabla f(a, b) =  (f_x (a, b), f_y (a, b))$，称之为<strong>梯度</strong>。</p>
+<h1 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h1><p><strong>梯度</strong>，写作$\nabla f$，二元时为$(\frac{\partial{z}}{\partial{x}}, \frac{\partial{z}}{\partial{y}})$，多元时为$(\frac{\partial{z}}{\partial{x}}, \frac{\partial{z}}{\partial{y}},\dots)$。</p>
+<p>我们继续上面方向导数的推导，$(a,b)$处$\theta$方向上的方向导数为<br>$$<br>\begin{aligned}<br>&amp;\left(f_x (a, b), f_y (a, b)\right) \cdot(\cos \theta, \sin \theta) \\<br>=&amp; |((f_x (a, b), f_y (a, b))| \cdot |1| \cdot \cos \phi \\<br>=&amp; |\nabla f(a,b)| \cdot \cos \phi<br>\end{aligned}<br>$$<br>其中，$\phi$为$\nabla f(a,b)$与$\vec u$的夹角，显然，当$\phi = 0$即$\vec u$与梯度$\nabla f(a,b)$<strong>同向时</strong>，<strong>方向导数取得最大值</strong>，<strong>最大值为梯度的模</strong>$|\nabla f(a,b)|$，当$\phi = \pi$即$\vec u$与梯度$\nabla f(a,b)$<strong>反向时</strong>，<strong>方向导数取得最小值，最小值为梯度模的相反数</strong>。此外，根据上面方向导数的公式可知，在夹角$\phi &lt; \frac{\pi}{2}$时方向导数为正，表示$\vec u$方向函数值上升，$\phi &gt; \frac{\pi}{2}$时方向导数为负，表示该方向函数值下降。</p>
+<p>至此，方才有了<strong>梯度的几何意义</strong>：</p>
+<ol>
+<li>当前位置的<strong>梯度方向</strong>，为函数在该位置处<strong>方向导数最大的方向</strong>，也是函数值<strong>上升最快的方向</strong>，反方向为下降最快的方向；</li>
+<li>当前位置的<strong>梯度长度（模）</strong>，为最大方向导数的值。</li>
+</ol>
+<h1 id="等高线图中的梯度"><a href="#等高线图中的梯度" class="headerlink" title="等高线图中的梯度"></a>等高线图中的梯度</h1><p>在讲解各种优化算法时，我们经常看到目标函数的等高线图示意图，如下图所示，来自链接<a href="https://mathinsight.org/applet/gradient_directional_derivative_mountain" target="_blank" rel="noopener">Applet: Gradient and directional derivative on a mountain</a>，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/21/Kl27an.png" alt="Kl27an.png"><figcaption class="image-caption">Kl27an.png</figcaption></figure></p>
+<p>图中，红点为当前位置，红色箭头为梯度，绿色箭头为其他方向，其与梯度的夹角为$\theta$。</p>
+<p>将左图中$z=f(x, y)$曲面上的等高线投影到$xy$平面，得到右图的等高线图。</p>
+<p><strong>梯度与等高线垂直</strong>。为什么呢？</p>
+<p>等高线，顾名思义，即这条线上的点高度（函数值）相同，令某一条等高线为$z=f(x,y)=C$，$C$为常数，两边同时全微分，如下所示<br>$$<br>\begin{aligned} dz = &amp;\frac{\partial f}{\partial x} dx + \frac{\partial f}{\partial y} dy \\<br>=&amp; (\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}) \cdot (dx, dy) \\<br>=&amp; dC = 0<br>\end{aligned}<br>$$<br>这里，<strong>两边同时全微分的几何含义是，在当前等高线上挪动任意一个极小单元，等号两侧的变化量相同</strong>。$f(x, y)$的变化量有两个来源，一个由$x$的变化带来，另一个由$y$的变化带来，在一阶情况下，由$x$带来的变化量为$\frac{\partial f}{\partial x} dx$，由$y$带来的变化量为$\frac{\partial f}{\partial y} dy$，两者叠加为$z$的总变化量，等号右侧为常数，因为我们指定在当前等高线上挪动一个极小单元，其变化量为0，左侧等于右侧。进一步拆分成向量内积形式，$(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})$为梯度，$(dx, dy)$为该点指向任意方向的极小向量，因为两者内积为0，所以两者垂直。自然不难得出<strong>梯度与等高线垂直</strong>的结论。</p>
+<p>更进一步地，梯度方向指向函数上升最快的方向，在等高线图中，<strong>梯度指向高度更高的等高线</strong>。</p>
+<h1 id="隐函数的梯度"><a href="#隐函数的梯度" class="headerlink" title="隐函数的梯度"></a>隐函数的梯度</h1><p>同理，对于隐函数$f(x,y)=0$，也可以看成是一种等高线。二元时，两边同时微分，梯度垂直于曲线；多元时，两边同时微分，梯度垂直于高维曲面。</p>
+<p>即，<strong>隐函数的梯度为其高维曲面的法向量</strong>。</p>
+<p>有了法向量，<strong>切线或切平面</strong>也就不难计算得到了。令曲线$f(x , y)$上一点为$(a,b)$，通过全微分得该点的梯度为$(f_x, f_y)$，则该点处的切线为$f_x (x-a) + f_y (y-b) = 0$，相当于将上面的微分向量$(dx, dy)$替换为$(x-a, y-b)$，其几何意义为法向量垂直切平面上的任意向量。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>至此，文章开篇几个问题的答案就不难得出了，</p>
 <ul>
-<li>训练阶段，<strong>通过生成大量训练数据来降低过拟合</strong>，生成数据的方式有2种，<ul>
-<li>第1种方式从$256\times 256$图像中随机裁剪+左右翻转出$224\times 224$的图像，将训练数据扩大了2048倍；</li>
-<li>第2种方式对每张训练图像RGB通道做数值扰动，扰动量通过对整个训练集的RGB像素进行PCA获得，扰动量为$[P_1, P_2, P_3] [\alpha_{1} \lambda_{1}, \alpha_{2} \lambda_{2}, \alpha_{3} \lambda_{3}]^{T}$，其中，$P_i$和 $\lambda_{i}$为RGB像素协方差矩阵的特征向量和特征值，$\alpha_{i}$为0均值0.1标准差的高斯随机值。</li>
+<li>偏导数构成的向量为梯度；</li>
+<li>方向导数为梯度在该方向上的合成，系数为该方向的单位向量；</li>
+<li>梯度方向为方向导数最大的方向，梯度的模为最大的方向导数；</li>
+<li>微分的结果为梯度与微分向量的内积</li>
+<li>等高线全微分的结果为0，所以其梯度垂直于等高线，同时指向高度更高的等高线</li>
+<li>隐函数可以看成是一种等高线，其梯度为高维曲面（曲线）的法向量</li>
 </ul>
-</li>
-<li>预测阶段，从待预测$256\times 256$图中上下左右中间crop + 左右翻转得到10张$224\times 224$的图像，逐一输入网，络对输出结果取平均，来提升预测阶段的准确率，相当于<strong>数据层面的集成学习</strong>。</li>
-</ul>
-</li>
-<li><p>对前2个全连接层使用<strong>Dropout</strong>技术，训练时每次随机让50%的神经元输出为0，以此来降低过拟合，预测时将权重乘以0.5。这样可以强迫网络学习到更鲁棒的特征，也可以从集成学习的视角理解，预测阶段相当于对随机到的所有模型求了个期望。关于Dropout的更多信息可参见论文<a href="https://arxiv.org/abs/1207.0580" target="_blank" rel="noopener">《Improving neural networks by preventing co-adaptation of feature detectors》</a></p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNy2XF.gif" alt="dropout"><figcaption class="image-caption">dropout</figcaption></figure></p>
-</li>
-<li><p>batchsize 128，SGD Momentum 0.9，weight decay 0.0005，initial learning rate 0.01 停滞时divide by 10，</p>
-</li>
-</ul>
-<p>$$<br>\begin{aligned} v_{i+1} &amp; :=0.9 \cdot v_{i}-0.0005 \cdot \epsilon \cdot w_{i}-\epsilon \cdot\left\langle\left.\frac{\partial L}{\partial w}\right|_{w_{i}}\right\rangle_{D_{i}} \\ w_{i+1} &amp; :=w_{i}+v_{i+1} \end{aligned}<br>$$</p>
-<h1 id="其他有意思的点"><a href="#其他有意思的点" class="headerlink" title="其他有意思的点"></a>其他有意思的点</h1><p>回顾AlexNet论文，发现论文中提及了很多有意思的点，有些仅仅是一笔带过，但是可能启发了后面大量的工作，翻回来看才发现“祖师爷”早有预兆。</p>
-<ul>
-<li><p><strong>finetune</strong>，在一个库上训练，在另一个库上finetune</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNr4u4.png" alt="AlexNet finetune"><figcaption class="image-caption">AlexNet finetune</figcaption></figure></p>
-</li>
-<li><p><strong>权重可视化</strong>，仅可视化第1个卷积层的96个卷积核权重，发现网络学到了频率方向性的特征，更有意思的是，GPU1上的48个卷积核是颜色无关的，GPU2上的是颜色相关的。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nN6U9x.png" alt="96 Convolutional Kernels"><figcaption class="image-caption">96 Convolutional Kernels</figcaption></figure></p>
-</li>
-<li><p>匹配与检索，使用最后一个全连接层的输出作为特征，通过欧氏距离可计算图像间的特征相似度，可做匹配，提出可以通过auto-encoder进一步压缩获取到short binary code，可用于检索，如下图所示，检索与最左边一列特征最近的图像</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nN2Wgx.png" alt="retrieve images"><figcaption class="image-caption">retrieve images</figcaption></figure></p>
-</li>
-<li><p><strong>深度十分重要</strong>，增加深度可以进一步提升性能，当前性能只是受限于计算资源和训练时间（微笑）</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNRRoQ.png" alt="depth is important"><figcaption class="image-caption">depth is important</figcaption></figure></p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNR7LT.png" alt="depth is important"><figcaption class="image-caption">depth is important</figcaption></figure></p>
-</li>
-<li><p>在ILSVRC 2012上做的报告展示了使用AlexNet做<strong>detection</strong>的结果，如下</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNhFGd.png" alt="AlexNet Localization"><figcaption class="image-caption">AlexNet Localization</figcaption></figure></p>
-</li>
-</ul>
-<p>不愧是开创性工作的paper，给这含金量跪了。</p>
+<p>以上。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">paper: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
-<li><a href="http://www.image-net.org/challenges/LSVRC/2012/supervision.pdf" target="_blank" rel="noopener">slides LSVRC 2012: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
-<li><a href="http://vision.stanford.edu/teaching/cs231b_spring1415/slides/alexnet_tugce_kyunghee.pdf" target="_blank" rel="noopener">slides 2015: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
-<li><a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture9.pdf" target="_blank" rel="noopener">cs231n_2017_lecture9</a></li>
-<li><a href="http://www.image-net.org/challenges/LSVRC/2012/" target="_blank" rel="noopener">Large Scale Visual Recognition Challenge 2012 (ILSVRC2012)</a></li>
+<li><a href="https://www.bilibili.com/video/av71525135" target="_blank" rel="noopener">Gradients and Partial Derivatives</a></li>
+<li><a href="https://www.geogebra.org/m/Bx8nFMNc" target="_blank" rel="noopener">Directional Derivative</a></li>
+<li><a href="https://mathinsight.org/applet/gradient_directional_derivative_mountain" target="_blank" rel="noopener">Applet: Gradient and directional derivative on a mountain</a></li>
+<li><a href="https://wiki2.org/en/Gradient_descent" target="_blank" rel="noopener"> Gradient descent </a></li>
+<li><a href="https://wiki2.org/en/Gradient" target="_blank" rel="noopener"> Gradient </a></li>
+<li><a href="https://wiki2.org/En/Partial_derivative" target="_blank" rel="noopener"> Partial derivative </a></li>
+<li><a href="https://www.slideshare.net/NidhuSharma1/partial-derivative1" target="_blank" rel="noopener">ppt Partial derivative</a></li>
 </ul>
 
       
@@ -600,7 +595,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html" title="从AlexNet(2012)开始">https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html</a>
+    <a href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" title="直观理解梯度，以及偏导数、方向导数和法向量等">https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -610,12 +605,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CNN/" rel="tag"># CNN</a>
-          
-        </div>
       
 
       
@@ -641,8 +630,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08-28-ImageNet主要网络benchmark对比.html" rel="next" title="ImageNet主要网络benchmark对比">
-                <i class="fa fa-chevron-left"></i> ImageNet主要网络benchmark对比
+              <a href="/2019/10-16-如何编译和调试Python内核源码.html" rel="next" title="如何编译和调试Python内核源码？">
+                <i class="fa fa-chevron-left"></i> 如何编译和调试Python内核源码？
               </a>
             
           </div>
@@ -650,10 +639,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" rel="prev" title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
-                一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -885,7 +870,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络结构"><span class="nav-number">2.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创新点"><span class="nav-number">3.</span> <span class="nav-text">创新点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他有意思的点"><span class="nav-number">4.</span> <span class="nav-text">其他有意思的点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#偏导数"><span class="nav-number">2.</span> <span class="nav-text">偏导数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方向导数"><span class="nav-number">3.</span> <span class="nav-text">方向导数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#梯度"><span class="nav-number">4.</span> <span class="nav-text">梯度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#等高线图中的梯度"><span class="nav-number">5.</span> <span class="nav-text">等高线图中的梯度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隐函数的梯度"><span class="nav-number">6.</span> <span class="nav-text">隐函数的梯度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

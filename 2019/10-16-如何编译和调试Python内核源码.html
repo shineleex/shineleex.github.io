@@ -167,37 +167,33 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
-<meta name="keywords" content="CNN">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。 获取源代码Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见Other Interpreter Implementations）。CPython的源代码可以从官网pyhton.org或者 github.co">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从AlexNet(2012)开始">
-<meta property="og:url" content="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
+<meta property="og:title" content="如何编译和调试Python内核源码？">
+<meta property="og:url" content="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。 获取源代码Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见Other Interpreter Implementations）。CPython的源代码可以从官网pyhton.org或者 github.co">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPLg74.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPX9R1.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/02/nPv5Ie.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/05/nmUy2d.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNy2XF.gif">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNr4u4.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nN6U9x.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nN2Wgx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNRRoQ.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNR7LT.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/10/nNhFGd.png">
-<meta property="og:updated_time" content="2019-09-10T09:02:56.398Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KiV44H.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KiG3Zj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KiDRqx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KirNfe.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KisW4O.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/Ki48iR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/Ki4qyT.png">
+<meta property="og:updated_time" content="2019-10-22T06:05:01.356Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从AlexNet(2012)开始">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面本文重点在于回顾深度神经网络在CV领域的First Blood——AlexNet，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/02/nPLg74.png">
+<meta name="twitter:title" content="如何编译和调试Python内核源码？">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。 获取源代码Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见Other Interpreter Implementations）。CPython的源代码可以从官网pyhton.org或者 github.co">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/10/16/KiV44H.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html">
 
 
 
@@ -207,7 +203,7 @@
   };
 </script>
 
-  <title>从AlexNet(2012)开始 | 进击的小学生</title>
+  <title>如何编译和调试Python内核源码？ | 进击的小学生</title>
   
 
 
@@ -376,7 +372,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -393,7 +389,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从AlexNet(2012)开始
+          <h1 class="post-title" itemprop="name headline">如何编译和调试Python内核源码？
               
             
           </h1>
@@ -418,7 +414,7 @@
                 
               
 
-              <time title="创建时间：2019-08-30 13:35:53" itemprop="dateCreated datePublished" datetime="2019-08-30T13:35:53+08:00">2019-08-30</time>
+              <time title="创建时间：2019-10-16 09:57:26" itemprop="dateCreated datePublished" datetime="2019-10-16T09:57:26+08:00">2019-10-16</time>
             
 
             
@@ -435,7 +431,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-10 17:02:56" itemprop="dateModified" datetime="2019-09-10T17:02:56+08:00">2019-09-10</time>
+                <time title="修改时间：2019-10-22 14:05:01" itemprop="dateModified" datetime="2019-10-22T14:05:01+08:00">2019-10-22</time>
               
             
           </span>
@@ -452,7 +448,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Python百问/" itemprop="url" rel="index"><span itemprop="name">Python百问</span></a></span>
 
                 
                 
@@ -466,7 +462,7 @@
 
           
           
-             <span id="/2019/08-30-从AlexNet(2012)开始.html" class="leancloud_visitors" data-flag-title="从AlexNet(2012)开始">
+             <span id="/2019/10-16-如何编译和调试Python内核源码.html" class="leancloud_visitors" data-flag-title="如何编译和调试Python内核源码？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -491,7 +487,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.2k</span>
+                <span title="本文字数">2.9k</span>
               
 
               
@@ -516,68 +512,52 @@
 
       
         <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
-<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本文重点在于回顾深度神经网络在CV领域的<strong>First Blood</strong>——<strong>AlexNet</strong>，AlexNet是首个在大规模图像识别问题取得突破性进展的深度神经网络，相比基于SIFT+FVs、稀疏编码的传统方法，性能提升了10多个百分点（error rate 26.2% → 15.3%，ILSVRC-2012），并由此开启了深度神经网络血洗CV各领域的开端，如下图所示（SuperVision即AlexNet）。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPLg74.png" alt="ImageNet Classification error throughout years and groups"><figcaption class="image-caption">ImageNet Classification error throughout years and groups</figcaption></figure></p>
-<p>截止本文时间2019年9月2日，AlexNet论文的引用量达45305，论文作者Alex Krizhevsky、Ilya Sutskever和“深度学习之父”Geoff Hinton。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPX9R1.png" alt="citations"><figcaption class="image-caption">citations</figcaption></figure></p>
-<h1 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h1><p>AlexNet的原始网络结构如下，可以参见caffe的网络定义<a href="https://github.com/BVLC/caffe/blob/master/models/bvlc_alexnet/deploy.prototxt" target="_blank" rel="noopener">bvlc_alexnet</a>，pytorch等也给出了变种实现，见<a href="https://github.com/pytorch/vision/blob/master/torchvision/models/alexnet.py" target="_blank" rel="noopener">torchvision/models/alexnet.py</a>。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/02/nPv5Ie.png" alt="AlexNet architecture"><figcaption class="image-caption">AlexNet architecture</figcaption></figure></p>
-<p>整个网络大体由5个卷积层和3个全连接层组成，受限于当时的计算资源，网络通过2块GTX580 3GB的GPU训练，上图可见，整个网络上下一分为二，各用1块GPU训练（在caffe中通过group层实现），每个GPU放一半的神经元，网络中第3个卷积层和3个全连接层跨GPU连接。<strong>与使用单个GPU和50%神经元的网络相比，这个双GPU方案的Top1和Top5错误率分别降低了1.7%和1.2%。</strong></p>
-<p>每层的配置如下，第一个卷积层的kernel size为11，stride为4：</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/05/nmUy2d.png" alt="AlexNet architecture"><figcaption class="image-caption">AlexNet architecture</figcaption></figure></p>
-<h1 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h1><p>为了获得最佳表现，论文中综合应用了很多技术，有些后来已成为通用的标准做法。</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p><strong>如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。</strong></p>
+<h1 id="获取源代码"><a href="#获取源代码" class="headerlink" title="获取源代码"></a>获取源代码</h1><p>Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见<a href="https://devguide.python.org/#other-interpreter-implementations" target="_blank" rel="noopener">Other Interpreter Implementations</a>）。CPython的源代码可以从官网<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">pyhton.org</a>或者<a href="https://github.com/python/cpython" target="_blank" rel="noopener"> github.com/python/cpython </a>获取，目前最新的稳定版本为3.8.0，于2019.10.14发布。这里，从官网 <a href="https://www.python.org/downloads/release/python-380/" target="_blank" rel="noopener">https://www.python.org/downloads/release/python-380/</a> 下载源码压缩包，如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiV44H.png" alt="python source code"><figcaption class="image-caption">python source code</figcaption></figure></p>
+<h1 id="源代码的组织"><a href="#源代码的组织" class="headerlink" title="源代码的组织"></a>源代码的组织</h1><p>解压后，<strong>目录结构</strong>如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123; Python-3.8.0 &#125;  » tree -d -L 1 .</span><br><span class="line">.</span><br><span class="line">├── Doc 		<span class="comment"># rst(reStructuredText)格式官方文档，用其生成https://docs.python.org/</span></span><br><span class="line">├── Grammar		<span class="comment"># Python的EBNF(Extended Backus–Naur form)语法定义文件</span></span><br><span class="line">├── Include		<span class="comment"># .h 头文件</span></span><br><span class="line">├── Lib			<span class="comment"># .py 纯Python实现的标准库</span></span><br><span class="line">├── m4			<span class="comment"># ？</span></span><br><span class="line">├── Mac			<span class="comment"># Mac-specific code，支持MacOS</span></span><br><span class="line">├── Misc		<span class="comment"># Things that do not belong elsewhere.</span></span><br><span class="line">├── Modules		<span class="comment"># C实现的标准库，内含.c .asm .macros .h</span></span><br><span class="line">├── Objects		<span class="comment"># 内置数据类型实现</span></span><br><span class="line">├── Parser		<span class="comment"># Python语法分析器源码</span></span><br><span class="line">├── PC			<span class="comment"># Windows-specific code，支持Windows</span></span><br><span class="line">├── PCbuild		<span class="comment"># Windows生成文件，for MSVC</span></span><br><span class="line">├── Programs	<span class="comment"># main函数文件，用于生成可执行文件，如python.exe的入口文件</span></span><br><span class="line">├── Python		<span class="comment"># CPython解释器源码</span></span><br><span class="line">└── Tools		<span class="comment"># 独立工具代码，used to maintain Python</span></span><br></pre></td></tr></table></figure>
+<p>CPython的源码组织结构如下，摘抄自<a href="https://devguide.python.org/exploring/#cpython-source-code-layout" target="_blank" rel="noopener">CPython Source Code Layout</a>，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiG3Zj.png" alt="CPython Source Code Layout" style="zoom:80%;"><figcaption class="image-caption">CPython Source Code Layout</figcaption></figure></p>
+<p>源码文件分门别类存放，而且，无论是py实现的标准库、c实现的标准库、内置数据类型还是内置函数，在<code>Lib/test/</code>和<code>Doc/library/</code>目录下都有与之对应的test_x.py测试文件和rst文档文件（对于内置数据类型和函数，其文档集中保存在stdtypes.rst和functions.rst）。比如，内置类型<code>int</code>位于<code>Objects/longobject.c</code>文件中。</p>
+<p>下面正式开始编译CPython。</p>
+<h1 id="windows下编译CPython"><a href="#windows下编译CPython" class="headerlink" title="windows下编译CPython"></a>windows下编译CPython</h1><p>据<a href="https://devguide.python.org/setup/#windows" target="_blank" rel="noopener">Compile and build on Windows</a>，Python3.6及之后的版本可以使用VS2017编译，安装VS2017时，记得勾选 <strong>Python development</strong> 和 <strong>Python native development tools</strong>，有备无患。</p>
+<p>安装好VS2017后，双击<code>PCbuild/pcbuild.sln</code>，打开解决方案。因为我们的关注点仅在Python内核和解释器部分，所以仅编译python和pythoncore，其他模块暂时忽略，具体地，</p>
 <ul>
-<li><p><strong>使用ReLU作为激活函数</strong>，作为non-saturating非线性激活函数有效避免了梯度消失问题，同时与tanh（saturating非线性激活函数）相比，训练速度提升了数倍（CIFAR-10上训练达到25%错误率速度快了6倍）。</p>
-</li>
-<li><p><strong>多GPU训练</strong>，实际上相当于<strong>增加了网络的宽度</strong>，如上节所述，Top1和Top5错误率比单GPU网络分别降低了1.7%和1.2%。</p>
-</li>
-<li><p>提出了<strong>LRN（Local Response Normalization）层</strong>，使用相邻$n$个特征图上同位置的值对当前值进行归一化，公式如下。<strong>LRN被认为没有太大效果，已不被后来者采用。</strong><br>$$<br>b_{x, y}^{i}=a_{x, y}^{i} /\left(k+\alpha \sum_{j=\max (0, i-n / 2)}^{\min (N-1, i+n / 2)}\left(a_{x, y}^{j}\right)^{2}\right)^{\beta}<br>$$</p>
-</li>
-<li><p>使用<strong>Overlapping Max-Pooling</strong>，如上节图中，Pooling层的kernel size $z=3$，stride $s=2$，$z &gt; s$，与$s=z=2$相比，Top1和Top5错误率分别下降了0.4%和0.3%。</p>
-</li>
-<li><p><strong>通过Data Augmentation数据增广降低过拟合，提高预测准确度</strong></p>
+<li>切换到debug win32</li>
+<li>右键解决方案→属性→配置属性</li>
+<li>仅勾选项目python和pythoncore</li>
+<li>确定</li>
+</ul>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiDRqx.png" alt="vs2017 python build configuration" style="zoom:80%;"><figcaption class="image-caption">vs2017 python build configuration</figcaption></figure></p>
+<p>此时再“生成解决方案”，生成目录为<code>PCbuild/win32</code>，内容如下，含解释器python_d.exe和内核python38_d.dll，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KirNfe.png" alt="PCbuild build dir"><figcaption class="image-caption">PCbuild build dir</figcaption></figure></p>
+<p>接下来，将项目python设为启动项目（默认状态即是启动项目），点击<strong>调试</strong>，运行得到如下控制台，可以像平时使用python一样，与之交互。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KisW4O.png" alt="python38_d debug console"><figcaption class="image-caption">python38_d debug console</figcaption></figure></p>
+<p>如果想生成全部模块，需要运行<code>PCbuild\get_externals.bat</code>下载依赖，再编译，具体可参见<a href="https://cpython-core-tutorial.readthedocs.io/en/latest/build_cpython_windows.html" target="_blank" rel="noopener">Build CPython on Windows</a>。</p>
+<h1 id="调试CPython"><a href="#调试CPython" class="headerlink" title="调试CPython"></a>调试CPython</h1><p><strong>只要程序能运行起来，一切就好办了。凭借“宇宙最强IDE”，我们可以任性地设断点调试甚至修改代码。</strong></p>
+<p><code>F5</code>重新启动调试，弹出控制台。在上面我们知道<code>int</code>类型位于<code>Objects/longobject.c</code>文件，打开文件，简单浏览后在函数<code>PyObject * PyLong_FromLong(long ival)</code>入口处打个断点。然后，在弹出的控制台中输入<code>a = 1</code>来创建<code>int</code>对象，回车，程序停在了断点处，查看变量<code>ival</code>的值为1——恰为我们输入的数值，<strong>这个函数会跟根据输入的C long int创建一个<code>int</code>对象，返回对象指针</strong>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/Ki48iR.png" alt="debug int"><figcaption class="image-caption">debug int</figcaption></figure></p>
+<p>再来看看函数调用堆栈，如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/Ki4qyT.png" alt="call stack"><figcaption class="image-caption">call stack</figcaption></figure></p>
+<p>调用顺序从下至上，从中可以推断出，</p>
 <ul>
-<li>训练阶段，<strong>通过生成大量训练数据来降低过拟合</strong>，生成数据的方式有2种，<ul>
-<li>第1种方式从$256\times 256$图像中随机裁剪+左右翻转出$224\times 224$的图像，将训练数据扩大了2048倍；</li>
-<li>第2种方式对每张训练图像RGB通道做数值扰动，扰动量通过对整个训练集的RGB像素进行PCA获得，扰动量为$[P_1, P_2, P_3] [\alpha_{1} \lambda_{1}, \alpha_{2} \lambda_{2}, \alpha_{3} \lambda_{3}]^{T}$，其中，$P_i$和 $\lambda_{i}$为RGB像素协方差矩阵的特征向量和特征值，$\alpha_{i}$为0均值0.1标准差的高斯随机值。</li>
+<li>从python_d.exe的入口main运行起来后，进入python38_d.dll</li>
+<li>从标准输入stdin中读取键入的字符串</li>
+<li>解析字符串，建立了<strong>语法树AST</strong>（abstract syntax tree）</li>
+<li>解析语法树中的节点，判断字符为number，将字符串转化为C long int</li>
+<li>由C long int创建Python的<code>int</code>对象</li>
 </ul>
-</li>
-<li>预测阶段，从待预测$256\times 256$图中上下左右中间crop + 左右翻转得到10张$224\times 224$的图像，逐一输入网，络对输出结果取平均，来提升预测阶段的准确率，相当于<strong>数据层面的集成学习</strong>。</li>
-</ul>
-</li>
-<li><p>对前2个全连接层使用<strong>Dropout</strong>技术，训练时每次随机让50%的神经元输出为0，以此来降低过拟合，预测时将权重乘以0.5。这样可以强迫网络学习到更鲁棒的特征，也可以从集成学习的视角理解，预测阶段相当于对随机到的所有模型求了个期望。关于Dropout的更多信息可参见论文<a href="https://arxiv.org/abs/1207.0580" target="_blank" rel="noopener">《Improving neural networks by preventing co-adaptation of feature detectors》</a></p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNy2XF.gif" alt="dropout"><figcaption class="image-caption">dropout</figcaption></figure></p>
-</li>
-<li><p>batchsize 128，SGD Momentum 0.9，weight decay 0.0005，initial learning rate 0.01 停滞时divide by 10，</p>
-</li>
-</ul>
-<p>$$<br>\begin{aligned} v_{i+1} &amp; :=0.9 \cdot v_{i}-0.0005 \cdot \epsilon \cdot w_{i}-\epsilon \cdot\left\langle\left.\frac{\partial L}{\partial w}\right|_{w_{i}}\right\rangle_{D_{i}} \\ w_{i+1} &amp; :=w_{i}+v_{i+1} \end{aligned}<br>$$</p>
-<h1 id="其他有意思的点"><a href="#其他有意思的点" class="headerlink" title="其他有意思的点"></a>其他有意思的点</h1><p>回顾AlexNet论文，发现论文中提及了很多有意思的点，有些仅仅是一笔带过，但是可能启发了后面大量的工作，翻回来看才发现“祖师爷”早有预兆。</p>
-<ul>
-<li><p><strong>finetune</strong>，在一个库上训练，在另一个库上finetune</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNr4u4.png" alt="AlexNet finetune"><figcaption class="image-caption">AlexNet finetune</figcaption></figure></p>
-</li>
-<li><p><strong>权重可视化</strong>，仅可视化第1个卷积层的96个卷积核权重，发现网络学到了频率方向性的特征，更有意思的是，GPU1上的48个卷积核是颜色无关的，GPU2上的是颜色相关的。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nN6U9x.png" alt="96 Convolutional Kernels"><figcaption class="image-caption">96 Convolutional Kernels</figcaption></figure></p>
-</li>
-<li><p>匹配与检索，使用最后一个全连接层的输出作为特征，通过欧氏距离可计算图像间的特征相似度，可做匹配，提出可以通过auto-encoder进一步压缩获取到short binary code，可用于检索，如下图所示，检索与最左边一列特征最近的图像</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nN2Wgx.png" alt="retrieve images"><figcaption class="image-caption">retrieve images</figcaption></figure></p>
-</li>
-<li><p><strong>深度十分重要</strong>，增加深度可以进一步提升性能，当前性能只是受限于计算资源和训练时间（微笑）</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNRRoQ.png" alt="depth is important"><figcaption class="image-caption">depth is important</figcaption></figure></p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNR7LT.png" alt="depth is important"><figcaption class="image-caption">depth is important</figcaption></figure></p>
-</li>
-<li><p>在ILSVRC 2012上做的报告展示了使用AlexNet做<strong>detection</strong>的结果，如下</p>
-<p><figure><img src="https://s2.ax1x.com/2019/09/10/nNhFGd.png" alt="AlexNet Localization"><figcaption class="image-caption">AlexNet Localization</figcaption></figure></p>
-</li>
-</ul>
-<p>不愧是开创性工作的paper，给这含金量跪了。</p>
+<p>继续运行，弹出的控制台中光标前出现<code>&lt;&lt;&lt;</code>，等待输入。这时如果我们点击调试中的停止按钮（全部中断），会发现程序停在<code>Parser/myreadline.c</code>文件<code>_PyOS_WindowsConsoleReadline</code>函数中的<code>ReadConsoleW</code>一行，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!ReadConsoleW(hStdIn, &amp;wbuf[total_read], wbuflen - total_read, &amp;n_read, <span class="literal">NULL</span>)) &#123;</span><br><span class="line">    err = GetLastError();</span><br><span class="line">    <span class="keyword">goto</span> <span class="built_in">exit</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ReadConsoleW</code>为WINAPI，详见<a href="https://docs.microsoft.com/en-us/windows/console/readconsole" target="_blank" rel="noopener">ReadConsole function</a>，其等待并读取控制台的输入，读取的字符保存在<code>wbuf</code>中。如果有输入，则进入上面的流程，解析→建立语法树→……</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>至此，我们揭开了Python面纱的一角——<strong>不过是一个可运行、可调试的程序而已</strong>（微笑）。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="noopener">paper: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
-<li><a href="http://www.image-net.org/challenges/LSVRC/2012/supervision.pdf" target="_blank" rel="noopener">slides LSVRC 2012: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
-<li><a href="http://vision.stanford.edu/teaching/cs231b_spring1415/slides/alexnet_tugce_kyunghee.pdf" target="_blank" rel="noopener">slides 2015: ImageNet Classification with Deep Convolutional Neural Networks</a></li>
-<li><a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture9.pdf" target="_blank" rel="noopener">cs231n_2017_lecture9</a></li>
-<li><a href="http://www.image-net.org/challenges/LSVRC/2012/" target="_blank" rel="noopener">Large Scale Visual Recognition Challenge 2012 (ILSVRC2012)</a></li>
+<li><a href="https://devguide.python.org/setup/#directory-structure" target="_blank" rel="noopener">Directory structure</a></li>
+<li><a href="http://docutils.sourceforge.net/rst.html" target="_blank" rel="noopener"> reStructuredText </a></li>
+<li><a href="https://wiki2.org/en/EBNF" target="_blank" rel="noopener"> Extended Backus–Naur form </a></li>
+<li><a href="https://devguide.python.org/exploring/" target="_blank" rel="noopener">Exploring CPython’s Internals</a></li>
+<li><a href="https://devguide.python.org/setup/#windows" target="_blank" rel="noopener">Compile and build on Windows</a></li>
 </ul>
 
       
@@ -600,7 +580,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html" title="从AlexNet(2012)开始">https://blog.shinelee.me/2019/08-30-从AlexNet(2012)开始.html</a>
+    <a href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html" title="如何编译和调试Python内核源码？">https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -610,12 +590,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CNN/" rel="tag"># CNN</a>
-          
-        </div>
       
 
       
@@ -641,8 +615,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08-28-ImageNet主要网络benchmark对比.html" rel="next" title="ImageNet主要网络benchmark对比">
-                <i class="fa fa-chevron-left"></i> ImageNet主要网络benchmark对比
+              <a href="/2019/10-11-VGG(2014)，3x3卷积的胜利.html" rel="next" title="VGG(2014)，3x3卷积的胜利">
+                <i class="fa fa-chevron-left"></i> VGG(2014)，3x3卷积的胜利
               </a>
             
           </div>
@@ -651,8 +625,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" rel="prev" title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
-                一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" rel="prev" title="直观理解梯度，以及偏导数、方向导数和法向量等">
+                直观理解梯度，以及偏导数、方向导数和法向量等 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -885,7 +859,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络结构"><span class="nav-number">2.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创新点"><span class="nav-number">3.</span> <span class="nav-text">创新点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他有意思的点"><span class="nav-number">4.</span> <span class="nav-text">其他有意思的点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取源代码"><span class="nav-number">2.</span> <span class="nav-text">获取源代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#源代码的组织"><span class="nav-number">3.</span> <span class="nav-text">源代码的组织</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#windows下编译CPython"><span class="nav-number">4.</span> <span class="nav-text">windows下编译CPython</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试CPython"><span class="nav-number">5.</span> <span class="nav-text">调试CPython</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -1247,30 +1221,6 @@
   
   
 
-  
-    
-      <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      TeX: {equationNumbers: { autoNumber: "AMS" }}
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-      var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-    
   
 
 
