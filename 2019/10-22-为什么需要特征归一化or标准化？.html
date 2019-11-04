@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：  特征间的单位（尺度）可能不同，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么需要特征归一化&#x2F;标准化？">
+<meta property="og:url" content="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html">
+<meta property="og:site_name" content="进击的小学生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：  特征间的单位（尺度）可能不同，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/30/K4ZoHf.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/30/KhqCb6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/31/KIwXHx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/30/K4Zmtg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/01/K71RXV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/31/KIzKKO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/10/31/KoMx0J.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/01/KH52lQ.png">
+<meta property="og:updated_time" content="2019-11-04T06:34:58.450Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么需要特征归一化&#x2F;标准化？">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：  特征间的单位（尺度）可能不同，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/10/30/K4ZoHf.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>为什么需要特征归一化/标准化？ | 进击的小学生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">进击的小学生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为什么需要特征归一化/标准化？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-22 17:38:12" itemprop="dateCreated datePublished" datetime="2019-10-22T17:38:12+08:00">2019-10-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-04 14:34:58" itemprop="dateModified" datetime="2019-11-04T14:34:58+08:00">2019-11-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/10-22-为什么需要特征归一化or标准化？.html" class="leancloud_visitors" data-flag-title="为什么需要特征归一化/标准化？">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.3k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：</p>
+<ul>
+<li><p><strong>特征间的单位（尺度）可能不同</strong>，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化范围可能是$[1000, 10000]$，另一个特征的变化范围可能是$[-0.1, 0.2]$，在进行距离有关的计算时，单位的不同会导致计算结果的不同，尺度大的特征会起决定性作用，而尺度小的特征其作用可能会被忽略，<strong>为了消除特征间单位和尺度差异的影响，以对每维特征同等看待，需要对特征进行归一化</strong>。</p>
+</li>
+<li><p>原始特征下，<strong>因尺度差异，其损失函数的等高线图可能是椭圆形</strong>，梯度方向垂直于等高线，下降会走zigzag路线，而不是指向local minimum。通过对特征进行zero-mean and  unit-variance变换后，其损失函数的等高线图更接近圆形，梯度下降的方向震荡更小，收敛更快，如下图所示，图片来自Andrew Ng。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/30/K4ZoHf.png" alt="Feature Scaling from Andrew Ng" style="zoom: 50%;"><figcaption class="image-caption">Feature Scaling from Andrew Ng</figcaption></figure></p>
+</li>
+</ul>
+<p>对于feature scaling中最常使用的Standardization，似乎“无脑上”就行了，本文想多探究一些为什么，</p>
+<ul>
+<li>常用的feature scaling方法都有哪些？</li>
+<li>什么情况下该使用什么feature scaling方法？有没有一些指导思想？</li>
+<li>所有的机器学习算法都需要feature scaling吗？有没有例外？</li>
+<li>损失函数的等高线图都是椭圆或同心圆吗？能用椭圆和圆来简单解释feature scaling的作用吗？</li>
+<li>如果损失函数的等高线图很复杂，feature scaling还有其他直观解释吗？</li>
+</ul>
+<p>根据查阅到的资料，本文将尝试回答上面的问题。但笔者能力有限，空有困惑，能讲到哪算哪吧（微笑）。</p>
+<h1 id="常用feature-scaling方法"><a href="#常用feature-scaling方法" class="headerlink" title="常用feature scaling方法"></a>常用feature scaling方法</h1><p>在问为什么前，先看是什么。</p>
+<p>给定数据集，令特征向量为$x$，维数为$D$，样本数量为$R$，可构成$D \times R$的矩阵，一列为一个样本，一行为一维特征，如下图所示，图片来自<a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses/ML_2016/Lecture/Gradient%20Descent%20(v2" target="_blank" rel="noopener">Hung-yi Lee pdf-Gradient Descent</a>.pdf)：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/30/KhqCb6.png" alt="feature matrix"><figcaption class="image-caption">feature matrix</figcaption></figure></p>
+<p>feature scaling的方法可以分成2类，逐行进行和逐列进行。逐行是对每一维特征操作，逐列是对每个样本操作，上图为逐行操作中特征标准化的示例。</p>
+<p>具体地，常用feature scaling方法如下，来自<a href="https://wiki2.org/en/Feature_scaling" target="_blank" rel="noopener">wiki</a>，</p>
+<ul>
+<li><p><strong>Rescaling (min-max normalization、range scaling)</strong>：<br>$$<br>x^{\prime}=a+\frac{(x-\min (x))(b-a)}{\max (x)-\min (x)}<br>$$<br>将每一维特征线性映射到目标范围$[a, b]$，即将最小值映射为$a$，最大值映射为$b$，常用目标范围为$[0, 1]$和$[-1, 1]$，特别地，映射到$[0, 1]$计算方式为：<br>$$<br>x^{\prime}=\frac{x-\min (x)}{\max (x)-\min (x)}<br>$$</p>
+</li>
+<li><p><strong>Mean normalization</strong>：<br>$$<br>x^{\prime}=\frac{x-\bar{x}}{\max (x)-\min (x)}<br>$$<br>将<strong>均值映射为0</strong>，同时用最大值最小值的差对特征进行归一化，一种更常见的做法是用标准差进行归一化，如下。</p>
+</li>
+<li><p><strong>Standardization (Z-score Normalization)</strong>：<br>$$<br>x^{\prime}=\frac{x-\bar{x}}{\sigma}<br>$$<br>每维特征<strong>0均值1方差（zero-mean and  unit-variance）</strong>。</p>
+</li>
+<li><p><strong>Scaling to unit length</strong>：<br>$$<br>x^{\prime}=\frac{x}{|x|}<br>$$<br>将每个样本的特征向量除以其长度，即对样本特征向量的长度进行归一化，长度的度量常使用的是L2 norm（欧氏距离），有时也会采用L1 norm，不同度量方式的一种对比可以参见论文<a href="https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf" target="_blank" rel="noopener">“CVPR2005-Histograms of Oriented Gradients for Human Detection”</a>。</p>
+</li>
+</ul>
+<p>上述4种feature scaling方式，前3种为逐行操作，最后1种为逐列操作。</p>
+<p><strong>容易让人困惑的一点是指代混淆，Standardization指代比较清晰，但是单说Normalization有时会指代min-max normalization，有时会指代Standardization，有时会指代Scaling to unit length</strong>。</p>
+<h1 id="计算方式上对比分析"><a href="#计算方式上对比分析" class="headerlink" title="计算方式上对比分析"></a>计算方式上对比分析</h1><p>前3种feature scaling的计算方式为<strong>减一个统计量再除以一个统计量</strong>，最后1种为<strong>除以向量自身的长度</strong>。</p>
+<ul>
+<li><strong>减一个统计量</strong>可以看成<strong>选哪个值作为原点，是最小值还是均值，并将整个数据集平移到这个新的原点位置</strong>。如果特征间偏置不同对后续过程有负面影响，则该操作是有益的，可以看成是某种<strong>偏置无关操作</strong>；如果原始特征值有特殊意义，比如稀疏性，该操作可能会破坏其稀疏性。</li>
+<li><strong>除以一个统计量</strong>可以看成在<strong>坐标轴方向上对特征进行缩放</strong>，用于<strong>降低特征尺度的影响，可以看成是某种尺度无关操作</strong>。缩放可以使用最大值最小值间的跨度，也可以使用标准差（到中心点的平均距离），前者对outliers敏感，outliers对后者影响与outliers数量和数据集大小有关，outliers越少数据集越大影响越小。</li>
+<li><strong>除以长度</strong>相当于把长度归一化，<strong>把所有样本映射到单位球上</strong>，可以看成是某种<strong>长度无关操作</strong>，比如，词频特征要移除文章长度的影响，图像处理中某些特征要移除光照强度的影响，以及方便计算余弦距离或内积相似度等。</li>
+</ul>
+<p>稀疏数据、outliers相关的更多数据预处理内容可以参见<a href="https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing-data" target="_blank" rel="noopener">scikit learn-5.3. Preprocessing data</a>。</p>
+<p>从几何上观察上述方法的作用，图片来自<a href="http://cs231n.github.io/neural-networks-2/" target="_blank" rel="noopener">CS231n-Neural Networks Part 2: Setting up the Data and the Loss</a>，zero-mean将数据集平移到原点，unit-variance使每维特征上的跨度相当，图中可以明显看出两维特征间存在线性相关性，Standardization操作并没有消除这种相关性。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/31/KIwXHx.png" alt="Standardization"><figcaption class="image-caption">Standardization</figcaption></figure></p>
+<p>可通过PCA方法移除线性相关性（decorrelation），即引入旋转，找到新的坐标轴方向，在新坐标轴方向上用“标准差”进行缩放，如下图所示，图片来自<a href="https://www.researchgate.net/publication/221488699_Intersession_Compensation_and_Scoring_Methods_in_the_i-vectors_Space_for_Speaker_Recognition" target="_blank" rel="noopener">链接</a>，图中同时描述了unit length的作用——将所有样本映射到单位球上。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/30/K4Zmtg.png" alt="Effect of the operations of standardization and length normalization"><figcaption class="image-caption">Effect of the operations of standardization and length normalization</figcaption></figure></p>
+<p>当特征维数更多时，对比如下，图片来自<a href="https://www.youtube.com/watch?v=iYQbwgBh1aQ" target="_blank" rel="noopener">youtube</a>，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/01/K71RXV.png" alt="feature scaling comparison" style="zoom: 67%;"><figcaption class="image-caption">feature scaling comparison</figcaption></figure></p>
+<p>总的来说，<strong>归一化/标准化的目的是为了获得某种“无关性”——偏置无关、尺度无关、长度无关……当归一化/标准化方法背后的物理意义和几何含义与当前问题的需要相契合时，其对解决该问题就有正向作用，反之，就会起反作用。所以，“何时选择何种方法”取决于待解决的问题，即problem-dependent。</strong></p>
+<h1 id="feature-scaling-需要还是不需要"><a href="#feature-scaling-需要还是不需要" class="headerlink" title="feature scaling 需要还是不需要"></a>feature scaling 需要还是不需要</h1><p>下图来自<a href="https://www.dataschool.io/comparing-supervised-learning-algorithms/" target="_blank" rel="noopener">data school-Comparing supervised learning algorithms</a>，对比了几个监督学习算法，最右侧两列为是否需要feature scaling。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/31/KIzKKO.png" alt="Comparing supervised learning algorithms"><figcaption class="image-caption">Comparing supervised learning algorithms</figcaption></figure></p>
+<p>下面具体分析一下。</p>
+<h2 id="什么时候需要feature-scaling？"><a href="#什么时候需要feature-scaling？" class="headerlink" title="什么时候需要feature scaling？"></a>什么时候需要feature scaling？</h2><ul>
+<li><p>涉及或隐含<strong>距离计算</strong>的算法，比如K-means、KNN、PCA、SVM等，一般需要feature scaling，因为</p>
+<ul>
+<li><p><strong>zero-mean一般可以增加样本间余弦距离或者内积结果的差异</strong>，区分力更强，假设数据集集中分布在第一象限遥远的右上角，将其平移到原点处，可以想象样本间余弦距离的差异被放大了。在模版匹配中，zero-mean可以明显提高响应结果的区分度。</p>
+</li>
+<li><p>就欧式距离而言，<strong>增大某个特征的尺度，相当于增加了其在距离计算中的权重，如果有明确的先验知识表明某个特征很重要，那么适当增加其权重可能有正向效果，但如果没有这样的先验，或者目的就是想知道哪些特征更重要，那么就需要先feature scaling，对各维特征等而视之</strong>。</p>
+</li>
+<li><p>增大尺度的同时也增大了该特征维度上的方差，PCA算法倾向于关注方差较大的特征所在的坐标轴方向，其他特征可能会被忽视，因此，在PCA前做Standardization效果可能更好，如下图所示，图片来自<a href="https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html" target="_blank" rel="noopener">scikit learn-Importance of Feature Scaling</a>，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/31/KoMx0J.png" alt="PCA and Standardization"><figcaption class="image-caption">PCA and Standardization</figcaption></figure></p>
+</li>
+</ul>
+</li>
+<li><p>损失函数中含有<strong>正则项</strong>时，一般需要feature scaling：对于线性模型$y=wx+b$而言，$x$的任何线性变换（平移、放缩），都可以被$w$和$b$“吸收”掉，理论上，不会影响模型的拟合能力。但是，如果损失函数中含有正则项，如$\lambda ||w||^2$，$\lambda$为超参数，其对$w$的每一个参数施加同样的惩罚，但对于某一维特征$x_i$而言，其scale越大，系数$w_i$越小，其在正则项中的比重就会变小，相当于对$w_i$惩罚变小，即损失函数会相对忽视那些scale增大的特征，这并不合理，所以需要feature scaling，使损失函数平等看待每一维特征。</p>
+</li>
+<li><p><strong>梯度下降算法，需要feature scaling</strong>。梯度下降的参数更新公式如下，<br>$$<br>W(t+1)=W(t)-\eta \frac{d E(W)}{d W}<br>$$<br>$E(W)$为损失函数，<strong>收敛速度取决于：参数的初始位置到local minima的距离，以及学习率$\eta$的大小</strong>。一维情况下，<strong>在local minima附近</strong>，不同学习率对梯度下降的影响如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/01/KH52lQ.png" alt="Gradient descent for different learning rates"><figcaption class="image-caption">Gradient descent for different learning rates</figcaption></figure></p>
+<p>多维情况下可以分解成多个上图，每个维度上分别下降，参数$W$为向量，但学习率只有1个，即所有参数维度共用同一个学习率（暂不考虑为每个维度都分配单独学习率的算法）。<strong>收敛意味着在每个参数维度上都取得极小值，每个参数维度上的偏导数都为0，但是每个参数维度上的下降速度是不同的，为了每个维度上都能收敛，学习率应取所有维度在当前位置合适步长中最小的那个。</strong>下面讨论feature scaling对gradient descent的作用，</p>
+<ul>
+<li><p><strong>zero center与参数初始化相配合，缩短初始参数位置与local minimum间的距离，加快收敛</strong>。模型的最终参数是未知的，所以一般随机初始化，比如从0均值的均匀分布或高斯分布中采样得到，对线性模型而言，其分界面初始位置大致在原点附近，bias经常初始化为0，则分界面直接通过原点。同时，为了收敛，学习率不会很大。而每个数据集的特征分布是不一样的，如果其分布集中且距离原点较远，比如位于第一象限遥远的右上角，分界面可能需要花费很多步骤才能“爬到”数据集所在的位置。所以，无论什么数据集，先平移到原点，再配合参数初始化，可以保证分界面一定会穿过数据集。此外，<strong>outliers常分布在数据集的外围</strong>，与分界面从外部向内挪动相比，从中心区域开始挪动可能受outliers的影响更小。</p>
+</li>
+<li><p>对于采用均方误差损失LMS的线性模型，损失函数恰为二阶，如下图所示<br>$$<br>E(W)=\frac{1}{2 P} \sum_{p=1}^{P}\left|d^{p}-\sum_{i} w_{i} x_{i}^{p}\right|^{2}<br>$$<br><strong>不同方向上的下降速度变化不同（二阶导不同，曲率不同）</strong>，恰由输入的协方差矩阵决定，<strong>通过scaling改变了损失函数的形状，减小不同方向上的曲率差异</strong>。将每个维度上的下降分解来看，给定一个下降步长，如果不够小，有的维度下降的多，有的下降的少，有的还可能在上升，损失函数的整体表现可能是上升也可能是下降，就会不稳定。<strong>scaling后不同方向上的曲率相对更接近，更容易选择到合适的学习率，使下降过程相对更稳定。</strong></p>
+</li>
+<li><p>另有从Hessian矩阵特征值以及condition number角度的理解，详见<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf" target="_blank" rel="noopener">Lecun paper-Efficient BackProp</a>中的Convergence of Gradient Descent一节，有清晰的数学描述，同时还介绍了白化的作用——解除特征间的线性相关性，使每个维度上的梯度下降可独立看待。</p>
+</li>
+<li>文章开篇的椭圆形和圆形等高线图，仅在采用均方误差的线性模型上适用，其他损失函数或更复杂的模型，如深度神经网络，<strong>损失函数的error surface可能很复杂，并不能简单地用椭圆和圆来刻画</strong>，所以用它来解释feature scaling对所有损失函数的梯度下降的作用，似乎过于简化，见<a href="https://www.bilibili.com/video/av9838961/?p=12" target="_blank" rel="noopener">Hinton vedio-3.2 The error surface for a linear neuron</a>。</li>
+<li>对于损失函数不是均方误差的情况，只要权重$w$与输入特征$x$间是相乘关系，损失函数对$w$的偏导必然含有因子$x$，$w$的梯度下降速度就会受到特征$x$尺度的影响。理论上为每个参数都设置上自适应的学习率，可以吸收掉$x$尺度的影响，但在实践中出于计算量的考虑，往往还是所有参数共用一个学习率，此时$x$尺度不同可能会导致不同方向上的下降速度悬殊较大，学习率不容易选择，下降过程也可能不稳定，通过scaling可对不同方向上的下降速度有所控制，使下降过程相对更稳定。</li>
+</ul>
+</li>
+<li><p>对于传统的神经网络，对输入做feature scaling也很重要，因为采用sigmoid等有饱和区的激活函数，如果输入分布范围很广，参数初始化时没有适配好，很容易直接陷入饱和区，导致<strong>梯度消失</strong>，所以，需要对输入做Standardization或映射到$[0,1]$、$[-1,1]$，配合精心设计的参数初始化方法，对值域进行控制。但自从有了Batch Normalization，每次线性变换改变特征分布后，都会重新进行Normalization，似乎可以不太需要对网络的输入进行feature scaling了？但习惯上还是会做feature scaling。</p>
+</li>
+</ul>
+<h2 id="什么时候不需要Feature-Scaling？"><a href="#什么时候不需要Feature-Scaling？" class="headerlink" title="什么时候不需要Feature Scaling？"></a>什么时候不需要Feature Scaling？</h2><ul>
+<li>与距离计算无关的概率模型，不需要feature scaling，比如Naive Bayes；</li>
+<li>与距离计算无关的基于树的模型，不需要feature scaling，比如决策树、随机森林等，树中节点的选择只关注当前特征在哪里切分对分类更好，即只在意特征内部的相对大小，而与特征间的相对大小无关。</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>这篇文章写的十分艰难，一开始以为蛮简单直接，但随着探索的深入，冒出的问号越来越多，打破了很多原来的“理所当然”，所以，在写的过程中不停地做加法，很多地方想解释得尽量直观，又不想照搬太多公式，但自己的理解又不够深刻，导致现在叙述这么冗长，希望以后在写文时能更专注更精炼。</p>
+<p>Sigh。。。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a href="https://wiki2.org/en/Feature_scaling" target="_blank" rel="noopener">wiki-Feature scaling</a></p>
+</li>
+<li><p><a href="https://wiki2.org/en/Backpropagation" target="_blank" rel="noopener">wiki-Backpropagation</a></p>
+</li>
+<li><p><a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses/ML_2016/Lecture/Gradient%20Descent%20(v2" target="_blank" rel="noopener">Hung-yi Lee pdf-Gradient Descent</a>.pdf)</p>
+</li>
+<li><p><a href="https://www.quora.com/Why-does-mean-normalization-help-in-gradient-descent" target="_blank" rel="noopener">quora-Why does mean normalization help in gradient descent?</a></p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html" target="_blank" rel="noopener">scikit learn-Importance of Feature Scaling</a></p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/modules/preprocessing.html#preprocessing-data" target="_blank" rel="noopener">scikit learn-5.3. Preprocessing data</a></p>
+</li>
+<li><p><a href="https://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html#compare-the-effect-of-different-scalers-on-data-with-outliers" target="_blank" rel="noopener">scikit learn-Compare the effect of different scalers on data with outliers</a></p>
+</li>
+<li><p><a href="https://www.dataschool.io/comparing-supervised-learning-algorithms/" target="_blank" rel="noopener">data school-Comparing supervised learning algorithms</a></p>
+</li>
+<li><p><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf" target="_blank" rel="noopener">Lecun paper-Efficient BackProp</a></p>
+</li>
+<li><p><a href="https://www.bilibili.com/video/av9838961/?p=12" target="_blank" rel="noopener">Hinton vedio-3.2 The error surface for a linear neuron</a></p>
+</li>
+<li><p><a href="http://cs231n.github.io/neural-networks-2/" target="_blank" rel="noopener">CS231n-Neural Networks Part 2: Setting up the Data and the Loss</a></p>
+</li>
+<li><p><a href="ftp://ftp.sas.com/pub/neural/FAQ2.html" target="_blank" rel="noopener">ftp-Should I normalize/standardize/rescale the data?</a></p>
+</li>
+<li><p><a href="https://towardsdatascience.com/understand-data-normalization-in-machine-learning-8ff3062101f0" target="_blank" rel="noopener">medium-Understand Data Normalization in Machine Learning</a></p>
+</li>
+<li><p><a href="https://www.renom.jp/notebooks/tutorial/preprocessing/normalization/notebook.html" target="_blank" rel="noopener">Normalization and Standardization</a></p>
+</li>
+<li><p><a href="https://stats.stackexchange.com/questions/41704/how-and-why-do-normalization-and-feature-scaling-work" target="_blank" rel="noopener">How and why do normalization and feature scaling work?</a></p>
+</li>
+<li><p><a href="https://stats.stackexchange.com/questions/189652/is-it-a-good-practice-to-always-scale-normalize-data-for-machine-learning?noredirect=1&amp;lq=1" target="_blank" rel="noopener">Is it a good practice to always scale/normalize data for machine learning?</a></p>
+</li>
+<li><p><a href="https://stats.stackexchange.com/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia" target="_blank" rel="noopener">When conducting multiple regression, when should you center your predictor variables &amp; when should you standardize them?</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html" title="为什么需要特征归一化/标准化？">https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" rel="next" title="直观理解梯度，以及偏导数、方向导数和法向量等">
+                <i class="fa fa-chevron-left"></i> 直观理解梯度，以及偏导数、方向导数和法向量等
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/blogshinelee" title="csdn" target="_blank">csdn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/shine-lee/" title="cnblogs" target="_blank">cnblogs</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用feature-scaling方法"><span class="nav-number">2.</span> <span class="nav-text">常用feature scaling方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算方式上对比分析"><span class="nav-number">3.</span> <span class="nav-text">计算方式上对比分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#feature-scaling-需要还是不需要"><span class="nav-number">4.</span> <span class="nav-text">feature scaling 需要还是不需要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么时候需要feature-scaling？"><span class="nav-number">4.1.</span> <span class="nav-text">什么时候需要feature scaling？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么时候不需要Feature-Scaling？"><span class="nav-number">4.2.</span> <span class="nav-text">什么时候不需要Feature Scaling？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">170k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
