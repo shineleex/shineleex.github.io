@@ -167,25 +167,34 @@
 
 
 
-  <meta name="description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： $$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$ 均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2">
-<meta name="keywords" content="滤波器">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 前向传播与反向传播回顾神经网络的训练过程可以简化成以下步骤，  输入预处理（feature scaling等） 初始化网络weight和bias 前向传播，得到网络输出 计算损失函数，得到当前损失 反向传播，根据链式法则，逐层回传得到损失函数对当前参数的偏导，根据梯度下降算法对当前参数进行更新 重复步骤3 4 5，直到损失不再减小，">
+<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="高斯滤波对图像方差有什么影响">
-<meta property="og:url" content="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">
+<meta property="og:title" content="网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化">
+<meta property="og:url" content="https://blog.shinelee.me/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： $$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$ 均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 前向传播与反向传播回顾神经网络的训练过程可以简化成以下步骤，  输入预处理（feature scaling等） 初始化网络weight和bias 前向传播，得到网络输出 计算损失函数，得到当前损失 反向传播，根据链式法则，逐层回传得到损失函数对当前参数的偏导，根据梯度下降算法对当前参数进行更新 重复步骤3 4 5，直到损失不再减小，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-15T07:37:17.554Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/05/MpBFRU.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/05/MpBVsJ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/05/MpsIl8.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/06/MC4gKA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/06/MPzLB6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/06/MipVqx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/05/MpsIl8.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/06/MiTBw9.png">
+<meta property="og:updated_time" content="2019-11-07T01:13:18.510Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高斯滤波对图像方差有什么影响">
-<meta name="twitter:description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： $$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$ 均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2">
+<meta name="twitter:title" content="网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化">
+<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 前向传播与反向传播回顾神经网络的训练过程可以简化成以下步骤，  输入预处理（feature scaling等） 初始化网络weight和bias 前向传播，得到网络输出 计算损失函数，得到当前损失 反向传播，根据链式法则，逐层回传得到损失函数对当前参数的偏导，根据梯度下降算法对当前参数进行更新 重复步骤3 4 5，直到损失不再减小，">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/11/05/MpBFRU.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html">
 
 
 
@@ -195,7 +204,7 @@
   };
 </script>
 
-  <title>高斯滤波对图像方差有什么影响 | 进击的小学生</title>
+  <title>网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化 | 进击的小学生</title>
   
 
 
@@ -364,7 +373,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
@@ -381,7 +390,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">高斯滤波对图像方差有什么影响
+          <h1 class="post-title" itemprop="name headline">网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化
               
             
           </h1>
@@ -406,7 +415,7 @@
                 
               
 
-              <time title="创建时间：2018-09-27 17:49:39" itemprop="dateCreated datePublished" datetime="2018-09-27T17:49:39+08:00">2018-09-27</time>
+              <time title="创建时间：2019-11-04 18:06:24" itemprop="dateCreated datePublished" datetime="2019-11-04T18:06:24+08:00">2019-11-04</time>
             
 
             
@@ -423,7 +432,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-15 15:37:17" itemprop="dateModified" datetime="2019-10-15T15:37:17+08:00">2019-10-15</time>
+                <time title="修改时间：2019-11-07 09:13:18" itemprop="dateModified" datetime="2019-11-07T09:13:18+08:00">2019-11-07</time>
               
             
           </span>
@@ -440,7 +449,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/传统计算机视觉/" itemprop="url" rel="index"><span itemprop="name">传统计算机视觉</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习基础/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
 
                 
                 
@@ -454,7 +463,7 @@
 
           
           
-             <span id="/2018/09-27-高斯滤波对图像方差有什么影响.html" class="leancloud_visitors" data-flag-title="高斯滤波对图像方差有什么影响">
+             <span id="/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html" class="leancloud_visitors" data-flag-title="网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -479,7 +488,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">1.2k</span>
+                <span title="本文字数">3.5k</span>
               
 
               
@@ -503,26 +512,79 @@
       
 
       
-        <h1 id="均值与方差"><a href="#均值与方差" class="headerlink" title="均值与方差"></a>均值与方差</h1><p>首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为：</p>
-<p>$$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$</p>
-<p><strong>均值衡量的是数值集中在哪个数值附近</strong>。令标准差为$\sigma$，则方差$\sigma^2$为：</p>
-<p>$$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2$$</p>
-<p><strong>标准差用于衡量数值分布距离均值的平均距离，即数据的集中程度。</strong></p>
-<h1 id="定性分析"><a href="#定性分析" class="headerlink" title="定性分析"></a>定性分析</h1><p>定性地分析，高斯滤波（平滑）对图像进行<strong>平滑</strong>，<strong>会让当前像素与周围像素更加接近</strong>，像素间更加接近自然方差会变小。从频域角度，高斯滤波相当于低通滤波，<strong>会移除图像中“突兀”的高频成分</strong>，剩下的自然是相对“不突兀”的部分，反映在方差上就会变小。</p>
-<h1 id="定量分析"><a href="#定量分析" class="headerlink" title="定量分析"></a>定量分析</h1><p>定量地看，<strong>若不对图像进行任何假设，认为每个像素符合独立同分布</strong>，其均值和方差分别为$\mu$和$\sigma^2$，对其进行高斯滤波，假定窗口内共有$n$个像素，灰度值为$x_1, x_2, \dots, x_n$，对应的高斯权重为$g_1, g_2, \dots, g_n$，有$\sum_{i=1}^n g_i = 1, \forall g_i&gt;0$，则滤波后的当前像素的值为：</p>
-<p>$$y = \sum_{i=1}^{n} g_i x_i$$</p>
-<p>$y$的方差即：</p>
-<p>$$Var(y) = Var(\sum_{i=1}^{n} g_i x_i)=Var(g_1 x_1 + g_2 x_2 +\dots+g_n x_n)$$</p>
-<p>其中当高斯核确定后，<strong>$g_1, g_2, \dots, g_n$为常数</strong>，因为$x_1, x_2, \dots, x_n$<strong>相互独立且同分布</strong>，则进一步地</p>
-<p>$$Var(y) = g_1^2 Var(x_1)+g_2^2Var(x_2)+\dots+g_n^2Var(x_n)=\sigma_2 \sum_{i=1}^{n}g_i^2$$</p>
-<p>由上$\sum_{i=1}^n g_i = 1, \forall g_i&gt;0$，$\forall g_i &lt;1$，则$\sum_{i=1}^{n}g_i^2 &lt; 1$，所以$Var(y)=\sigma^2 \sum_{i=1}^{n}g_i^2 &lt; \sigma^2$，即经过高斯滤波后方差变小。</p>
-<p><strong>这里并不限于高斯滤波，对其他平滑滤波器同样试用——只需满足上述权重条件即可，即平滑滤波器将降低图像的方差。</strong></p>
-<p>当然，也可以从连续角度分析，具体可见参考部分。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://wiki2.org/en/Variance#Properties" target="_blank" rel="noopener">the variance of a linear combination</a></li>
-<li><a href="https://dsp.stackexchange.com/questions/26859/how-does-gaussian-blur-affect-image-variance" target="_blank" rel="noopener">How Does Gaussian Blur Affect Image Variance</a></li>
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="前向传播与反向传播回顾"><a href="#前向传播与反向传播回顾" class="headerlink" title="前向传播与反向传播回顾"></a>前向传播与反向传播回顾</h1><p>神经网络的训练过程可以简化成以下步骤，</p>
+<ol>
+<li>输入预处理（feature scaling等）</li>
+<li>初始化网络weight和bias</li>
+<li>前向传播，得到网络输出</li>
+<li>计算损失函数，得到当前损失</li>
+<li>反向传播，根据链式法则，逐层回传得到损失函数对当前参数的偏导，根据梯度下降算法对当前参数进行更新</li>
+<li>重复步骤3 4 5，直到损失不再减小，即收敛</li>
+</ol>
+<p>一个简单的前向传播和反向传播的示意图如下，线性组合和非线性激活交替进行，线性组合层可以为全连接层或卷积层等，图片来自<a href="https://medium.com/usf-msds/deep-learning-best-practices-1-weight-initialization-14e5c0295b94" target="_blank" rel="noopener">链接</a>，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/05/MpBFRU.png" alt="前向传播"><figcaption class="image-caption">前向传播</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/05/MpBVsJ.png" alt="反向传播"><figcaption class="image-caption">反向传播</figcaption></figure></p>
+<p>梯度下降算法的参数更新公式为，<br>$$<br>W(t+1)=W(t)-\eta \frac{d C}{d W}<br>$$<br>其中$C=J(W)$为损失函数，即通过参数的偏导对参数进行更新。反向传播时，由链式法则，偏导反向回传，逐层计算损失函数对当前参数的偏导。对某个参数的偏导为一串因子的乘积，因子依次为损失函数对网络输出的偏导、激活函数的偏导、线性组合的偏导、激活函数的偏导、线性组合的偏导……如下面所示（来自<a href="https://stackoverflow.com/questions/53287032/multi-layer-neural-network-back-propagation-formula-using-stochastic-gradient-d" target="_blank" rel="noopener">链接</a>），这里，损失为二分之LMS，用$C$表示，$z$为线性组合的输出（激活层的输入），$a$为激活层的输出（线性组合的输入），</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/05/MpsIl8.png" alt="反向传播中的偏导计算"><figcaption class="image-caption">反向传播中的偏导计算</figcaption></figure></p>
+<p>仔细观察上式，偏导为一串因子的乘积，因子中的每一项对乘积结果都有影响，有几点需要注意，回传时，</p>
+<ul>
+<li>每个权重的偏导中含有一个共同的因子项，为<strong>损失函数对网络输出的偏导</strong></li>
+<li>每经过一个激活层，就有一个<strong>激活函数偏导</strong>作为因子项，如$\sigma’(z^L)=\frac{\partial a^L}{\partial z^L}$</li>
+<li>对当前线性组合层的权重求偏导，含且只含一个<strong>当前层的输入（前一层的输出）</strong>作为因子项，如$a^{L-1}$</li>
+<li>每经过一个线性组合层（全连接层or卷积层），就有一个<strong>权重矩阵</strong>作为因子项，如$w^L$</li>
 </ul>
-<p>出自本人博客：<a href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">高斯滤波对图像方差有什么影响</a></p>
+<p>所以，激活函数的偏导、权重矩阵、当前层的输入（前一层的输出），这些项的取值均会对偏导数产生影响，偏导数为这些因子项共同作用的结果，特别地，</p>
+<ul>
+<li>若激活函数偏导为0，则权重偏导为0；</li>
+<li>若前一层的输出（当前层输入）为0，则当前层权重的偏导为0；</li>
+<li>若后一层的权重$w^L$为0，则当前层权重的偏导$\frac{\partial C}{\partial {w^{L-1}}}$为0；</li>
+</ul>
+<p>直觉上，因子项连乘可能隐含潜在的问题：$0.25^{10} = 0.00000095367431640625$，$2^{10}=1024$。对于现在动辄几十、成百、上千层的网络，<strong>这些因子项的取值范围极大地影响着权重偏导的结果：小了，经过连续相乘，结果可能接近于0，大了，结果可能超过数据类型的上界。</strong>同时，网络的深度让这个问题指数级地放大了。</p>
+<h1 id="梯度消失与梯度爆炸"><a href="#梯度消失与梯度爆炸" class="headerlink" title="梯度消失与梯度爆炸"></a>梯度消失与梯度爆炸</h1><p><strong>梯度为偏导数构成的向量。</strong></p>
+<p>损失函数收敛至极小值时，梯度为0（接近0），损失函数不再下降。<strong>我们不希望在抵达极小值前，梯度就为0了，也不希望下降过程过于震荡，甚至不收敛。</strong>梯度消失与梯度爆炸分别对应这2种现象，</p>
+<p><strong>梯度消失(vanishing gradients)</strong>：指的是在训练过程中，梯度（偏导）过早接近于0的现象，导致（部分）参数一直不再更新，整体上表现得像损失函数收敛了，实际上网络尚未得到充分的训练。</p>
+<p><strong>梯度爆炸（exploding gradients）</strong>：指的是在训练过程中，梯度（偏导）过大甚至为NAN（not a number）的现象，导致损失剧烈震荡，甚至发散(divergence)。</p>
+<p>由上一节的分析可知，在梯度（偏导）计算中，主要的影响因素来自<strong>激活函数的偏导</strong>、当前层的输入（前一层的输出）、以及<strong>权重的数值</strong>等，<strong>这些因子连续相乘，带来的影响是指数级的</strong>。训练阶段，<strong>权重在不断调整</strong>，每一层的输入输出也在不断变化，<strong>梯度消失和梯度爆炸可能发生在训练的一开始、也可能发生在训练的过程中</strong>。</p>
+<p>因子项中当前层的输入仅出现一次，下面着重看一下激活函数和权重的影响。</p>
+<h2 id="激活函数的影响"><a href="#激活函数的影响" class="headerlink" title="激活函数的影响"></a>激活函数的影响</h2><p>以Sigmoid和Tanh为例，其函数与导数如下（来自<a href="https://www.jefkine.com/general/2018/05/21/2018-05-21-vanishing-and-exploding-gradient-problems/" target="_blank" rel="noopener">链接</a>），</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/06/MC4gKA.png" alt="Sigmoid和Tanh，及其导数"><figcaption class="image-caption">Sigmoid和Tanh，及其导数</figcaption></figure></p>
+<p>两者的导数均在原点处取得最大值，前者为0.25后者为1，在远离原点的正负方向上，两者导数均趋近于0，即存在饱和区。</p>
+<ul>
+<li><strong>原点附近</strong>：从因子项连乘结果看，<strong>Tanh比Sigmoid稍好</strong>，其在原点附近的导数在1附近，<strong>如果激活函数的输入均在0左右，偏导连续相乘不会很小也不会很大</strong>。而sigmoid就会比较糟糕，其导数最大值为0.25，连续相乘会使梯度指数级减小，在反向传播时，对层数越多的网络，浅层的梯度消失现象越明显。</li>
+<li><strong>饱和区</strong>：一旦陷入饱和区，两者的偏导都接近于0，导致权重的更新量很小，比如某些权重很大，导致相关的神经元一直陷在饱和区，更新量又接近于0，以致很难跳出或者要花费很长时间才能跳出饱和区。</li>
+</ul>
+<p>所以，一个改善方向是选择更好的非线性激活函数，比如ReLU，相关激活函数如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/06/MPzLB6.png" alt="activation functions"><figcaption class="image-caption">activation functions</figcaption></figure></p>
+<p><strong>ReLU只在负方向上存在饱和区，正方向上的导数均为1，因此相对更少地遭遇梯度消失，但梯度爆炸现象仍然存在。</strong></p>
+<h2 id="权重矩阵的影响"><a href="#权重矩阵的影响" class="headerlink" title="权重矩阵的影响"></a>权重矩阵的影响</h2><p>假设激活函数为线性，就像ReLU的正向部分，导数全为1。则一个简化版本的全连接神经网络如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/06/MipVqx.png" alt="a simple 9-layer neural network"><figcaption class="image-caption">a simple 9-layer neural network</figcaption></figure></p>
+<p>假设权重矩阵均为$W$，<strong>前向传播和反向传播过程均涉及$W$（转置）的反复相乘</strong>，$t$步相当于$W^t$，若$W$有特征值分解$W=V \ diag(\lambda) \  V^{-1} $，简单地，<br>$$<br>W^t = (V \ diag(\lambda) \ V^{-1})^t = V \ diag(\lambda)^t \ V^{-1}<br>$$<br>其中$diag(\lambda)$为特征值对角矩阵，如果特征值$\lambda_i$不在1附近，大于1经过$t$次幂后会“爆炸”，小于1经过$t$次幂后会“消失”。</p>
+<p>如果网络初始化时，权重矩阵过小或过大，则在网络训练的初始阶段就可能遭遇梯度消失或梯度爆炸，表现为损失函数不下降或者过于震荡。</p>
+<h1 id="不良初始化"><a href="#不良初始化" class="headerlink" title="不良初始化"></a>不良初始化</h1><p>至此，一些权重不良初始化导致的问题就不难解释了，</p>
+<ul>
+<li><p><strong>过小</strong>，导致梯度消失</p>
+</li>
+<li><p><strong>过大</strong>，导致梯度爆炸</p>
+</li>
+<li><p><strong>全常数初始化</strong>，即所有权重$W$都相同，则$z^{(2)}=W^1 x$相同，导致后面每一层的输入和输出均相同，即$a$和$z$相同，回到反向传播的公式，每层的偏导相同，进一步导致每层的权重会向相同的方向同步更新，如果学习率只有一个，则每层更新后的权重仍然相同，每层的效果等价于一个神经元，这无疑极大限制了网络的能力。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/05/MpsIl8.png" alt="反向传播中的偏导计算"><figcaption class="image-caption">反向传播中的偏导计算</figcaption></figure></p>
+</li>
+<li><p>特别地，<strong>全0初始化</strong>，根据上式，如果激活函数$g(0) = 0$，如ReLU，则初始状态所有激活函数的输入$z$和输出$a$都为0，反向传播时所有的梯度为0，权重不会更新，一直保持为0；如果激活函数$g(0) \neq 0$，则初始状态激活层的输入为0，但输出$a\neq 0$，则权重会从最后一层开始逐层向前更新，改变全0的状态，但是每层权重的更新方向仍相同，同上。</p>
+</li>
+</ul>
+<p>这几种权重初始化方法对网络训练过程的影响，可在<a href="https://www.deeplearning.ai/ai-notes/initialization/" target="_blank" rel="noopener">Initializing neural networks</a>进行可视化实验，可观察权重、梯度和损失的变化，美中不足的是隐藏层的激活函数只有ReLU，不能更换为Sigmoid、Tanh等，如下所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/06/MiTBw9.png" alt="network initialization"><figcaption class="image-caption">network initialization</figcaption></figure></p>
+<p>话说回来，所以我们需要好的网络初始化方法，以对反向传播过程中的梯度有所控制。对反向传播中梯度加以控制的方法，不止这里提到的损失函数和权重初始化，还有梯度截断（gradient clipping）、网络模型设计方面等方法，因为本文的重点在于权重初始化，对此按下不表。</p>
+<p>那么，合适的网络初始化方法是什么呢？我们下回分解。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://www.deeplearning.ai/ai-notes/initialization/" target="_blank" rel="noopener">Initializing neural networks</a></li>
+<li><a href="https://medium.com/usf-msds/deep-learning-best-practices-1-weight-initialization-14e5c0295b94" target="_blank" rel="noopener">Deep Learning Best Practices (1) — Weight Initialization</a></li>
+<li><a href="https://towardsdatascience.com/complete-guide-of-activation-functions-34076e95d044" target="_blank" rel="noopener">Complete Guide of Activation Functions</a></li>
+<li><a href="https://wiki2.org/en/Vanishing_gradient_problem" target="_blank" rel="noopener"> Vanishing gradient problem </a></li>
+<li><a href="http://www.deeplearningbook.org/contents/optimization.html" target="_blank" rel="noopener">deep learning book - optimization</a></li>
+<li><a href="https://stats.stackexchange.com/questions/27112/danger-of-setting-all-initial-weights-to-zero-in-backpropagation" target="_blank" rel="noopener">Danger of setting all initial weights to zero in Backpropagation</a></li>
+</ul>
 
       
     </div>
@@ -544,7 +606,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html" title="高斯滤波对图像方差有什么影响">https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html</a>
+    <a href="https://blog.shinelee.me/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html" title="网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化">https://blog.shinelee.me/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -554,12 +616,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/滤波器/" rel="tag"># 滤波器</a>
-          
-        </div>
       
 
       
@@ -585,8 +641,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09-19-如何确定高斯滤波的标准差和窗口大小.html" rel="next" title="如何确定高斯滤波的标准差和窗口大小">
-                <i class="fa fa-chevron-left"></i> 如何确定高斯滤波的标准差和窗口大小
+              <a href="/2019/10-22-为什么需要特征归一化or标准化？.html" rel="next" title="为什么需要特征归一化/标准化？">
+                <i class="fa fa-chevron-left"></i> 为什么需要特征归一化/标准化？
               </a>
             
           </div>
@@ -594,10 +650,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html" rel="prev" title="OpenCV各版本差异与演化，1.x To 4.0">
-                OpenCV各版本差异与演化，1.x To 4.0 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -829,7 +881,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#均值与方差"><span class="nav-number">1.</span> <span class="nav-text">均值与方差</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定性分析"><span class="nav-number">2.</span> <span class="nav-text">定性分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定量分析"><span class="nav-number">3.</span> <span class="nav-text">定量分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前向传播与反向传播回顾"><span class="nav-number">1.</span> <span class="nav-text">前向传播与反向传播回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#梯度消失与梯度爆炸"><span class="nav-number">2.</span> <span class="nav-text">梯度消失与梯度爆炸</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#激活函数的影响"><span class="nav-number">2.1.</span> <span class="nav-text">激活函数的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权重矩阵的影响"><span class="nav-number">2.2.</span> <span class="nav-text">权重矩阵的影响</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不良初始化"><span class="nav-number">3.</span> <span class="nav-text">不良初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
