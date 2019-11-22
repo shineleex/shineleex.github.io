@@ -364,6 +364,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/11-11-网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11-11-网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming.html" itemprop="url">
+                  网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-11 15:35:03" itemprop="dateCreated datePublished" datetime="2019-11-11T15:35:03+08:00">2019-11-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-22 09:53:09" itemprop="dateModified" datetime="2019-11-22T09:53:09+08:00">2019-11-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习基础/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11-11-网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming.html" class="leancloud_visitors" data-flag-title="网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.9k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          博客：blog.shinelee.me | 博客园 | CSDN
+权重初始化最佳实践前向传播
+反向传播
+书接上回，全0、常数、过大、过小的权重初始化都是不好的，那我们需要什么样的初始化？
+
+因为对权重$w$的大小和正负缺乏先验，所以应初始化在0附近，但不能为全0或常数，所以要有一定的随机性，即数学期望$E(w)=0$；
+因为梯度消失和梯度爆炸，权重不易过大或过小，所以要对权重的方差$Var(w)$
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11-11-网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -2212,216 +2423,6 @@ NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李拜六不开鑫">
-      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="进击的小学生">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08-28-ImageNet主要网络benchmark对比.html" itemprop="url">
-                  ImageNet主要网络benchmark对比
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-28 19:46:23" itemprop="dateCreated datePublished" datetime="2019-08-28T19:46:23+08:00">2019-08-28</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-30 11:47:16" itemprop="dateModified" datetime="2019-08-30T11:47:16+08:00">2019-08-30</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/08-28-ImageNet主要网络benchmark对比.html" class="leancloud_visitors" data-flag-title="ImageNet主要网络benchmark对比">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">2.4k</span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          博客：blog.shinelee.me | 博客园 | CSDN
-深度神经网络繁多，各自的性能指标怎样？实际应用中，在速度、内存、准确率等各种约束下，应该尝试哪些模型作为backbone？
-有paper对各个网络模型进行了对比分析，形成了一个看待所有主要模型的完整视角，其分析结果可以在实践中提供指导和帮助。
-这篇博客主要整合了其中3篇文章的结论，分别是
-
-201605-An Analysis of
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08-28-ImageNet主要网络benchmark对比.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2473,7 +2474,7 @@ NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2485,6 +2486,8 @@ NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如�
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
                     
+                    
+                      
                     
                       
                     
@@ -2640,7 +2643,7 @@ NIN的网络结构仍是在AlexNet基础上修改而来，其主要创新点如�
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">173k</span>
+    <span title="站点总字数">181k</span>
   
 
   
