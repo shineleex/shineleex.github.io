@@ -72,8 +72,16 @@ $$
 
 反向传播求梯度只需抓住一个关键点，如果一个变量对另一个变量有影响，那么他们之间就存在偏导数，找到直接相关的变量，再配合链式法则，公式就很容易写出了。
 
-![BN 反向传播](https://s2.ax1x.com/2019/12/13/QgMPjs.png)
-
+$$
+\begin{array}{l}
+{\frac{\partial \ell}{\partial \gamma}=\sum_{i=1}^{m} \frac{\partial \ell}{\partial y_{i}} \cdot \widehat{x}_{i}} \\ 
+{\frac{\partial \ell}{\partial \beta}=\sum_{i=1}^{m} \frac{\partial \ell}{\partial y_{i}}} \\
+{\frac{\partial \ell}{\partial \widehat{x}_{i}}=\frac{\partial \ell}{\partial y_{i}} \cdot \gamma} \\ 
+{\frac{\partial \ell}{\partial \sigma_{B}^{2}}=\sum_{i=1}^{m} \frac{\partial \ell}{\partial \widehat{x}_{i}} \cdot\left(x_{i}-\mu_{\mathcal{B}}\right) \cdot \frac{-1}{2}\left(\sigma_{\mathcal{B}}^{2}+\epsilon\right)^{-3 / 2}} \\ 
+{\frac{\partial \ell}{\partial \mu_{\mathcal{B}}}=\left(\sum_{i=1}^{m} \frac{\partial \ell}{\partial \widehat{x}_{i}} \cdot \frac{-1}{\sqrt{\sigma_{\mathcal{B}}^{2}+\epsilon}}\right)+\frac{\partial \ell}{\partial \sigma_{\mathcal{B}}^{2}} \cdot \frac{\sum_{i=1}^{m}-2\left(x_{i}-\mu_{\mathcal{B}}\right)}{m}} \\ 
+{\frac{\partial \ell}{\partial x_{i}} = \frac{\partial \ell}{\partial \widehat{x}_{i}} \cdot \frac{1}{\sqrt{\sigma_{\mathcal{B}}^{2}+\epsilon}} + \frac{\partial \ell}{\partial \sigma_{\mathcal{B}}^{2}} \cdot \frac{2\left(x_{i}-\mu_{\mathcal{B}}\right)}{m} + \frac{\partial \ell}{\partial \mu_{\mathcal{B}}} \cdot \frac{1}{m}} \\ 
+\end{array}
+$$
 根据反向传播的顺序，首先求取损失$\ell$对BN层输出$y_i$的偏导$\frac{\partial \ell}{\partial y_{i}}$，然后是对可学习参数的偏导$\frac{\partial \ell}{\partial \gamma}$和$\frac{\partial \ell}{\partial \beta}$，用于对参数进行更新，想继续回传的话还需要求对输入 $x$偏导，于是引出对变量$\mu$、$\sigma^2$和$\hat{x}$的偏导，根据链式法则再求这些变量对$x$的偏导。
 
 在实际实现时，通常以矩阵或向量运算方式进行，比如逐元素相乘、沿某个axis求和、矩阵乘法等操作，具体可以参见[Understanding the backward pass through Batch Normalization Layer](https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html)和[BatchNorm in Caffe](https://github.com/BVLC/caffe/blob/master/src/caffe/layers/batch_norm_layer.cpp#L169)。
