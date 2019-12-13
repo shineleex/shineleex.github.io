@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,32 +168,32 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。 获取源代码Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见Other Interpreter Implementations）。CPython的源代码可以从官网pyhton.org或者 github.co">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何编译和调试Python内核源码？">
-<meta property="og:url" content="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;10-16-%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95Python%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。 获取源代码Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见Other Interpreter Implementations）。CPython的源代码可以从官网pyhton.org或者 github.co">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KiV44H.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KiG3Zj.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KiDRqx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KirNfe.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/KisW4O.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/Ki48iR.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/16/Ki4qyT.png">
-<meta property="og:updated_time" content="2019-10-22T06:05:01.356Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;KiV44H.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;KiG3Zj.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;KiDRqx.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;KirNfe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;KisW4O.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;Ki48iR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;Ki4qyT.png">
+<meta property="article:published_time" content="2019-10-16T01:57:26.000Z">
+<meta property="article:modified_time" content="2019-10-22T06:05:01.356Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何编译和调试Python内核源码？">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面如果对Python源码感兴趣，那“窥探”其实现的最佳方式就是调教它，不，调试它。 获取源代码Python的官方默认实现为CPython，即C语言实现（主要指解释器的实现，其他实现见Other Interpreter Implementations）。CPython的源代码可以从官网pyhton.org或者 github.co">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/10/16/KiV44H.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;16&#x2F;KiV44H.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html"/>
 
 
 
@@ -241,9 +241,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -253,7 +253,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -289,7 +289,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -297,7 +297,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -305,7 +305,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -313,7 +313,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -321,7 +321,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -367,20 +367,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-16-%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95Python%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -437,7 +437,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -448,7 +448,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Python百问/" itemprop="url" rel="index"><span itemprop="name">Python百问</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python%E7%99%BE%E9%97%AE/" itemprop="url" rel="index"><span itemprop="name">Python百问</span></a></span>
 
                 
                 
@@ -462,7 +462,7 @@
 
           
           
-             <span id="/2019/10-16-如何编译和调试Python内核源码.html" class="leancloud_visitors" data-flag-title="如何编译和调试Python内核源码？">
+             <span id="/2019/10-16-%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95Python%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81.html" class="leancloud_visitors" data-flag-title="如何编译和调试Python内核源码？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -518,7 +518,7 @@
 <h1 id="源代码的组织"><a href="#源代码的组织" class="headerlink" title="源代码的组织"></a>源代码的组织</h1><p>解压后，<strong>目录结构</strong>如下</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123; Python-3.8.0 &#125;  » tree -d -L 1 .</span><br><span class="line">.</span><br><span class="line">├── Doc 		<span class="comment"># rst(reStructuredText)格式官方文档，用其生成https://docs.python.org/</span></span><br><span class="line">├── Grammar		<span class="comment"># Python的EBNF(Extended Backus–Naur form)语法定义文件</span></span><br><span class="line">├── Include		<span class="comment"># .h 头文件</span></span><br><span class="line">├── Lib			<span class="comment"># .py 纯Python实现的标准库</span></span><br><span class="line">├── m4			<span class="comment"># ？</span></span><br><span class="line">├── Mac			<span class="comment"># Mac-specific code，支持MacOS</span></span><br><span class="line">├── Misc		<span class="comment"># Things that do not belong elsewhere.</span></span><br><span class="line">├── Modules		<span class="comment"># C实现的标准库，内含.c .asm .macros .h</span></span><br><span class="line">├── Objects		<span class="comment"># 内置数据类型实现</span></span><br><span class="line">├── Parser		<span class="comment"># Python语法分析器源码</span></span><br><span class="line">├── PC			<span class="comment"># Windows-specific code，支持Windows</span></span><br><span class="line">├── PCbuild		<span class="comment"># Windows生成文件，for MSVC</span></span><br><span class="line">├── Programs	<span class="comment"># main函数文件，用于生成可执行文件，如python.exe的入口文件</span></span><br><span class="line">├── Python		<span class="comment"># CPython解释器源码</span></span><br><span class="line">└── Tools		<span class="comment"># 独立工具代码，used to maintain Python</span></span><br></pre></td></tr></table></figure>
 <p>CPython的源码组织结构如下，摘抄自<a href="https://devguide.python.org/exploring/#cpython-source-code-layout" target="_blank" rel="noopener">CPython Source Code Layout</a>，</p>
-<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiG3Zj.png" alt="CPython Source Code Layout" style="zoom:80%;"><figcaption class="image-caption">CPython Source Code Layout</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiG3Zj.png" alt="CPython Source Code Layout" style="zoom:80%;" /><figcaption class="image-caption">CPython Source Code Layout</figcaption></figure></p>
 <p>源码文件分门别类存放，而且，无论是py实现的标准库、c实现的标准库、内置数据类型还是内置函数，在<code>Lib/test/</code>和<code>Doc/library/</code>目录下都有与之对应的test_x.py测试文件和rst文档文件（对于内置数据类型和函数，其文档集中保存在stdtypes.rst和functions.rst）。比如，内置类型<code>int</code>位于<code>Objects/longobject.c</code>文件中。</p>
 <p>下面正式开始编译CPython。</p>
 <h1 id="windows下编译CPython"><a href="#windows下编译CPython" class="headerlink" title="windows下编译CPython"></a>windows下编译CPython</h1><p>据<a href="https://devguide.python.org/setup/#windows" target="_blank" rel="noopener">Compile and build on Windows</a>，Python3.6及之后的版本可以使用VS2017编译，安装VS2017时，记得勾选 <strong>Python development</strong> 和 <strong>Python native development tools</strong>，有备无患。</p>
@@ -529,7 +529,7 @@
 <li>仅勾选项目python和pythoncore</li>
 <li>确定</li>
 </ul>
-<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiDRqx.png" alt="vs2017 python build configuration" style="zoom:80%;"><figcaption class="image-caption">vs2017 python build configuration</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/16/KiDRqx.png" alt="vs2017 python build configuration" style="zoom:80%;" /><figcaption class="image-caption">vs2017 python build configuration</figcaption></figure></p>
 <p>此时再“生成解决方案”，生成目录为<code>PCbuild/win32</code>，内容如下，含解释器python_d.exe和内核python38_d.dll，</p>
 <p><figure><img src="https://s2.ax1x.com/2019/10/16/KirNfe.png" alt="PCbuild build dir"><figcaption class="image-caption">PCbuild build dir</figcaption></figure></p>
 <p>接下来，将项目python设为启动项目（默认状态即是启动项目），点击<strong>调试</strong>，运行得到如下控制台，可以像平时使用python一样，与之交互。</p>
@@ -580,7 +580,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html" title="如何编译和调试Python内核源码？">https://blog.shinelee.me/2019/10-16-如何编译和调试Python内核源码.html</a>
+    <a href="https://blog.shinelee.me/2019/10-16-%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95Python%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81.html" title="如何编译和调试Python内核源码？">https://blog.shinelee.me/2019/10-16-%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95Python%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -615,7 +615,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10-11-VGG(2014)，3x3卷积的胜利.html" rel="next" title="VGG(2014)，3x3卷积的胜利">
+              <a href="/2019/10-11-VGG(2014)%EF%BC%8C3x3%E5%8D%B7%E7%A7%AF%E7%9A%84%E8%83%9C%E5%88%A9.html" rel="next" title="VGG(2014)，3x3卷积的胜利">
                 <i class="fa fa-chevron-left"></i> VGG(2014)，3x3卷积的胜利
               </a>
             
@@ -625,7 +625,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" rel="prev" title="直观理解梯度，以及偏导数、方向导数和法向量等">
+              <a href="/2019/10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html" rel="prev" title="直观理解梯度，以及偏导数、方向导数和法向量等">
                 直观理解梯度，以及偏导数、方向导数和法向量等 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -695,9 +695,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -708,9 +710,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -753,7 +755,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -895,7 +899,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

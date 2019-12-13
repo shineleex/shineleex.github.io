@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -167,33 +167,33 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html论文：https://arxiv.org/abs/1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
-<meta name="keywords" content="paper">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https:&#x2F;&#x2F;kpzhang93.github.io&#x2F;MTCNN_face_detection_alignment&#x2F;index.html论文：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
-<meta property="og:url" content="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2018&#x2F;12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html论文：https://arxiv.org/abs/1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/11/FYPMuQ.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/11/FYPs4x.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/12/Ft9KpT.md.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/12/Ft9d1O.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/13/FNPkNR.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/13/FNPOqe.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/13/FNFdts.png">
-<meta property="og:updated_time" content="2019-08-30T03:46:26.887Z">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https:&#x2F;&#x2F;kpzhang93.github.io&#x2F;MTCNN_face_detection_alignment&#x2F;index.html论文：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;11&#x2F;FYPMuQ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;11&#x2F;FYPs4x.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;12&#x2F;Ft9KpT.md.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;12&#x2F;Ft9d1O.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;13&#x2F;FNPkNR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;13&#x2F;FNPOqe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;13&#x2F;FNFdts.png">
+<meta property="article:published_time" content="2018-12-13T10:12:19.000Z">
+<meta property="article:modified_time" content="2019-08-30T03:46:26.887Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面主页：https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html论文：https://arxiv.org/abs/1604.02878代码：官方matlab版、C++ caffe版第三方训练代码：tensorflow、mxnet MTCNN，恰如">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/12/11/FYPMuQ.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;11&#x2F;FYPMuQ.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html"/>
 
 
 
@@ -241,9 +241,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -253,7 +253,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -289,7 +289,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -297,7 +297,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -305,7 +305,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -313,7 +313,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -321,7 +321,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -367,20 +367,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -437,7 +437,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -448,7 +448,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/人脸识别/" itemprop="url" rel="index"><span itemprop="name">人脸识别</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/" itemprop="url" rel="index"><span itemprop="name">人脸识别</span></a></span>
 
                 
                 
@@ -462,7 +462,7 @@
 
           
           
-             <span id="/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" class="leancloud_visitors" data-flag-title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+             <span id="/2018/12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html" class="leancloud_visitors" data-flag-title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -581,7 +581,7 @@
 <p>具体怎么实现的？这里以<a href="https://github.com/AITTSMD/MTCNN-Tensorflow/blob/master/train_models/mtcnn_model.py" target="_blank" rel="noopener">MTCNN-Tensorflow / train_models / mtcnn_model.py</a>代码为例，用<code>label</code>来指示是哪种数据，下面为代码，重点关注<code>valid_inds</code>和<code>loss</code>（<code>square_error</code>）的计算（对应$\beta_i^j$），以及<code>cls_ohem</code>中的<strong>困难样本挖掘</strong>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in mtcnn_model.py]</span></span><br><span class="line"><span class="comment"># pos=1, neg=0, part=-1, landmark=-2</span></span><br><span class="line"><span class="comment"># 通过cls_ohem, bbox_ohem, landmark_ohem来计算损失</span></span><br><span class="line">num_keep_radio = <span class="number">0.7</span> <span class="comment"># mini-batch前70%做为困难样本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># face/non-face 损失，注意在线困难样本挖掘（前70%）</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cls_ohem</span><span class="params">(cls_prob, label)</span>:</span></span><br><span class="line">    zeros = tf.zeros_like(label)</span><br><span class="line">    <span class="comment">#label=-1 --&gt; label=0net_factory</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#pos -&gt; 1, neg -&gt; 0, others -&gt; 0</span></span><br><span class="line">    label_filter_invalid = tf.where(tf.less(label,<span class="number">0</span>), zeros, label)</span><br><span class="line">    num_cls_prob = tf.size(cls_prob)</span><br><span class="line">    cls_prob_reshape = tf.reshape(cls_prob,[num_cls_prob,<span class="number">-1</span>])</span><br><span class="line">    label_int = tf.cast(label_filter_invalid,tf.int32)</span><br><span class="line">    <span class="comment"># get the number of rows of class_prob</span></span><br><span class="line">    num_row = tf.to_int32(cls_prob.get_shape()[<span class="number">0</span>])</span><br><span class="line">    <span class="comment">#row = [0,2,4.....]</span></span><br><span class="line">    row = tf.range(num_row)*<span class="number">2</span></span><br><span class="line">    indices_ = row + label_int</span><br><span class="line">    label_prob = tf.squeeze(tf.gather(cls_prob_reshape, indices_))</span><br><span class="line">    loss = -tf.log(label_prob+<span class="number">1e-10</span>)</span><br><span class="line">    zeros = tf.zeros_like(label_prob, dtype=tf.float32)</span><br><span class="line">    ones = tf.ones_like(label_prob,dtype=tf.float32)</span><br><span class="line">    <span class="comment"># set pos and neg to be 1, rest to be 0</span></span><br><span class="line">    valid_inds = tf.where(label &lt; zeros,zeros,ones)</span><br><span class="line">    <span class="comment"># get the number of POS and NEG examples</span></span><br><span class="line">    num_valid = tf.reduce_sum(valid_inds)</span><br><span class="line"></span><br><span class="line">    <span class="comment">###### 困难样本数量 #####</span></span><br><span class="line">    keep_num = tf.cast(num_valid*num_keep_radio,dtype=tf.int32)</span><br><span class="line">    <span class="comment">#FILTER OUT PART AND LANDMARK DATA</span></span><br><span class="line">    loss = loss * valid_inds</span><br><span class="line">    loss,_ = tf.nn.top_k(loss, k=keep_num) <span class="comment">##### 仅取困难样本反向传播 #####</span></span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(loss)</span><br><span class="line"></span><br><span class="line"><span class="comment"># bounding box损失</span></span><br><span class="line"><span class="comment">#label=1 or label=-1 then do regression</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bbox_ohem</span><span class="params">(bbox_pred,bbox_target,label)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param bbox_pred:</span></span><br><span class="line"><span class="string">    :param bbox_target:</span></span><br><span class="line"><span class="string">    :param label: class label</span></span><br><span class="line"><span class="string">    :return: mean euclidean loss for all the pos and part examples</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    zeros_index = tf.zeros_like(label, dtype=tf.float32)</span><br><span class="line">    ones_index = tf.ones_like(label,dtype=tf.float32)</span><br><span class="line">    <span class="comment"># keep pos and part examples</span></span><br><span class="line">    valid_inds = tf.where(tf.equal(tf.abs(label), <span class="number">1</span>),ones_index,zeros_index)</span><br><span class="line">    <span class="comment">#(batch,)</span></span><br><span class="line">    <span class="comment">#calculate square sum</span></span><br><span class="line">    square_error = tf.square(bbox_pred-bbox_target)</span><br><span class="line">    square_error = tf.reduce_sum(square_error,axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment">#keep_num scalar</span></span><br><span class="line">    num_valid = tf.reduce_sum(valid_inds)</span><br><span class="line">    <span class="comment">#keep_num = tf.cast(num_valid*num_keep_radio,dtype=tf.int32)</span></span><br><span class="line">    <span class="comment"># count the number of pos and part examples</span></span><br><span class="line">    keep_num = tf.cast(num_valid, dtype=tf.int32)</span><br><span class="line">    <span class="comment">#keep valid index square_error</span></span><br><span class="line">    square_error = square_error*valid_inds</span><br><span class="line">    <span class="comment"># keep top k examples, k equals to the number of positive examples</span></span><br><span class="line">    _, k_index = tf.nn.top_k(square_error, k=keep_num)</span><br><span class="line">    square_error = tf.gather(square_error, k_index)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(square_error)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键点损失</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">landmark_ohem</span><span class="params">(landmark_pred,landmark_target,label)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    :param landmark_pred:</span></span><br><span class="line"><span class="string">    :param landmark_target:</span></span><br><span class="line"><span class="string">    :param label:</span></span><br><span class="line"><span class="string">    :return: mean euclidean loss</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment">#keep label =-2  then do landmark detection</span></span><br><span class="line">    ones = tf.ones_like(label,dtype=tf.float32)</span><br><span class="line">    zeros = tf.zeros_like(label,dtype=tf.float32)</span><br><span class="line">    valid_inds = tf.where(tf.equal(label,<span class="number">-2</span>),ones,zeros) <span class="comment">##### 将label=-2的置为1，其余为0 #####</span></span><br><span class="line">    square_error = tf.square(landmark_pred-landmark_target)</span><br><span class="line">    square_error = tf.reduce_sum(square_error,axis=<span class="number">1</span>)</span><br><span class="line">    num_valid = tf.reduce_sum(valid_inds)</span><br><span class="line">    <span class="comment">#keep_num = tf.cast(num_valid*num_keep_radio,dtype=tf.int32)</span></span><br><span class="line">    keep_num = tf.cast(num_valid, dtype=tf.int32)</span><br><span class="line">    square_error = square_error*valid_inds <span class="comment"># 在计算landmark_ohem损失时只计算beta=1的 #####</span></span><br><span class="line">    _, k_index = tf.nn.top_k(square_error, k=keep_num)</span><br><span class="line">    square_error = tf.gather(square_error, k_index)</span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(square_error)</span><br></pre></td></tr></table></figure>
 <p>多任务学习的代码片段如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in train.py</span></span><br><span class="line"><span class="keyword">if</span> net == <span class="string">'PNet'</span>:</span><br><span class="line">    image_size = <span class="number">12</span></span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">elif</span> net == <span class="string">'RNet'</span>:</span><br><span class="line">    image_size = <span class="number">24</span></span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">1</span>;</span><br><span class="line">    image_size = <span class="number">48</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="comment"># 多任务联合损失</span></span><br><span class="line">total_loss_op  = radio_cls_loss*cls_loss_op + radio_bbox_loss*bbox_loss_op + radio_landmark_loss*landmark_loss_op + L2_loss_op</span><br><span class="line">train_op, lr_op = train_model(base_lr, total_loss_op, num)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_model</span><span class="params">(base_lr, loss, data_num)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    train model</span></span><br><span class="line"><span class="string">    :param base_lr: base learning rate</span></span><br><span class="line"><span class="string">    :param loss: loss</span></span><br><span class="line"><span class="string">    :param data_num:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    train_op, lr_op</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    lr_factor = <span class="number">0.1</span></span><br><span class="line">    global_step = tf.Variable(<span class="number">0</span>, trainable=<span class="keyword">False</span>)</span><br><span class="line">    <span class="comment">#LR_EPOCH [8,14]</span></span><br><span class="line">    <span class="comment">#boundaried [num_batch,num_batch]</span></span><br><span class="line">    boundaries = [int(epoch * data_num / config.BATCH_SIZE) <span class="keyword">for</span> epoch <span class="keyword">in</span> config.LR_EPOCH]</span><br><span class="line">    <span class="comment">#lr_values[0.01,0.001,0.0001,0.00001]</span></span><br><span class="line">    lr_values = [base_lr * (lr_factor ** x) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, len(config.LR_EPOCH) + <span class="number">1</span>)]</span><br><span class="line">    <span class="comment">#control learning rate</span></span><br><span class="line">    lr_op = tf.train.piecewise_constant(global_step, boundaries, lr_values)</span><br><span class="line">    optimizer = tf.train.MomentumOptimizer(lr_op, <span class="number">0.9</span>)</span><br><span class="line">    train_op = optimizer.minimize(loss, global_step)</span><br><span class="line">    <span class="keyword">return</span> train_op, lr_op</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># in train.py</span></span><br><span class="line"><span class="keyword">if</span> net == <span class="string">'PNet'</span>:</span><br><span class="line">    image_size = <span class="number">12</span></span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">elif</span> net == <span class="string">'RNet'</span>:</span><br><span class="line">    image_size = <span class="number">24</span></span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">0.5</span>;</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    radio_cls_loss = <span class="number">1.0</span>;radio_bbox_loss = <span class="number">0.5</span>;radio_landmark_loss = <span class="number">1</span>;</span><br><span class="line">    image_size = <span class="number">48</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="comment"># 多任务联合损失</span></span><br><span class="line">total_loss_op  = radio_cls_loss*cls_loss_op + radio_bbox_loss*bbox_loss_op + radio_landmark_loss*landmark_loss_op + L2_loss_op</span><br><span class="line">train_op, lr_op = train_model(base_lr, total_loss_op, num)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_model</span><span class="params">(base_lr, loss, data_num)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    train model</span></span><br><span class="line"><span class="string">    :param base_lr: base learning rate</span></span><br><span class="line"><span class="string">    :param loss: loss</span></span><br><span class="line"><span class="string">    :param data_num:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    train_op, lr_op</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    lr_factor = <span class="number">0.1</span></span><br><span class="line">    global_step = tf.Variable(<span class="number">0</span>, trainable=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment">#LR_EPOCH [8,14]</span></span><br><span class="line">    <span class="comment">#boundaried [num_batch,num_batch]</span></span><br><span class="line">    boundaries = [int(epoch * data_num / config.BATCH_SIZE) <span class="keyword">for</span> epoch <span class="keyword">in</span> config.LR_EPOCH]</span><br><span class="line">    <span class="comment">#lr_values[0.01,0.001,0.0001,0.00001]</span></span><br><span class="line">    lr_values = [base_lr * (lr_factor ** x) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, len(config.LR_EPOCH) + <span class="number">1</span>)]</span><br><span class="line">    <span class="comment">#control learning rate</span></span><br><span class="line">    lr_op = tf.train.piecewise_constant(global_step, boundaries, lr_values)</span><br><span class="line">    optimizer = tf.train.MomentumOptimizer(lr_op, <span class="number">0.9</span>)</span><br><span class="line">    train_op = optimizer.minimize(loss, global_step)</span><br><span class="line">    <span class="keyword">return</span> train_op, lr_op</span><br></pre></td></tr></table></figure>
 <p>以上对应论文中的损失函数。</p>
 <h1 id="预测过程"><a href="#预测过程" class="headerlink" title="预测过程"></a>预测过程</h1><p>预测过程与算法Pipeline详解一节讲述的一致，直接看一下官方matlab代码，这里重点关注P-Net FCN是如何获得Bounding box的，以及O-Net最终是如何得到landmark的，其余部分省略。</p>
 <p>将图像金字塔中的每张图像输入给P-Net，若当前输入图像尺寸为$M\times N$，在bounding box regression分支上将得到一个3维张量$m\times n \times 4$，共有$m\times n$个位置，每个位置对应输入图像中一个$12\times 12$的区域，而输入图像相对原图的尺度为<code>scale</code>，进一步可以获得每个位置对应到原图中的区域范围，如下所示：</p>
@@ -616,7 +616,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">https://blog.shinelee.me/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html</a>
+    <a href="https://blog.shinelee.me/2018/12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">https://blog.shinelee.me/2018/12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -657,7 +657,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html" rel="next" title="直观理解神经网络最后一层全连接+Softmax">
+              <a href="/2018/12-06-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9C%80%E5%90%8E%E4%B8%80%E5%B1%82%E5%85%A8%E8%BF%9E%E6%8E%A5+Softmax.html" rel="next" title="直观理解神经网络最后一层全连接+Softmax">
                 <i class="fa fa-chevron-left"></i> 直观理解神经网络最后一层全连接+Softmax
               </a>
             
@@ -667,7 +667,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" rel="prev" title="Caffe源码理解3：Layer基类与template method设计模式">
+              <a href="/2018/12-19-Caffe%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A33%EF%BC%9ALayer%E5%9F%BA%E7%B1%BB%E4%B8%8Etemplate-method%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" rel="prev" title="Caffe源码理解3：Layer基类与template method设计模式">
                 Caffe源码理解3：Layer基类与template method设计模式 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -737,9 +737,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -750,9 +752,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -795,7 +797,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -937,7 +941,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

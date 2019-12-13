@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,29 +168,29 @@
 
 
   <meta name="description" content="动机在计算机视觉领域，经常需要检测极值位置，比如SIFT关键点检测、模板匹配获得最大响应位置、统计直方图峰值位置、边缘检测等等，有时只需要像素精度就可以，有时则需要亚像素精度。本文尝试总结几种常用的一维离散数据极值检测方法，几个算法主要来自论文《A Comparison of Algorithms  for Subpixel Peak Detection》，加上自己的理解和推导。 问题定义给定如下">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="亚像素数值极值检测算法总结">
-<meta property="og:url" content="https://blog.shinelee.me/2018/08-04-亚像素数值极值检测算法总结.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2018&#x2F;08-04-%E4%BA%9A%E5%83%8F%E7%B4%A0%E6%95%B0%E5%80%BC%E6%9E%81%E5%80%BC%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="动机在计算机视觉领域，经常需要检测极值位置，比如SIFT关键点检测、模板匹配获得最大响应位置、统计直方图峰值位置、边缘检测等等，有时只需要像素精度就可以，有时则需要亚像素精度。本文尝试总结几种常用的一维离散数据极值检测方法，几个算法主要来自论文《A Comparison of Algorithms  for Subpixel Peak Detection》，加上自己的理解和推导。 问题定义给定如下">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izOixs.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izzoIP.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izz7Pf.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/11/18/izzbRS.png">
-<meta property="og:updated_time" content="2019-05-15T09:36:31.357Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;11&#x2F;18&#x2F;izOixs.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;11&#x2F;18&#x2F;izzoIP.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;11&#x2F;18&#x2F;izz7Pf.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;11&#x2F;18&#x2F;izzbRS.png">
+<meta property="article:published_time" content="2018-08-04T09:20:42.000Z">
+<meta property="article:modified_time" content="2019-05-15T09:36:31.357Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="亚像素数值极值检测算法总结">
-<meta name="twitter:description" content="动机在计算机视觉领域，经常需要检测极值位置，比如SIFT关键点检测、模板匹配获得最大响应位置、统计直方图峰值位置、边缘检测等等，有时只需要像素精度就可以，有时则需要亚像素精度。本文尝试总结几种常用的一维离散数据极值检测方法，几个算法主要来自论文《A Comparison of Algorithms  for Subpixel Peak Detection》，加上自己的理解和推导。 问题定义给定如下">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/11/18/izOixs.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;11&#x2F;18&#x2F;izOixs.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/08-04-亚像素数值极值检测算法总结.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2018/08-04-亚像素数值极值检测算法总结.html"/>
 
 
 
@@ -238,9 +238,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -250,7 +250,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -286,7 +286,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -294,7 +294,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -302,7 +302,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -310,7 +310,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -318,7 +318,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -364,20 +364,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/08-04-亚像素数值极值检测算法总结.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/08-04-%E4%BA%9A%E5%83%8F%E7%B4%A0%E6%95%B0%E5%80%BC%E6%9E%81%E5%80%BC%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -434,7 +434,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -445,7 +445,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/算法/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a></span>
 
                 
                 
@@ -459,7 +459,7 @@
 
           
           
-             <span id="/2018/08-04-亚像素数值极值检测算法总结.html" class="leancloud_visitors" data-flag-title="亚像素数值极值检测算法总结">
+             <span id="/2018/08-04-%E4%BA%9A%E5%83%8F%E7%B4%A0%E6%95%B0%E5%80%BC%E6%9E%81%E5%80%BC%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html" class="leancloud_visitors" data-flag-title="亚像素数值极值检测算法总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -484,7 +484,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.7k</span>
+                <span title="本文字数">3.6k</span>
               
 
               
@@ -510,54 +510,40 @@
       
         <h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>在计算机视觉领域，经常需要检测极值位置，比如SIFT关键点检测、模板匹配获得最大响应位置、统计直方图峰值位置、边缘检测等等，有时只需要像素精度就可以，有时则需要亚像素精度。本文尝试总结几种常用的一维离散数据极值检测方法，几个算法主要来自论文《A Comparison of Algorithms  for Subpixel Peak Detection》，加上自己的理解和推导。</p>
 <h1 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h1><p>给定如下离散值，求其极值位置。可知125为观察极值。</p>
-<p>$$[60, 80, 100, 120, 125, 105, 70, 55]$$</p>
-<p>如果这些离散值是从某个分布$f$中等间距采样获得，其真正的极值位置应位于120和125之间。</p>
+<script type="math/tex; mode=display">[60, 80, 100, 120, 125, 105, 70, 55]</script><p>如果这些离散值是从某个分布$f$中等间距采样获得，其真正的极值位置应位于120和125之间。</p>
 <p>下面给出形式化的定义：给定一组离散值，令$x$为观测到的极值点位置，其值为$f(x)$，其左右相邻位置的值为$f(x-1)$和$f(x+1)$，真正的极值点位置为$x+\delta$，令$\hat{\delta}$为$\delta$的估计值。</p>
 <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>假设<strong>$x$的邻域</strong>可通过某个模型进行近似，如高斯近似、抛物线近似，则可以利用$x$的邻域信息根据模型估计出极值。使用的模型不同就有不同的算法，具体如下。</p>
 <h2 id="高斯近似"><a href="#高斯近似" class="headerlink" title="高斯近似"></a>高斯近似</h2><p>一维<a href="https://wiki2.org/en/Gaussian_function" target="_blank" rel="noopener">高斯函数</a>如下：</p>
-<p>$$y = y_{max} \cdot exp(-\frac{(x-\mu)^2}{2\sigma^2})$$<br>当$y_{max}=\frac{1}{\sqrt{2\sigma}\pi}$时为标准高斯函数，形如</p>
+<script type="math/tex; mode=display">y = y_{max} \cdot exp(-\frac{(x-\mu)^2}{2\sigma^2})</script><p>当$y_{max}=\frac{1}{\sqrt{2\sigma}\pi}$时为标准高斯函数，形如</p>
 <p><figure><img src="https://s1.ax1x.com/2018/11/18/izOixs.png" alt="标准高斯函数"><figcaption class="image-caption">标准高斯函数</figcaption></figure></p>
 <p>假设$x$的邻域可用高斯近似，用$(x, f(x))$、$(x-1, f(x-1))$、$(x+1, f(x+1))$三点对高斯函数进行拟合，获得模型参数$\mu$即为峰值位置，$\hat{\delta}=\mu - x$。将三点带入上面的高斯函数两边同时取对数求得：</p>
-<p>$$\hat{\delta} = \frac{1}{2} \frac{\ln(f(x-1)) - \ln(f(x+1))}{\ln(f(x-1)) - 2\ln(f(x)) + \ln(f(x+1))}$$</p>
-<p>下面可以看到，<strong>高斯近似相当于取对数后的抛物线近似</strong>。</p>
+<script type="math/tex; mode=display">\hat{\delta} = \frac{1}{2} \frac{\ln(f(x-1)) - \ln(f(x+1))}{\ln(f(x-1)) - 2\ln(f(x)) + \ln(f(x+1))}</script><p>下面可以看到，<strong>高斯近似相当于取对数后的抛物线近似</strong>。</p>
 <h2 id="抛物线近似"><a href="#抛物线近似" class="headerlink" title="抛物线近似"></a>抛物线近似</h2><p>使用抛物线近似$x$的局部，可以将$(x, f(x))$、$(x-1, f(x-1))$、$(x+1, f(x+1))$三点带入$y=a(x-b)^2+c$求参数$b$即为估计的极值位置，也可采用<a href="https://wiki2.org/en/Taylor_series" target="_blank" rel="noopener">泰勒展开</a>（<a href="https://wiki2.org/en/Newton%27s_method" target="_blank" rel="noopener">牛顿法</a>）来求极值。泰勒公式实际上是一种利用高阶导数通过多项式近似函数的方法，下面的图示可直观理解这种近似，图示为通过泰勒公式近似原点附近的正弦曲线：</p>
 <p><figure><img src="https://s1.ax1x.com/2018/11/18/izzoIP.png" alt="泰勒近似正弦曲线"><figcaption class="image-caption">泰勒近似正弦曲线</figcaption></figure></p>
 <p>泰勒近似$x$附近，如只取到二阶则为抛物线近似。假设高阶可导，极值为$f(x+\delta)$，则根据泰勒公式，</p>
-<p>$$f(x+\delta) = f(x) + f’(x)\delta + \frac{1}{2} f’’(x)\delta^2 + O(\delta^3)$$</p>
-<p>极值处导数为0，这里$x$为常数$\delta$为变量，两边同时对$\delta$求导，忽略高阶项可得</p>
-<p>$$f’(x+\hat{\delta}) = f’(x) + f’’(x)\hat{\delta} = 0$$</p>
-<p>使用一阶微分和二阶微分近似$f’(x)$和$f’’(x)$得</p>
-<p>$$\hat{\delta} = - \frac{f’(x)}{f’’(x)} = - \frac{(f(x+1)-f(x-1))/2}{(f(x+1)-f(x))-(f(x) - f(x-1))}= \frac{1}{2}\frac{f(x-1)-f(x+1)}{f(x+1)-2f(x)+ f(x-1)}$$<br>与带入抛物线求参数的结果是一致的，加上对数则与高斯近似一致。</p>
+<script type="math/tex; mode=display">f(x+\delta) = f(x) + f'(x)\delta + \frac{1}{2} f''(x)\delta^2 + O(\delta^3)</script><p>极值处导数为0，这里$x$为常数$\delta$为变量，两边同时对$\delta$求导，忽略高阶项可得</p>
+<script type="math/tex; mode=display">f'(x+\hat{\delta}) = f'(x) + f''(x)\hat{\delta} = 0</script><p>使用一阶微分和二阶微分近似$f’(x)$和$f’’(x)$得</p>
+<script type="math/tex; mode=display">\hat{\delta} = - \frac{f'(x)}{f''(x)} = - \frac{(f(x+1)-f(x-1))/2}{(f(x+1)-f(x))-(f(x) - f(x-1))}= \frac{1}{2}\frac{f(x-1)-f(x+1)}{f(x+1)-2f(x)+ f(x-1)}</script><p>与带入抛物线求参数的结果是一致的，加上对数则与高斯近似一致。</p>
 <h2 id="质心算法"><a href="#质心算法" class="headerlink" title="质心算法"></a>质心算法</h2><blockquote>
 <p>In physics, the <strong>center of mass</strong> of a distribution of mass in space is <strong>the unique point where the weighted relative position of the distributed mass sums to zero</strong>, or the point where if a force is applied it moves in the direction of the force without rotating.——<a href="https://wiki2.org/en/Center_of_mass" target="_blank" rel="noopener">Center of mass wiki</a></p>
 </blockquote>
 <p><figure><img src="https://s1.ax1x.com/2018/11/18/izz7Pf.png" alt="质心"><figcaption class="image-caption">质心</figcaption></figure></p>
 <p>若将$x$、$x-1$、$x+1$看成质点，将$f(x)$、$f(x-1)$、$f(x+1)$看成质点的质量，则可以把质心作为极值的估计。根据质点相对质心位置的质量加权和为零，可求得质心位置。令$R$为质心坐标，$m$和$r$分别为质点质量和坐标，则$n$个质点的质心满足</p>
-<p>$$\sum_{i=1}^n m_i(r_i - R) = 0$$</p>
-<p>令$M = \sum_{i=1}^n m_i$，质心坐标为</p>
-<p>$$R = \frac{1}{M} \sum_{i=1}^n m_ir_i$$</p>
-<p>带入得</p>
-<p>$$x + \hat{\delta} = \frac{(x-1)f(x-1)+xf(x)+(x+1)f(x+1)}{f(x-1)+f(x)+f(x+1)}$$</p>
-<p>$$\hat{\delta} = \frac{f(x+1)-f(x-1)}{f(x-1)+f(x)+f(x+1)}$$</p>
-<p>以上考虑的是3质点系统的质心，还可考虑5质点、7质点等，甚至考虑所有点。</p>
+<script type="math/tex; mode=display">\sum_{i=1}^n m_i(r_i - R) = 0</script><p>令$M = \sum_{i=1}^n m_i$，质心坐标为</p>
+<script type="math/tex; mode=display">R = \frac{1}{M} \sum_{i=1}^n m_ir_i</script><p>带入得</p>
+<script type="math/tex; mode=display">x + \hat{\delta} = \frac{(x-1)f(x-1)+xf(x)+(x+1)f(x+1)}{f(x-1)+f(x)+f(x+1)}</script><script type="math/tex; mode=display">\hat{\delta} = \frac{f(x+1)-f(x-1)}{f(x-1)+f(x)+f(x+1)}</script><p>以上考虑的是3质点系统的质心，还可考虑5质点、7质点等，甚至考虑所有点。</p>
 <h2 id="线性插值"><a href="#线性插值" class="headerlink" title="线性插值"></a>线性插值</h2><p>这个模型假设在极值两侧是线性增长和线性下降的，且<strong>上升和下降的速度相同</strong>，即$y=kx+b$，上升侧$k&gt;0$，下降侧$k&lt;0$，两者绝对值相同，可以利用这个性质求解极值位置。</p>
 <p>若$f(x+1)&gt;f(x-1)$则极值位于$(x, x+1)$之间，可列等式</p>
-<p>$$\frac{f(x) - f(x-1)}{x-(x-1)} = \frac{f(x+\delta)-f(x)}{x+\delta - x} = \frac{f(x+\delta)-f(x+1)}{x+1-(x+\delta)}$$</p>
-<p>解得</p>
-<p>$$\hat{\delta}=\frac{1}{2}\frac{f(x+1)-f(x-1)}{f(x)-f(x-1)}$$</p>
-<p>同理，若$f(x-1)&gt;f(x+1)$求得</p>
-<p>$$\hat{\delta}=\frac{1}{2}\frac{f(x+1)-f(x-1)}{f(x)-f(x+1)}$$</p>
-<h2 id="数值微分滤波"><a href="#数值微分滤波" class="headerlink" title="数值微分滤波"></a>数值微分滤波</h2><p>这个方法是利用极值处导数为0的性质，<strong>在微分滤波结果上插值得到导数为0的位置</strong>，因已知极值点在$x$附近，因此只需在$x$附近做微分和插值即可。插值时取极值点两侧正负值连线的过零点作为极值点的估计，如下图所示</p>
+<script type="math/tex; mode=display">\frac{f(x) - f(x-1)}{x-(x-1)} = \frac{f(x+\delta)-f(x)}{x+\delta - x} = \frac{f(x+\delta)-f(x+1)}{x+1-(x+\delta)}</script><p>解得</p>
+<script type="math/tex; mode=display">\hat{\delta}=\frac{1}{2}\frac{f(x+1)-f(x-1)}{f(x)-f(x-1)}</script><p>同理，若$f(x-1)&gt;f(x+1)$求得</p>
+<script type="math/tex; mode=display">\hat{\delta}=\frac{1}{2}\frac{f(x+1)-f(x-1)}{f(x)-f(x+1)}</script><h2 id="数值微分滤波"><a href="#数值微分滤波" class="headerlink" title="数值微分滤波"></a>数值微分滤波</h2><p>这个方法是利用极值处导数为0的性质，<strong>在微分滤波结果上插值得到导数为0的位置</strong>，因已知极值点在$x$附近，因此只需在$x$附近做微分和插值即可。插值时取极值点两侧正负值连线的过零点作为极值点的估计，如下图所示</p>
 <p><figure><img src="https://s1.ax1x.com/2018/11/18/izzbRS.png" alt="Linear  interpolation of the peak position"><figcaption class="image-caption">Linear  interpolation of the peak position</figcaption></figure></p>
 <p>论文<a href="https://dl.acm.org/citation.cfm?id=10782" target="_blank" rel="noopener">Real-time numerical peak detector</a>中定义了4阶和8阶线性滤波器$[1, 1, 0, -1, -1]$和$[1,1,1,1,0,-1,-1,-1,-1]$，对应的函数形式为</p>
-<p>$$g_4(x)=f(x-2)+f(x-1)-f(x+1)-f(x+2)$$</p>
-<p>$$g_8(x)=f(x-4)+f(x-3)+f(x-2)+f(x-1) \\<br>-f(x+1)-f(x+2)-f(x+3)-f(x+4)$$</p>
-<p>2阶形式为$g_2(x) = f(x-1) -f(x+1)$，这些滤波器的表现与数值微分滤波器相似。</p>
-<p>当$f(x+1)&gt;f(x-1)$时，极值点位于$(x, x+1)$之间，$g(x)&lt;0$，$g(x+1)&gt;0$，极值点位置为$g(x)$与$g(x+1)$连线的过零点，通过斜率求得</p>
-<p>$$\hat{\delta} = \frac{g(x)}{g(x+1)-g(x)}$$</p>
-<p>若$f(x-1)&gt;f(x+1)$，则</p>
-<p>$$\hat{\delta} = \frac{g(x-1)}{g(x-1)-g(x)} - 1$$</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>这些数值极值检测方法均是先获取观测极值$x$及其邻域信息，然后综合邻域信息在各自的模型假设下通过插值估计出极值位置。</strong>若能知道数值来自的真实分布，则直接拟合真实分布然后求极值即可，但往往我们并不知道真实的分布是什么，即使知道真实分布，有时为了快速计算，也会采取插值的方式来估计极值，毕竟偏差可接受效果足够好就可以了。应用时，为了抗噪可对数据先平滑然后求极值，具体采用何种方法可在准确和速度间权衡——所用模型与真实分布越相近自然越准确，如果实在不知道怎么选，就实践对比吧（因为我也不知道），毕竟伟大领袖教导过我们——<strong>实践是检验真理的唯一标准</strong>！</p>
+<script type="math/tex; mode=display">g_4(x)=f(x-2)+f(x-1)-f(x+1)-f(x+2)</script><script type="math/tex; mode=display">g_8(x)=f(x-4)+f(x-3)+f(x-2)+f(x-1) \\
+-f(x+1)-f(x+2)-f(x+3)-f(x+4)</script><p>2阶形式为$g_2(x) = f(x-1) -f(x+1)$，这些滤波器的表现与数值微分滤波器相似。</p>
+<p>当$f(x+1)&gt;f(x-1)$时，极值点位于$(x, x+1)$之间，$g(x)<0$，$g(x+1)>0$，极值点位置为$g(x)$与$g(x+1)$连线的过零点，通过斜率求得</p>
+<script type="math/tex; mode=display">\hat{\delta} = \frac{g(x)}{g(x+1)-g(x)}</script><p>若$f(x-1)&gt;f(x+1)$，则</p>
+<script type="math/tex; mode=display">\hat{\delta} = \frac{g(x-1)}{g(x-1)-g(x)} - 1</script><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><strong>这些数值极值检测方法均是先获取观测极值$x$及其邻域信息，然后综合邻域信息在各自的模型假设下通过插值估计出极值位置。</strong>若能知道数值来自的真实分布，则直接拟合真实分布然后求极值即可，但往往我们并不知道真实的分布是什么，即使知道真实分布，有时为了快速计算，也会采取插值的方式来估计极值，毕竟偏差可接受效果足够好就可以了。应用时，为了抗噪可对数据先平滑然后求极值，具体采用何种方法可在准确和速度间权衡——所用模型与真实分布越相近自然越准确，如果实在不知道怎么选，就实践对比吧（因为我也不知道），毕竟伟大领袖教导过我们——<strong>实践是检验真理的唯一标准</strong>！</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.380.5886&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">A Comparison of Algorithms  for Subpixel Peak Detection</a></li>
 <li><a href="https://dl.acm.org/citation.cfm?id=10782" target="_blank" rel="noopener">Real-time numerical peak detector</a></li>
@@ -584,7 +570,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/08-04-亚像素数值极值检测算法总结.html" title="亚像素数值极值检测算法总结">https://blog.shinelee.me/2018/08-04-亚像素数值极值检测算法总结.html</a>
+    <a href="https://blog.shinelee.me/2018/08-04-%E4%BA%9A%E5%83%8F%E7%B4%A0%E6%95%B0%E5%80%BC%E6%9E%81%E5%80%BC%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html" title="亚像素数值极值检测算法总结">https://blog.shinelee.me/2018/08-04-%E4%BA%9A%E5%83%8F%E7%B4%A0%E6%95%B0%E5%80%BC%E6%9E%81%E5%80%BC%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -619,7 +605,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07-23-重走机器学习之路——形而上者谓之道.html" rel="next" title="重走机器学习之路——形而上者谓之道">
+              <a href="/2018/07-23-%E9%87%8D%E8%B5%B0%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF%E2%80%94%E2%80%94%E5%BD%A2%E8%80%8C%E4%B8%8A%E8%80%85%E8%B0%93%E4%B9%8B%E9%81%93.html" rel="next" title="重走机器学习之路——形而上者谓之道">
                 <i class="fa fa-chevron-left"></i> 重走机器学习之路——形而上者谓之道
               </a>
             
@@ -629,7 +615,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08-22-伪随机数生成算法.html" rel="prev" title="伪随机数生成算法">
+              <a href="/2018/08-22-%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95.html" rel="prev" title="伪随机数生成算法">
                 伪随机数生成算法 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -699,9 +685,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -712,9 +700,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -757,7 +745,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -899,7 +889,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

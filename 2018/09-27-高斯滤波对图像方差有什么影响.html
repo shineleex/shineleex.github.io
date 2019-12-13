@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -167,25 +167,25 @@
 
 
 
-  <meta name="description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： $$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$ 均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2">
-<meta name="keywords" content="滤波器">
+  <meta name="description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： \mu &#x3D; \frac{x_1+x_2+\dots+x_n}{n}均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： \sigma^2 &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n}(x_i - \mu)^2标准差用于衡量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高斯滤波对图像方差有什么影响">
-<meta property="og:url" content="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2018&#x2F;09-27-%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E5%AF%B9%E5%9B%BE%E5%83%8F%E6%96%B9%E5%B7%AE%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： $$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$ 均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-15T07:37:17.554Z">
+<meta property="og:description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： \mu &#x3D; \frac{x_1+x_2+\dots+x_n}{n}均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： \sigma^2 &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n}(x_i - \mu)^2标准差用于衡量">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-27T09:49:39.000Z">
+<meta property="article:modified_time" content="2019-10-15T07:37:17.554Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="滤波器">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高斯滤波对图像方差有什么影响">
-<meta name="twitter:description" content="均值与方差首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为： $$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$ 均值衡量的是数值集中在哪个数值附近。令标准差为$\sigma$，则方差$\sigma^2$为： $$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html"/>
 
 
 
@@ -233,9 +233,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -245,7 +245,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -281,7 +281,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -289,7 +289,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -297,7 +297,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -305,7 +305,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -313,7 +313,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -359,20 +359,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/09-27-%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E5%AF%B9%E5%9B%BE%E5%83%8F%E6%96%B9%E5%B7%AE%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -429,7 +429,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -440,7 +440,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/传统计算机视觉/" itemprop="url" rel="index"><span itemprop="name">传统计算机视觉</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E4%BC%A0%E7%BB%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">传统计算机视觉</span></a></span>
 
                 
                 
@@ -454,7 +454,7 @@
 
           
           
-             <span id="/2018/09-27-高斯滤波对图像方差有什么影响.html" class="leancloud_visitors" data-flag-title="高斯滤波对图像方差有什么影响">
+             <span id="/2018/09-27-%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E5%AF%B9%E5%9B%BE%E5%83%8F%E6%96%B9%E5%B7%AE%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D.html" class="leancloud_visitors" data-flag-title="高斯滤波对图像方差有什么影响">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -504,18 +504,13 @@
 
       
         <h1 id="均值与方差"><a href="#均值与方差" class="headerlink" title="均值与方差"></a>均值与方差</h1><p>首先回忆下均值和方差的定义，若存在$n$个数为$x_1, x_2, \dots, x_n$，则均值$\mu$为：</p>
-<p>$$\mu = \frac{x_1+x_2+\dots+x_n}{n}$$</p>
-<p><strong>均值衡量的是数值集中在哪个数值附近</strong>。令标准差为$\sigma$，则方差$\sigma^2$为：</p>
-<p>$$\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2$$</p>
-<p><strong>标准差用于衡量数值分布距离均值的平均距离，即数据的集中程度。</strong></p>
+<script type="math/tex; mode=display">\mu = \frac{x_1+x_2+\dots+x_n}{n}</script><p><strong>均值衡量的是数值集中在哪个数值附近</strong>。令标准差为$\sigma$，则方差$\sigma^2$为：</p>
+<script type="math/tex; mode=display">\sigma^2 = \frac{1}{n} \sum_{i=1}^{n}(x_i - \mu)^2</script><p><strong>标准差用于衡量数值分布距离均值的平均距离，即数据的集中程度。</strong></p>
 <h1 id="定性分析"><a href="#定性分析" class="headerlink" title="定性分析"></a>定性分析</h1><p>定性地分析，高斯滤波（平滑）对图像进行<strong>平滑</strong>，<strong>会让当前像素与周围像素更加接近</strong>，像素间更加接近自然方差会变小。从频域角度，高斯滤波相当于低通滤波，<strong>会移除图像中“突兀”的高频成分</strong>，剩下的自然是相对“不突兀”的部分，反映在方差上就会变小。</p>
 <h1 id="定量分析"><a href="#定量分析" class="headerlink" title="定量分析"></a>定量分析</h1><p>定量地看，<strong>若不对图像进行任何假设，认为每个像素符合独立同分布</strong>，其均值和方差分别为$\mu$和$\sigma^2$，对其进行高斯滤波，假定窗口内共有$n$个像素，灰度值为$x_1, x_2, \dots, x_n$，对应的高斯权重为$g_1, g_2, \dots, g_n$，有$\sum_{i=1}^n g_i = 1, \forall g_i&gt;0$，则滤波后的当前像素的值为：</p>
-<p>$$y = \sum_{i=1}^{n} g_i x_i$$</p>
-<p>$y$的方差即：</p>
-<p>$$Var(y) = Var(\sum_{i=1}^{n} g_i x_i)=Var(g_1 x_1 + g_2 x_2 +\dots+g_n x_n)$$</p>
-<p>其中当高斯核确定后，<strong>$g_1, g_2, \dots, g_n$为常数</strong>，因为$x_1, x_2, \dots, x_n$<strong>相互独立且同分布</strong>，则进一步地</p>
-<p>$$Var(y) = g_1^2 Var(x_1)+g_2^2Var(x_2)+\dots+g_n^2Var(x_n)=\sigma_2 \sum_{i=1}^{n}g_i^2$$</p>
-<p>由上$\sum_{i=1}^n g_i = 1, \forall g_i&gt;0$，$\forall g_i &lt;1$，则$\sum_{i=1}^{n}g_i^2 &lt; 1$，所以$Var(y)=\sigma^2 \sum_{i=1}^{n}g_i^2 &lt; \sigma^2$，即经过高斯滤波后方差变小。</p>
+<script type="math/tex; mode=display">y = \sum_{i=1}^{n} g_i x_i</script><p>$y$的方差即：</p>
+<script type="math/tex; mode=display">Var(y) = Var(\sum_{i=1}^{n} g_i x_i)=Var(g_1 x_1 + g_2 x_2 +\dots+g_n x_n)</script><p>其中当高斯核确定后，<strong>$g_1, g_2, \dots, g_n$为常数</strong>，因为$x_1, x_2, \dots, x_n$<strong>相互独立且同分布</strong>，则进一步地</p>
+<script type="math/tex; mode=display">Var(y) = g_1^2 Var(x_1)+g_2^2Var(x_2)+\dots+g_n^2Var(x_n)=\sigma_2 \sum_{i=1}^{n}g_i^2</script><p>由上$\sum_{i=1}^n g_i = 1, \forall g_i&gt;0$，$\forall g_i &lt;1$，则$\sum_{i=1}^{n}g_i^2 &lt; 1$，所以$Var(y)=\sigma^2 \sum_{i=1}^{n}g_i^2 &lt; \sigma^2$，即经过高斯滤波后方差变小。</p>
 <p><strong>这里并不限于高斯滤波，对其他平滑滤波器同样试用——只需满足上述权重条件即可，即平滑滤波器将降低图像的方差。</strong></p>
 <p>当然，也可以从连续角度分析，具体可见参考部分。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
@@ -544,7 +539,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html" title="高斯滤波对图像方差有什么影响">https://blog.shinelee.me/2018/09-27-高斯滤波对图像方差有什么影响.html</a>
+    <a href="https://blog.shinelee.me/2018/09-27-%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E5%AF%B9%E5%9B%BE%E5%83%8F%E6%96%B9%E5%B7%AE%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D.html" title="高斯滤波对图像方差有什么影响">https://blog.shinelee.me/2018/09-27-%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E5%AF%B9%E5%9B%BE%E5%83%8F%E6%96%B9%E5%B7%AE%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -557,7 +552,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/滤波器/" rel="tag"># 滤波器</a>
+            <a href="/tags/%E6%BB%A4%E6%B3%A2%E5%99%A8/" rel="tag"># 滤波器</a>
           
         </div>
       
@@ -585,7 +580,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09-19-如何确定高斯滤波的标准差和窗口大小.html" rel="next" title="如何确定高斯滤波的标准差和窗口大小">
+              <a href="/2018/09-19-%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E7%9A%84%E6%A0%87%E5%87%86%E5%B7%AE%E5%92%8C%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F.html" rel="next" title="如何确定高斯滤波的标准差和窗口大小">
                 <i class="fa fa-chevron-left"></i> 如何确定高斯滤波的标准差和窗口大小
               </a>
             
@@ -595,7 +590,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10-31-OpenCV各版本差异与演化，1-x-To-4-0.html" rel="prev" title="OpenCV各版本差异与演化，1.x To 4.0">
+              <a href="/2018/10-31-OpenCV%E5%90%84%E7%89%88%E6%9C%AC%E5%B7%AE%E5%BC%82%E4%B8%8E%E6%BC%94%E5%8C%96%EF%BC%8C1-x-To-4-0.html" rel="prev" title="OpenCV各版本差异与演化，1.x To 4.0">
                 OpenCV各版本差异与演化，1.x To 4.0 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -665,9 +660,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -678,9 +675,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -723,7 +720,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -865,7 +864,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

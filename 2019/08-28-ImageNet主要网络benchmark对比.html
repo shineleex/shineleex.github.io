@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,32 +168,33 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 深度神经网络繁多，各自的性能指标怎样？实际应用中，在速度、内存、准确率等各种约束下，应该尝试哪些模型作为backbone？ 有paper对各个网络模型进行了对比分析，形成了一个看待所有主要模型的完整视角，其分析结果可以在实践中提供指导和帮助。 这篇博客主要整合了其中3篇文章的结论，分别是  201605-An Analysis of">
-<meta name="keywords" content="综述,paper">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ImageNet主要网络benchmark对比">
-<meta property="og:url" content="https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;08-28-ImageNet%E4%B8%BB%E8%A6%81%E7%BD%91%E7%BB%9Cbenchmark%E5%AF%B9%E6%AF%94.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 深度神经网络繁多，各自的性能指标怎样？实际应用中，在速度、内存、准确率等各种约束下，应该尝试哪些模型作为backbone？ 有paper对各个网络模型进行了对比分析，形成了一个看待所有主要模型的完整视角，其分析结果可以在实践中提供指导和帮助。 这篇博客主要整合了其中3篇文章的结论，分别是  201605-An Analysis of">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/mTpCJs.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/m75MHx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/m7r4UA.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/m7ytw4.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/m7RHFe.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/m7hEZV.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/08/28/m7oifU.png">
-<meta property="og:updated_time" content="2019-08-30T03:47:16.303Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;mTpCJs.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;m75MHx.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;m7r4UA.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;m7ytw4.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;m7RHFe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;m7hEZV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;m7oifU.png">
+<meta property="article:published_time" content="2019-08-28T11:46:23.000Z">
+<meta property="article:modified_time" content="2019-08-30T03:47:16.303Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="综述">
+<meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ImageNet主要网络benchmark对比">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 深度神经网络繁多，各自的性能指标怎样？实际应用中，在速度、内存、准确率等各种约束下，应该尝试哪些模型作为backbone？ 有paper对各个网络模型进行了对比分析，形成了一个看待所有主要模型的完整视角，其分析结果可以在实践中提供指导和帮助。 这篇博客主要整合了其中3篇文章的结论，分别是  201605-An Analysis of">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/08/28/mTpCJs.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;08&#x2F;28&#x2F;mTpCJs.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html"/>
 
 
 
@@ -241,9 +242,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -253,7 +254,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -289,7 +290,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -297,7 +298,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -305,7 +306,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -313,7 +314,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -321,7 +322,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -367,20 +368,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/08-28-ImageNet%E4%B8%BB%E8%A6%81%E7%BD%91%E7%BB%9Cbenchmark%E5%AF%B9%E6%AF%94.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -437,7 +438,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -448,7 +449,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/backbone网络/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/backbone%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">backbone网络</span></a></span>
 
                 
                 
@@ -462,7 +463,7 @@
 
           
           
-             <span id="/2019/08-28-ImageNet主要网络benchmark对比.html" class="leancloud_visitors" data-flag-title="ImageNet主要网络benchmark对比">
+             <span id="/2019/08-28-ImageNet%E4%B8%BB%E8%A6%81%E7%BD%91%E7%BB%9Cbenchmark%E5%AF%B9%E6%AF%94.html" class="leancloud_visitors" data-flag-title="ImageNet主要网络benchmark对比">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -574,7 +575,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html" title="ImageNet主要网络benchmark对比">https://blog.shinelee.me/2019/08-28-ImageNet主要网络benchmark对比.html</a>
+    <a href="https://blog.shinelee.me/2019/08-28-ImageNet%E4%B8%BB%E8%A6%81%E7%BD%91%E7%BB%9Cbenchmark%E5%AF%B9%E6%AF%94.html" title="ImageNet主要网络benchmark对比">https://blog.shinelee.me/2019/08-28-ImageNet%E4%B8%BB%E8%A6%81%E7%BD%91%E7%BB%9Cbenchmark%E5%AF%B9%E6%AF%94.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -587,7 +588,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/综述/" rel="tag"># 综述</a>
+            <a href="/tags/%E7%BB%BC%E8%BF%B0/" rel="tag"># 综述</a>
           
             <a href="/tags/paper/" rel="tag"># paper</a>
           
@@ -617,7 +618,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05-30-仿射变换及其变换矩阵的理解.html" rel="next" title="仿射变换及其变换矩阵的理解">
+              <a href="/2019/05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html" rel="next" title="仿射变换及其变换矩阵的理解">
                 <i class="fa fa-chevron-left"></i> 仿射变换及其变换矩阵的理解
               </a>
             
@@ -627,7 +628,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08-30-从AlexNet(2012)开始.html" rel="prev" title="从AlexNet(2012)开始">
+              <a href="/2019/08-30-%E4%BB%8EAlexNet(2012)%E5%BC%80%E5%A7%8B.html" rel="prev" title="从AlexNet(2012)开始">
                 从AlexNet(2012)开始 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -697,9 +698,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -710,9 +713,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -755,7 +758,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -897,7 +902,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

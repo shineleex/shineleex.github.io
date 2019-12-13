@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,31 +168,31 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面deconvolution in segmentation 开篇先上图，图为deconvolution在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。 本文将深入deconvolution的细节，并通过如下方式展开：  先回答 什么是de">
-<meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
-<meta property="og:url" content="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面deconvolution in segmentation 开篇先上图，图为deconvolution在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。 本文将深入deconvolution的细节，并通过如下方式展开：  先回答 什么是de">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/n7qMDI.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/20/nvk2VA.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/n75lfs.gif">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/n7BHgJ.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/19/nqvOYR.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/09/20/njW8CF.gif">
-<meta property="og:updated_time" content="2019-10-15T07:32:15.401Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;18&#x2F;n7qMDI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;20&#x2F;nvk2VA.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;18&#x2F;n75lfs.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;18&#x2F;n7BHgJ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;19&#x2F;nqvOYR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;20&#x2F;njW8CF.gif">
+<meta property="article:published_time" content="2019-09-16T10:07:18.000Z">
+<meta property="article:modified_time" content="2019-10-15T07:32:15.401Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="CNN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面deconvolution in segmentation 开篇先上图，图为deconvolution在像素级语义分割中的一种应用，直观感觉deconvolution是一个upsampling的过程，像是convolution的对称过程。 本文将深入deconvolution的细节，并通过如下方式展开：  先回答 什么是de">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/18/n7qMDI.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;09&#x2F;18&#x2F;n7qMDI.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html"/>
 
 
 
@@ -240,9 +240,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -252,7 +252,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -296,7 +296,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -304,7 +304,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -312,7 +312,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -320,7 +320,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -366,20 +366,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -436,7 +436,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -447,7 +447,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习基础/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
 
                 
                 
@@ -461,7 +461,7 @@
 
           
           
-             <span id="/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" class="leancloud_visitors" data-flag-title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
+             <span id="/2019/09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html" class="leancloud_visitors" data-flag-title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -486,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">6.9k</span>
+                <span title="本文字数">6.6k</span>
               
 
               
@@ -542,8 +542,11 @@
 <h2 id="convolution过程"><a href="#convolution过程" class="headerlink" title="convolution过程"></a>convolution过程</h2><p>先看convolution过程，连接方式 如下图所示，绿色表示输出，蓝色表示输入，每个绿色块具与9个蓝色块连接。</p>
 <p><figure><img src="https://s2.ax1x.com/2019/09/18/n7BHgJ.png" alt="direct convolution"><figcaption class="image-caption">direct convolution</figcaption></figure></p>
 <p>令卷积核$\mathbf{w} = \left(\begin{array}{ccc} {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} \\ {w_{1,0}} &amp; {w_{1,2}} &amp; {w_{1,2}} \\ {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} \end{array}\right)$，为了便于理解，<strong>将卷积写成矩阵乘法形式</strong>，令$\mathbf{x}$为$4\times 4$输入矩阵以行优先方式拉成的长度为16的向量，$\mathbf{y}$为$2\times 2$输出矩阵以同样方式拉成的长度为4的向量，同时将$\mathbf{w}$表示成$4\times 16$的稀疏矩阵$\mathbf{C}$，</p>
-<p>$$<br>\mathbf{C} = \left(\begin{array}{cccccccccccccccc}{w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp; {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} &amp; {0} &amp; {0} &amp; {0} &amp; {0} &amp; {0} \\<br>{0} &amp; {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp; {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} &amp; {0} &amp; {0} &amp; {0} &amp; {0} \\<br>{0} &amp; {0} &amp; {0} &amp; {0} &amp; {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp;  {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}} &amp; {0} \\<br>{0} &amp; {0} &amp; {0} &amp; {0} &amp; {0} &amp; {w_{0,0}} &amp; {w_{0,1}} &amp; {w_{0,2}} &amp; {0} &amp; {w_{1,0}} &amp; {w_{1,1}} &amp; {w_{1,2}} &amp; {0} &amp; {w_{2,0}} &amp; {w_{2,1}} &amp; {w_{2,2}}\end{array}\right)<br>$$</p>
-<p>则convolution过程可以描述为$\mathbf{C} \mathbf{x} = \mathbf{y}$，若<strong>$\mathbf{C}_{i,j}=0$表示$\mathbf{x}_j$和$\mathbf{y}_i$间没有连接</strong>。</p>
+<script type="math/tex; mode=display">
+\mathbf{C} = \left(\begin{array}{cccccccccccccccc}{w_{0,0}} & {w_{0,1}} & {w_{0,2}} & {0} & {w_{1,0}} & {w_{1,1}} & {w_{1,2}} & {0} & {w_{2,0}} & {w_{2,1}} & {w_{2,2}} & {0} & {0} & {0} & {0} & {0} \\ 
+{0} & {w_{0,0}} & {w_{0,1}} & {w_{0,2}} & {0} & {w_{1,0}} & {w_{1,1}} & {w_{1,2}} & {0} & {w_{2,0}} & {w_{2,1}} & {w_{2,2}} & {0} & {0} & {0} & {0} \\ 
+{0} & {0} & {0} & {0} & {w_{0,0}} & {w_{0,1}} & {w_{0,2}} & {0} & {w_{1,0}} & {w_{1,1}} & {w_{1,2}} & {0} &  {w_{2,0}} & {w_{2,1}} & {w_{2,2}} & {0} \\ 
+{0} & {0} & {0} & {0} & {0} & {w_{0,0}} & {w_{0,1}} & {w_{0,2}} & {0} & {w_{1,0}} & {w_{1,1}} & {w_{1,2}} & {0} & {w_{2,0}} & {w_{2,1}} & {w_{2,2}}\end{array}\right)</script><p>则convolution过程可以描述为$\mathbf{C} \mathbf{x} = \mathbf{y}$，若<strong>$\mathbf{C}_{i,j}=0$表示$\mathbf{x}_j$和$\mathbf{y}_i$间没有连接</strong>。</p>
 <h2 id="transposed-convolution过程"><a href="#transposed-convolution过程" class="headerlink" title="transposed convolution过程"></a>transposed convolution过程</h2><p>再看transposed convolution过程，如何将长度为4的向量$\mathbf{y}$映射为长度为16的向量且<strong>保持连接方式相同</strong>？只需将$\mathbf{C}$转置，令$\mathbf{C}^T \mathbf{y} = \mathbf{x}’$，同样地，<strong>$\mathbf{C}^T_{j,i}=0$表示$\mathbf{x}’_j$和$\mathbf{y}_i$间没有连接</strong>。</p>
 <p>此时，$\mathbf{C}^T$对应的卷积操作恰好相当于<strong>将kernel中心对称</strong>，FULL zero padding，然后卷积，此时，1个蓝色块与9个绿色块连接，且权重与Convolution过程相同</p>
 <p><figure><img src="https://s2.ax1x.com/2019/09/19/nqvOYR.png" alt="transposed convolution"><figcaption class="image-caption">transposed convolution</figcaption></figure></p>
@@ -556,13 +559,10 @@
 <p>在上面举的简化的例子中，我们可以通过分析得知transposed convolution该如何进行，但是，对于更一般情况应该怎么做？</p>
 <h1 id="transposed-convolution的计算"><a href="#transposed-convolution的计算" class="headerlink" title="transposed convolution的计算"></a>transposed convolution的计算</h1><p>对于一般情况，只需把握一个<strong>宗旨：transposed convolution将output size恢复为input size且保持连接方式相同</strong>。</p>
 <p>对于convolution过程，我们知道其output map与input map的尺寸关系如下：</p>
-<p>$$o=\left\lfloor \frac{i+2p-k}{s} \right\rfloor + 1$$</p>
-<p>若要将$o$恢复为$i$，需考虑2种情况，$\frac{i+2p-k}{s}$整除以及不整除，先看整除的情况。</p>
+<script type="math/tex; mode=display">o=\left\lfloor \frac{i+2p-k}{s} \right\rfloor + 1</script><p>若要将$o$恢复为$i$，需考虑2种情况，$\frac{i+2p-k}{s}$整除以及不整除，先看整除的情况。</p>
 <h2 id="整除的情况"><a href="#整除的情况" class="headerlink" title="整除的情况"></a>整除的情况</h2><p>如果$\frac{i+2p-k}{s}$可以整除，则由上式可得</p>
-<p>$$i = so-s+k-2p = [o+(s-1)(o-1)]+(k-2p-1)$$</p>
-<p>因为transposed convolution也是卷积，<strong>为了符合上面卷积操作尺寸关系的数学形式</strong>，可进一步整理成</p>
-<p>$$i = \frac{[o+(s-1)(o-1)] + [(k-1)+(k-2p-1)] - k}{1} + 1$$</p>
-<p>令$i’=o+(s-1)(o-1)$、$p’=\frac{(k-1)+(k-2p-1)}{2} = k-p-1 $、$s’=1$、$k’=k$，即transposed convolution实际卷积时使用的超参数，可以这样理解：</p>
+<script type="math/tex; mode=display">i = so-s+k-2p = [o+(s-1)(o-1)]+(k-2p-1)</script><p>因为transposed convolution也是卷积，<strong>为了符合上面卷积操作尺寸关系的数学形式</strong>，可进一步整理成</p>
+<script type="math/tex; mode=display">i = \frac{[o+(s-1)(o-1)] + [(k-1)+(k-2p-1)] - k}{1} + 1</script><p>令$i’=o+(s-1)(o-1)$、$p’=\frac{(k-1)+(k-2p-1)}{2} = k-p-1 $、$s’=1$、$k’=k$，即transposed convolution实际卷积时使用的超参数，可以这样理解：</p>
 <ul>
 <li><p>$i’=o+(s-1)(o-1)$：convolution的输出为$o\times o$，每行每列都是$o$个元素，有$o-1$个间隔，transposed convolution时在每个间隔处插入$s-1$个0，整体构成transposed convolution的input map；</p>
 </li>
@@ -582,10 +582,8 @@
 <li>$o’=i=\frac{i’+2p’-k’}{s’}+1$：transposed convolution的输出与convolution的输入具有相同尺寸。</li>
 </ul>
 <h2 id="不整除的情况"><a href="#不整除的情况" class="headerlink" title="不整除的情况"></a>不整除的情况</h2><p>接下来再看$\frac{i+2p-k}{s}$不整除的情况，此时再按上面的方式计算得到的$o’=\frac{i’+2p’-k’}{s’}+1$将小于$i$，小多少呢？不难得出少$a = [(i+2p-k) \mod s]$，即</p>
-<p>$$o’=\frac{i’+2p’-k’}{s’}+1=i-a$$</p>
-<p>为了让$o’=i$，可写成</p>
-<p>$$o’= \frac{i’+2p’+a-k’}{s’}+1$$</p>
-<p><strong>只需在padding后，在下边和右边再扩展$a$行和列0，然后进行卷积即可</strong>。<strong>注意</strong>，因为$s’=1$，我们可以将$a$放在分母也可以放在外面，之所以放在分母，是因为convolution过程中input map下边和右边的$a$行或列中的元素可能参与了运算，即与output map间存在连接，所以在transposed convolution时，为了保持同样的连接，最后扩展的$a$行和列也要参与卷积，所以放在分母。</p>
+<script type="math/tex; mode=display">o'=\frac{i'+2p'-k'}{s'}+1=i-a</script><p>为了让$o’=i$，可写成</p>
+<script type="math/tex; mode=display">o'= \frac{i'+2p'+a-k'}{s'}+1</script><p><strong>只需在padding后，在下边和右边再扩展$a$行和列0，然后进行卷积即可</strong>。<strong>注意</strong>，因为$s’=1$，我们可以将$a$放在分母也可以放在外面，之所以放在分母，是因为convolution过程中input map下边和右边的$a$行或列中的元素可能参与了运算，即与output map间存在连接，所以在transposed convolution时，为了保持同样的连接，最后扩展的$a$行和列也要参与卷积，所以放在分母。</p>
 <p>至此，再看transposed convolution的各种情况，就很容易推算了，更多例子可参见<a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">A guide to convolution arithmetic for deep learning</a>。</p>
 <p><figure><img src="https://s2.ax1x.com/2019/09/20/njW8CF.gif" alt="transposed convolution"><figcaption class="image-caption">transposed convolution</figcaption></figure></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>最后，总结一下，</p>
@@ -623,7 +621,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html" title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">https://blog.shinelee.me/2019/09-16-一文搞懂deconvolution、transposed-convolutionon、sub­pixel-or-fractional-convolution.html</a>
+    <a href="https://blog.shinelee.me/2019/09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html" title="一文搞懂 deconvolution、transposed convolution、sub-­pixel or fractional convolution">https://blog.shinelee.me/2019/09-16-%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82deconvolution%E3%80%81transposed-convolutionon%E3%80%81sub%C2%ADpixel-or-fractional-convolution.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -664,7 +662,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08-30-从AlexNet(2012)开始.html" rel="next" title="从AlexNet(2012)开始">
+              <a href="/2019/08-30-%E4%BB%8EAlexNet(2012)%E5%BC%80%E5%A7%8B.html" rel="next" title="从AlexNet(2012)开始">
                 <i class="fa fa-chevron-left"></i> 从AlexNet(2012)开始
               </a>
             
@@ -674,7 +672,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09-21-ZFNet(2013)及可视化的开端.html" rel="prev" title="ZFNet(2013)及可视化的开端">
+              <a href="/2019/09-21-ZFNet(2013)%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9A%84%E5%BC%80%E7%AB%AF.html" rel="prev" title="ZFNet(2013)及可视化的开端">
                 ZFNet(2013)及可视化的开端 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -744,9 +742,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -757,9 +757,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -802,7 +802,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -944,7 +946,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,24 +168,24 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN GPU为RTX2080，系统为更新到最新版本的Win10。 准备工作 安装VS2015，到官网地址older-download下载安装 安装Matlab，笔者安装的是Matlab2017b 安装Anaconda3-4.4.0-Windows-x86_64.exe（到anaconda archive下载），笔者曾下载并安装了最新版的A">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">
-<meta property="og:url" content="https://blog.shinelee.me/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2018&#x2F;12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN GPU为RTX2080，系统为更新到最新版本的Win10。 准备工作 安装VS2015，到官网地址older-download下载安装 安装Matlab，笔者安装的是Matlab2017b 安装Anaconda3-4.4.0-Windows-x86_64.exe（到anaconda archive下载），笔者曾下载并安装了最新版的A">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-07T07:36:58.213Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-26T09:42:49.000Z">
+<meta property="article:modified_time" content="2019-01-07T07:36:58.213Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN GPU为RTX2080，系统为更新到最新版本的Win10。 准备工作 安装VS2015，到官网地址older-download下载安装 安装Matlab，笔者安装的是Matlab2017b 安装Anaconda3-4.4.0-Windows-x86_64.exe（到anaconda archive下载），笔者曾下载并安装了最新版的A">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html"/>
 
 
 
@@ -233,9 +233,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -245,7 +245,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -281,7 +281,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -289,7 +289,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -297,7 +297,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -305,7 +305,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -313,7 +313,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -359,20 +359,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -429,7 +429,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -440,7 +440,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
 
                 
                 
@@ -454,7 +454,7 @@
 
           
           
-             <span id="/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html" class="leancloud_visitors" data-flag-title="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">
+             <span id="/2018/12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html" class="leancloud_visitors" data-flag-title="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -512,8 +512,7 @@
 <li>安装<strong>CUDA 10.0</strong>，到<a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">cuda-toolkit-archive</a>根据自己的平台下载安装，安装好后可以看到环境变量多了CUDA_PATH、CUDA_PATH_10_0等，以及path中也多了bin和libnvvp路径</li>
 <li>安装<strong>CUDNN 7.4</strong>，到<a href="https://developer.nvidia.com/rdp/cudnn-archive" target="_blank" rel="noopener">cudnn-archive</a>根据CUDA版本下载安装，下载下来后将其中的所有文件（bin、include、lib文件夹）拷贝到cuda的目录，合并对应的文件夹</li>
 </ul>
-<h1 id="设置conda国内镜像源"><a href="#设置conda国内镜像源" class="headerlink" title="设置conda国内镜像源"></a>设置conda国内镜像源</h1><p>为conda设置<strong>国内镜像源</strong>，默认国外的镜像源会比较慢。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/</span><br><span class="line">conda config --<span class="built_in">set</span> show_channel_urls yes</span><br></pre></td></tr></table></figure></p>
-<p>这时目录”C:\Users\用户名”下的.condarc文件内容变为</p>
+<h1 id="设置conda国内镜像源"><a href="#设置conda国内镜像源" class="headerlink" title="设置conda国内镜像源"></a>设置conda国内镜像源</h1><p>为conda设置<strong>国内镜像源</strong>，默认国外的镜像源会比较慢。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/</span><br><span class="line">conda config --<span class="built_in">set</span> show_channel_urls yes</span><br></pre></td></tr></table></figure><br>这时目录”C:\Users\用户名”下的.condarc文件内容变为</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/</span><br><span class="line">show_channel_urls: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>如果有default可以删除。</p>
 <h1 id="conda-深度学习环境"><a href="#conda-深度学习环境" class="headerlink" title="conda 深度学习环境"></a>conda 深度学习环境</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建conda环境</span></span><br><span class="line">conda create -n py36DL python=3.6</span><br><span class="line"><span class="comment"># 更新pip</span></span><br><span class="line">pip install --upgrade pip</span><br><span class="line"><span class="comment"># 若报错</span></span><br><span class="line">easy_install pip</span><br><span class="line"><span class="comment"># 激活环境</span></span><br><span class="line">activate py36DL</span><br><span class="line"><span class="comment"># 安装ipython，后面用于测试库是否安装成功</span></span><br><span class="line">conda install ipython</span><br></pre></td></tr></table></figure>
@@ -522,15 +521,13 @@
 <p>到<a href="https://github.com/fo40225/tensorflow-windows-wheel" target="_blank" rel="noopener">fo40225/tensorflow-windows-wheel</a>找到对应的版本下载whl，笔者下载的是<strong>tensorflow_gpu-1.12.0-cp36-cp36m-win_amd64.whl</strong>的avx2版本（有两个压缩包，解压出whl文件），如果安装不成功的话可以试试sse2版本，这里神奇的地方是该whl文件应该是在cuda100cudnn73avx2下编译的，但是我的环境是cuda100和cudnn74，竟然也是可以安装成功的，<strong>笔者久经磨难，喜极而泣</strong>。</p>
 <p>下载下来后通过pip安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到whl目录</span></span><br><span class="line">pip install tensorflow_gpu-1.12.0-cp36-cp36m-win_amd64.whl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入ipython验证</span></span><br><span class="line">import tensorflow as tf</span><br><span class="line">tf.VERSION</span><br><span class="line"><span class="comment"># '1.12.0'</span></span><br></pre></td></tr></table></figure>
-<h2 id="mxnet"><a href="#mxnet" class="headerlink" title="mxnet"></a>mxnet</h2><p>mxnet安装比较简单，这里直接通过豆瓣镜像源用pip安装。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.doubanio.com/simple/ mxnet-cu100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入ipython验证</span></span><br><span class="line">import mxnet</span><br><span class="line">mxnet.__version__</span><br><span class="line"><span class="comment"># '1.3.1'</span></span><br></pre></td></tr></table></figure></p>
-<p>mxnet的<a href="http://mxnet.incubator.apache.org/install/index.html?platform=Windows&amp;language=Python&amp;processor=GPU" target="_blank" rel="noopener">官网</a>显示支持到cu92，实际已经有了cu100版本。</p>
+<h2 id="mxnet"><a href="#mxnet" class="headerlink" title="mxnet"></a>mxnet</h2><p>mxnet安装比较简单，这里直接通过豆瓣镜像源用pip安装。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.doubanio.com/simple/ mxnet-cu100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入ipython验证</span></span><br><span class="line">import mxnet</span><br><span class="line">mxnet.__version__</span><br><span class="line"><span class="comment"># '1.3.1'</span></span><br></pre></td></tr></table></figure><br>mxnet的<a href="http://mxnet.incubator.apache.org/install/index.html?platform=Windows&amp;language=Python&amp;processor=GPU" target="_blank" rel="noopener">官网</a>显示支持到cu92，实际已经有了cu100版本。</p>
 <h2 id="pytorch"><a href="#pytorch" class="headerlink" title="pytorch"></a>pytorch</h2><p>pytorch的安装也很简单，在<a href="https://pytorch.org/get-started/locally/" target="_blank" rel="noopener">官网</a>，选择pip、Python3.6、CUDA10.0，显示</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install https://download.pytorch.org/whl/cu100/torch-1.0.0-cp36-cp36m-win_amd64.whl</span><br><span class="line">pip3 install torchvision</span><br></pre></td></tr></table></figure>
 <p>这里先把链接<a href="https://download.pytorch.org/whl/cu100/torch-1.0.0-cp36-cp36m-win_amd64.whl拷贝到IDM下载whl文件，然后离线安装" target="_blank" rel="noopener">https://download.pytorch.org/whl/cu100/torch-1.0.0-cp36-cp36m-win_amd64.whl拷贝到IDM下载whl文件，然后离线安装</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到whl路径</span></span><br><span class="line">pip install torch-1.0.0-cp36-cp36m-win_amd64.whl</span><br><span class="line">pip install torchvision</span><br><span class="line"></span><br><span class="line"><span class="comment">#进入ipython验证</span></span><br><span class="line">import torch</span><br><span class="line">torch.__version</span><br><span class="line"><span class="comment"># '1.0.0'</span></span><br></pre></td></tr></table></figure>
 <h1 id="Caffe安装"><a href="#Caffe安装" class="headerlink" title="Caffe安装"></a>Caffe安装</h1><p>笔者使用的是<a href="https://github.com/happynear/caffe-windows" target="_blank" rel="noopener">happynear/caffe-windows</a>版本的caffe，下载解压，同时下载第三方库拷贝到项目windows/thirdparty/文件夹，Copy .\windows\CommonSettings.props.example to .\windows\CommonSettings.props，打开Caffe.sln，根据github上的README修改配置文件.\windows\CommonSettings.props，编译成功后再参考README配置python和matlab，<strong>注意使用时需要将thirdparty/bin目录添加到path环境变量，否则运行时会报错</strong>。</p>
-<p>修改环境变量后以管理员运行CMD，运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> %path%</span><br></pre></td></tr></table></figure></p>
-<p>立即生效，不用重启系统。</p>
+<p>修改环境变量后以管理员运行CMD，运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> %path%</span><br></pre></td></tr></table></figure><br>立即生效，不用重启系统。</p>
 <h2 id="配置文件修改"><a href="#配置文件修改" class="headerlink" title="配置文件修改"></a>配置文件修改</h2><p>主要修改项如下：</p>
 <ul>
 <li><strong>UseCuDNN</strong>：true</li>
@@ -553,10 +550,7 @@
 <li><strong>Check failed: error == cudaSuccess (74 vs. 0) misaligned address</strong><br>根据<a href="https://github.com/BVLC/caffe/issues/5729#issuecomment-378519210" target="_blank" rel="noopener">cuDNN bug in Caffe with “group” in conv layer (misaligned address) #5729</a>，在 cudnn_conv_layer.cpp 文件<code>void CuDNNConvolutionLayer&lt;Dtype&gt;::Reshape</code>函数<code>size_t total_max_workspace = ...</code>代码前加入对齐代码如下</li>
 </ul>
 <blockquote>
-<p>this is a bug of Caffe, I solved it by modifying cudnn_conv_layer.cpp and aligning the address to be multiples of 32.<br>You can insert tow lines of code before size_t total_max_workspace = … as follow:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> m=<span class="number">32</span>;</span><br><span class="line">max_workspace = (max_workspace + m<span class="number">-1</span>) / m * m; <span class="comment">//align address to be multiples of m</span></span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<blockquote>
-<p>BTW, I think there is another bug, these lines should be put in else block:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> g = <span class="number">0</span>; g &lt; (<span class="keyword">this</span>-&gt;group_ * CUDNN_STREAMS_PER_GROUP); g++) &#123;</span><br><span class="line">  workspace[g] = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">char</span> *&gt;(workspaceData)+g*max_workspace;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>this is a bug of Caffe, I solved it by modifying cudnn_conv_layer.cpp and aligning the address to be multiples of 32.<br>You can insert tow lines of code before size_t total_max_workspace = … as follow:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> m=<span class="number">32</span>;</span><br><span class="line">max_workspace = (max_workspace + m<span class="number">-1</span>) / m * m; <span class="comment">//align address to be multiples of m</span></span><br></pre></td></tr></table></figure><br>BTW, I think there is another bug, these lines should be put in else block:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> g = <span class="number">0</span>; g &lt; (<span class="keyword">this</span>-&gt;group_ * CUDNN_STREAMS_PER_GROUP); g++) &#123;</span><br><span class="line">  workspace[g] = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">char</span> *&gt;(workspaceData)+g*max_workspace;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a href="https://wiki2.org/en/CUDA" target="_blank" rel="noopener">CUDA wiki</a></li>
@@ -584,7 +578,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html" title="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">https://blog.shinelee.me/2018/12-26-Win10-RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe.html</a>
+    <a href="https://blog.shinelee.me/2018/12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html" title="Win10+RTX2080深度学习环境搭建：tensorflow、mxnet、pytorch、caffe">https://blog.shinelee.me/2018/12-26-Win10-RTX2080%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Atensorflow%E3%80%81mxnet%E3%80%81pytorch%E3%80%81caffe.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -619,7 +613,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12-24-真win10官方原版ISO下载方法.html" rel="next" title="真win10官方原版ISO下载方法">
+              <a href="/2018/12-24-%E7%9C%9Fwin10%E5%AE%98%E6%96%B9%E5%8E%9F%E7%89%88ISO%E4%B8%8B%E8%BD%BD%E6%96%B9%E6%B3%95.html" rel="next" title="真win10官方原版ISO下载方法">
                 <i class="fa fa-chevron-left"></i> 真win10官方原版ISO下载方法
               </a>
             
@@ -629,7 +623,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01-07-VSCode-Python开发环境配置.html" rel="prev" title="VSCode Python开发环境配置">
+              <a href="/2019/01-07-VSCode-Python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.html" rel="prev" title="VSCode Python开发环境配置">
                 VSCode Python开发环境配置 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -699,9 +693,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -712,9 +708,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -757,7 +753,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -899,7 +897,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

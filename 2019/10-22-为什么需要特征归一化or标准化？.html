@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,33 +168,33 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：  特征间的单位（尺度）可能不同，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为什么需要特征归一化&#x2F;标准化？">
-<meta property="og:url" content="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：  特征间的单位（尺度）可能不同，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/30/K4ZoHf.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/30/KhqCb6.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/31/KIwXHx.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/30/K4Zmtg.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/11/01/K71RXV.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/31/KIzKKO.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/31/KoMx0J.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/11/01/KH52lQ.png">
-<meta property="og:updated_time" content="2019-11-04T06:34:58.450Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;30&#x2F;K4ZoHf.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;30&#x2F;KhqCb6.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;31&#x2F;KIwXHx.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;30&#x2F;K4Zmtg.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;11&#x2F;01&#x2F;K71RXV.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;31&#x2F;KIzKKO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;31&#x2F;KoMx0J.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;11&#x2F;01&#x2F;KH52lQ.png">
+<meta property="article:published_time" content="2019-10-22T09:38:12.000Z">
+<meta property="article:modified_time" content="2019-11-04T06:34:58.450Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么需要特征归一化&#x2F;标准化？">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面Feature scaling，常见的提法有“特征归一化”、“标准化”，是数据预处理中的重要技术，有时甚至决定了算法能不能work以及work得好不好。谈到feature scaling的必要性，最常用的2个例子可能是：  特征间的单位（尺度）可能不同，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/10/30/K4ZoHf.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;30&#x2F;K4ZoHf.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html"/>
 
 
 
@@ -242,9 +242,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -254,7 +254,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -290,7 +290,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -298,7 +298,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -306,7 +306,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -314,7 +314,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -322,7 +322,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -368,20 +368,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -438,7 +438,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -449,7 +449,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
 
                 
                 
@@ -463,7 +463,7 @@
 
           
           
-             <span id="/2019/10-22-为什么需要特征归一化or标准化？.html" class="leancloud_visitors" data-flag-title="为什么需要特征归一化/标准化？">
+             <span id="/2019/10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html" class="leancloud_visitors" data-flag-title="为什么需要特征归一化/标准化？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -518,7 +518,7 @@
 <li><p><strong>特征间的单位（尺度）可能不同</strong>，比如身高和体重，比如摄氏度和华氏度，比如房屋面积和房间数，一个特征的变化范围可能是$[1000, 10000]$，另一个特征的变化范围可能是$[-0.1, 0.2]$，在进行距离有关的计算时，单位的不同会导致计算结果的不同，尺度大的特征会起决定性作用，而尺度小的特征其作用可能会被忽略，<strong>为了消除特征间单位和尺度差异的影响，以对每维特征同等看待，需要对特征进行归一化</strong>。</p>
 </li>
 <li><p>原始特征下，<strong>因尺度差异，其损失函数的等高线图可能是椭圆形</strong>，梯度方向垂直于等高线，下降会走zigzag路线，而不是指向local minimum。通过对特征进行zero-mean and  unit-variance变换后，其损失函数的等高线图更接近圆形，梯度下降的方向震荡更小，收敛更快，如下图所示，图片来自Andrew Ng。</p>
-<p><figure><img src="https://s2.ax1x.com/2019/10/30/K4ZoHf.png" alt="Feature Scaling from Andrew Ng" style="zoom: 50%;"><figcaption class="image-caption">Feature Scaling from Andrew Ng</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/30/K4ZoHf.png" alt="Feature Scaling from Andrew Ng" style="zoom: 50%;" /><figcaption class="image-caption">Feature Scaling from Andrew Ng</figcaption></figure></p>
 </li>
 </ul>
 <p>对于feature scaling中最常使用的Standardization，似乎“无脑上”就行了，本文想多探究一些为什么，</p>
@@ -532,17 +532,26 @@
 <p>根据查阅到的资料，本文将尝试回答上面的问题。但笔者能力有限，空有困惑，能讲到哪算哪吧（微笑）。</p>
 <h1 id="常用feature-scaling方法"><a href="#常用feature-scaling方法" class="headerlink" title="常用feature scaling方法"></a>常用feature scaling方法</h1><p>在问为什么前，先看是什么。</p>
 <p>给定数据集，令特征向量为$x$，维数为$D$，样本数量为$R$，可构成$D \times R$的矩阵，一列为一个样本，一行为一维特征，如下图所示，图片来自<a href="http://speech.ee.ntu.edu.tw/~tlkagk/courses/ML_2016/Lecture/Gradient%20Descent%20(v2" target="_blank" rel="noopener">Hung-yi Lee pdf-Gradient Descent</a>.pdf)：</p>
-<p><figure><img src="https://s2.ax1x.com/2019/10/30/KhqCb6.png" alt="feature matrix"><figcaption class="image-caption">feature matrix</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/30/KhqCb6.png" alt="feature matrix"  /><figcaption class="image-caption">feature matrix</figcaption></figure></p>
 <p>feature scaling的方法可以分成2类，逐行进行和逐列进行。逐行是对每一维特征操作，逐列是对每个样本操作，上图为逐行操作中特征标准化的示例。</p>
 <p>具体地，常用feature scaling方法如下，来自<a href="https://wiki2.org/en/Feature_scaling" target="_blank" rel="noopener">wiki</a>，</p>
 <ul>
-<li><p><strong>Rescaling (min-max normalization、range scaling)</strong>：<br>$$<br>x^{\prime}=a+\frac{(x-\min (x))(b-a)}{\max (x)-\min (x)}<br>$$<br>将每一维特征线性映射到目标范围$[a, b]$，即将最小值映射为$a$，最大值映射为$b$，常用目标范围为$[0, 1]$和$[-1, 1]$，特别地，映射到$[0, 1]$计算方式为：<br>$$<br>x^{\prime}=\frac{x-\min (x)}{\max (x)-\min (x)}<br>$$</p>
+<li><p><strong>Rescaling (min-max normalization、range scaling)</strong>：</p>
+<script type="math/tex; mode=display">
+x^{\prime}=a+\frac{(x-\min (x))(b-a)}{\max (x)-\min (x)}</script><p>将每一维特征线性映射到目标范围$[a, b]$，即将最小值映射为$a$，最大值映射为$b$，常用目标范围为$[0, 1]$和$[-1, 1]$，特别地，映射到$[0, 1]$计算方式为：</p>
+<script type="math/tex; mode=display">
+x^{\prime}=\frac{x-\min (x)}{\max (x)-\min (x)}</script></li>
+<li><p><strong>Mean normalization</strong>：</p>
+<script type="math/tex; mode=display">
+x^{\prime}=\frac{x-\bar{x}}{\max (x)-\min (x)}</script><p>将<strong>均值映射为0</strong>，同时用最大值最小值的差对特征进行归一化，一种更常见的做法是用标准差进行归一化，如下。</p>
 </li>
-<li><p><strong>Mean normalization</strong>：<br>$$<br>x^{\prime}=\frac{x-\bar{x}}{\max (x)-\min (x)}<br>$$<br>将<strong>均值映射为0</strong>，同时用最大值最小值的差对特征进行归一化，一种更常见的做法是用标准差进行归一化，如下。</p>
+<li><p><strong>Standardization (Z-score Normalization)</strong>：</p>
+<script type="math/tex; mode=display">
+x^{\prime}=\frac{x-\bar{x}}{\sigma}</script><p>每维特征<strong>0均值1方差（zero-mean and  unit-variance）</strong>。</p>
 </li>
-<li><p><strong>Standardization (Z-score Normalization)</strong>：<br>$$<br>x^{\prime}=\frac{x-\bar{x}}{\sigma}<br>$$<br>每维特征<strong>0均值1方差（zero-mean and  unit-variance）</strong>。</p>
-</li>
-<li><p><strong>Scaling to unit length</strong>：<br>$$<br>x^{\prime}=\frac{x}{|x|}<br>$$<br>将每个样本的特征向量除以其长度，即对样本特征向量的长度进行归一化，长度的度量常使用的是L2 norm（欧氏距离），有时也会采用L1 norm，不同度量方式的一种对比可以参见论文<a href="https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf" target="_blank" rel="noopener">“CVPR2005-Histograms of Oriented Gradients for Human Detection”</a>。</p>
+<li><p><strong>Scaling to unit length</strong>：</p>
+<script type="math/tex; mode=display">
+x^{\prime}=\frac{x}{\|x\|}</script><p>将每个样本的特征向量除以其长度，即对样本特征向量的长度进行归一化，长度的度量常使用的是L2 norm（欧氏距离），有时也会采用L1 norm，不同度量方式的一种对比可以参见论文<a href="https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf" target="_blank" rel="noopener">“CVPR2005-Histograms of Oriented Gradients for Human Detection”</a>。</p>
 </li>
 </ul>
 <p>上述4种feature scaling方式，前3种为逐行操作，最后1种为逐列操作。</p>
@@ -559,7 +568,7 @@
 <p>可通过PCA方法移除线性相关性（decorrelation），即引入旋转，找到新的坐标轴方向，在新坐标轴方向上用“标准差”进行缩放，如下图所示，图片来自<a href="https://www.researchgate.net/publication/221488699_Intersession_Compensation_and_Scoring_Methods_in_the_i-vectors_Space_for_Speaker_Recognition" target="_blank" rel="noopener">链接</a>，图中同时描述了unit length的作用——将所有样本映射到单位球上。</p>
 <p><figure><img src="https://s2.ax1x.com/2019/10/30/K4Zmtg.png" alt="Effect of the operations of standardization and length normalization"><figcaption class="image-caption">Effect of the operations of standardization and length normalization</figcaption></figure></p>
 <p>当特征维数更多时，对比如下，图片来自<a href="https://www.youtube.com/watch?v=iYQbwgBh1aQ" target="_blank" rel="noopener">youtube</a>，</p>
-<p><figure><img src="https://s2.ax1x.com/2019/11/01/K71RXV.png" alt="feature scaling comparison" style="zoom: 67%;"><figcaption class="image-caption">feature scaling comparison</figcaption></figure></p>
+<p><figure><img src="https://s2.ax1x.com/2019/11/01/K71RXV.png" alt="feature scaling comparison" style="zoom: 67%;" /><figcaption class="image-caption">feature scaling comparison</figcaption></figure></p>
 <p>总的来说，<strong>归一化/标准化的目的是为了获得某种“无关性”——偏置无关、尺度无关、长度无关……当归一化/标准化方法背后的物理意义和几何含义与当前问题的需要相契合时，其对解决该问题就有正向作用，反之，就会起反作用。所以，“何时选择何种方法”取决于待解决的问题，即problem-dependent。</strong></p>
 <h1 id="feature-scaling-需要还是不需要"><a href="#feature-scaling-需要还是不需要" class="headerlink" title="feature scaling 需要还是不需要"></a>feature scaling 需要还是不需要</h1><p>下图来自<a href="https://www.dataschool.io/comparing-supervised-learning-algorithms/" target="_blank" rel="noopener">data school-Comparing supervised learning algorithms</a>，对比了几个监督学习算法，最右侧两列为是否需要feature scaling。</p>
 <p><figure><img src="https://s2.ax1x.com/2019/10/31/KIzKKO.png" alt="Comparing supervised learning algorithms"><figcaption class="image-caption">Comparing supervised learning algorithms</figcaption></figure></p>
@@ -578,13 +587,17 @@
 </li>
 <li><p>损失函数中含有<strong>正则项</strong>时，一般需要feature scaling：对于线性模型$y=wx+b$而言，$x$的任何线性变换（平移、放缩），都可以被$w$和$b$“吸收”掉，理论上，不会影响模型的拟合能力。但是，如果损失函数中含有正则项，如$\lambda ||w||^2$，$\lambda$为超参数，其对$w$的每一个参数施加同样的惩罚，但对于某一维特征$x_i$而言，其scale越大，系数$w_i$越小，其在正则项中的比重就会变小，相当于对$w_i$惩罚变小，即损失函数会相对忽视那些scale增大的特征，这并不合理，所以需要feature scaling，使损失函数平等看待每一维特征。</p>
 </li>
-<li><p><strong>梯度下降算法，需要feature scaling</strong>。梯度下降的参数更新公式如下，<br>$$<br>W(t+1)=W(t)-\eta \frac{d E(W)}{d W}<br>$$<br>$E(W)$为损失函数，<strong>收敛速度取决于：参数的初始位置到local minima的距离，以及学习率$\eta$的大小</strong>。一维情况下，<strong>在local minima附近</strong>，不同学习率对梯度下降的影响如下图所示，</p>
+<li><p><strong>梯度下降算法，需要feature scaling</strong>。梯度下降的参数更新公式如下，</p>
+<script type="math/tex; mode=display">
+W(t+1)=W(t)-\eta \frac{d E(W)}{d W}</script><p>$E(W)$为损失函数，<strong>收敛速度取决于：参数的初始位置到local minima的距离，以及学习率$\eta$的大小</strong>。一维情况下，<strong>在local minima附近</strong>，不同学习率对梯度下降的影响如下图所示，</p>
 <p><figure><img src="https://s2.ax1x.com/2019/11/01/KH52lQ.png" alt="Gradient descent for different learning rates"><figcaption class="image-caption">Gradient descent for different learning rates</figcaption></figure></p>
 <p>多维情况下可以分解成多个上图，每个维度上分别下降，参数$W$为向量，但学习率只有1个，即所有参数维度共用同一个学习率（暂不考虑为每个维度都分配单独学习率的算法）。<strong>收敛意味着在每个参数维度上都取得极小值，每个参数维度上的偏导数都为0，但是每个参数维度上的下降速度是不同的，为了每个维度上都能收敛，学习率应取所有维度在当前位置合适步长中最小的那个。</strong>下面讨论feature scaling对gradient descent的作用，</p>
 <ul>
 <li><p><strong>zero center与参数初始化相配合，缩短初始参数位置与local minimum间的距离，加快收敛</strong>。模型的最终参数是未知的，所以一般随机初始化，比如从0均值的均匀分布或高斯分布中采样得到，对线性模型而言，其分界面初始位置大致在原点附近，bias经常初始化为0，则分界面直接通过原点。同时，为了收敛，学习率不会很大。而每个数据集的特征分布是不一样的，如果其分布集中且距离原点较远，比如位于第一象限遥远的右上角，分界面可能需要花费很多步骤才能“爬到”数据集所在的位置。所以，无论什么数据集，先平移到原点，再配合参数初始化，可以保证分界面一定会穿过数据集。此外，<strong>outliers常分布在数据集的外围</strong>，与分界面从外部向内挪动相比，从中心区域开始挪动可能受outliers的影响更小。</p>
 </li>
-<li><p>对于采用均方误差损失LMS的线性模型，损失函数恰为二阶，如下图所示<br>$$<br>E(W)=\frac{1}{2 P} \sum_{p=1}^{P}\left|d^{p}-\sum_{i} w_{i} x_{i}^{p}\right|^{2}<br>$$<br><strong>不同方向上的下降速度变化不同（二阶导不同，曲率不同）</strong>，恰由输入的协方差矩阵决定，<strong>通过scaling改变了损失函数的形状，减小不同方向上的曲率差异</strong>。将每个维度上的下降分解来看，给定一个下降步长，如果不够小，有的维度下降的多，有的下降的少，有的还可能在上升，损失函数的整体表现可能是上升也可能是下降，就会不稳定。<strong>scaling后不同方向上的曲率相对更接近，更容易选择到合适的学习率，使下降过程相对更稳定。</strong></p>
+<li><p>对于采用均方误差损失LMS的线性模型，损失函数恰为二阶，如下图所示</p>
+<script type="math/tex; mode=display">
+E(W)=\frac{1}{2 P} \sum_{p=1}^{P}\left|d^{p}-\sum_{i} w_{i} x_{i}^{p}\right|^{2}</script><p><strong>不同方向上的下降速度变化不同（二阶导不同，曲率不同）</strong>，恰由输入的协方差矩阵决定，<strong>通过scaling改变了损失函数的形状，减小不同方向上的曲率差异</strong>。将每个维度上的下降分解来看，给定一个下降步长，如果不够小，有的维度下降的多，有的下降的少，有的还可能在上升，损失函数的整体表现可能是上升也可能是下降，就会不稳定。<strong>scaling后不同方向上的曲率相对更接近，更容易选择到合适的学习率，使下降过程相对更稳定。</strong></p>
 </li>
 <li><p>另有从Hessian矩阵特征值以及condition number角度的理解，详见<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf" target="_blank" rel="noopener">Lecun paper-Efficient BackProp</a>中的Convergence of Gradient Descent一节，有清晰的数学描述，同时还介绍了白化的作用——解除特征间的线性相关性，使每个维度上的梯度下降可独立看待。</p>
 </li>
@@ -658,7 +671,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html" title="为什么需要特征归一化/标准化？">https://blog.shinelee.me/2019/10-22-为什么需要特征归一化or标准化？.html</a>
+    <a href="https://blog.shinelee.me/2019/10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html" title="为什么需要特征归一化/标准化？">https://blog.shinelee.me/2019/10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -693,7 +706,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" rel="next" title="直观理解梯度，以及偏导数、方向导数和法向量等">
+              <a href="/2019/10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html" rel="next" title="直观理解梯度，以及偏导数、方向导数和法向量等">
                 <i class="fa fa-chevron-left"></i> 直观理解梯度，以及偏导数、方向导数和法向量等
               </a>
             
@@ -703,7 +716,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/11-04-网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化.html" rel="prev" title="网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化">
+              <a href="/2019/11-04-%E7%BD%91%E7%BB%9C%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%8A%EF%BC%89%EF%BC%9A%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E3%80%81%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E4%B8%8E%E4%B8%8D%E5%A5%BD%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96.html" rel="prev" title="网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化">
                 网络权重初始化方法总结（上）：梯度消失、梯度爆炸与不好的初始化 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -773,9 +786,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -786,9 +801,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -831,7 +846,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -973,7 +990,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

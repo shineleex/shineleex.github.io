@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,31 +168,31 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，  梯度与偏导数的关系？ 梯度与方向导数的">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="直观理解梯度，以及偏导数、方向导数和法向量等">
-<meta property="og:url" content="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，  梯度与偏导数的关系？ 梯度与方向导数的">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/18/KZDeZd.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/18/KZ0Hje.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/18/KZ0jAI.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/21/Kljnc4.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/21/KlsTy9.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/10/21/Kl27an.png">
-<meta property="og:updated_time" content="2019-10-22T06:11:30.886Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;18&#x2F;KZDeZd.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;18&#x2F;KZ0Hje.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;18&#x2F;KZ0jAI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;21&#x2F;Kljnc4.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;21&#x2F;KlsTy9.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;21&#x2F;Kl27an.png">
+<meta property="article:published_time" content="2019-10-17T09:59:53.000Z">
+<meta property="article:modified_time" content="2019-10-22T06:11:30.886Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="直观理解梯度，以及偏导数、方向导数和法向量等">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面梯度是微积分中的基本概念，也是机器学习解优化问题经常使用的数学工具（梯度下降算法），虽然常说常听常见，但其细节、物理意义以及几何解释还是值得深挖一下，这些不清楚，梯度就成了“熟悉的陌生人”，仅仅“记住就完了”在用时难免会感觉不踏实，为了“用得放心”，本文将尝试直观地回答以下几个问题，  梯度与偏导数的关系？ 梯度与方向导数的">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/10/18/KZDeZd.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;10&#x2F;18&#x2F;KZDeZd.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html"/>
 
 
 
@@ -240,9 +240,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -252,7 +252,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -296,7 +296,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -304,7 +304,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -312,7 +312,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -320,7 +320,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -366,20 +366,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -436,7 +436,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -447,7 +447,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/数学/" itemprop="url" rel="index"><span itemprop="name">数学</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a></span>
 
                 
                 
@@ -461,7 +461,7 @@
 
           
           
-             <span id="/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" class="leancloud_visitors" data-flag-title="直观理解梯度，以及偏导数、方向导数和法向量等">
+             <span id="/2019/10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html" class="leancloud_visitors" data-flag-title="直观理解梯度，以及偏导数、方向导数和法向量等">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -486,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">4.5k</span>
+                <span title="本文字数">4.4k</span>
               
 
               
@@ -534,12 +534,25 @@
 <p>由上可知，一个变量对应一个坐标轴，<strong>偏导数为函数在每个位置处沿着自变量坐标轴方向上的导数（切线斜率）</strong>。</p>
 <p><figure><img src="https://s2.ax1x.com/2019/10/21/Kljnc4.png" alt="Partial derivative"><figcaption class="image-caption">Partial derivative</figcaption></figure></p>
 <h1 id="方向导数"><a href="#方向导数" class="headerlink" title="方向导数"></a>方向导数</h1><p>如果说方向不是沿着坐标轴方向，而是任意方向呢？则为<strong>方向导数</strong>。如下图所示，点$P$位置处红色箭头方向的方向导数为黑色切线的斜率，来自链接<a href="https://www.geogebra.org/m/Bx8nFMNc" target="_blank" rel="noopener">Directional Derivative</a></p>
-<p><figure><img src="https://s2.ax1x.com/2019/10/21/KlsTy9.png" alt="Directional Derivative" style="zoom:80%;"><figcaption class="image-caption">Directional Derivative</figcaption></figure></p>
-<p>方向导数为函数在某一个方向上的导数，具体地，定义$xy$平面上一点$(a, b)$以及单位向量$\vec u = (\cos \theta ,\sin \theta )$，在曲面$z=f(x, y)$上，从点$(a,b, f(a,b))$出发，沿$\vec u = (\cos \theta ,\sin \theta )$方向走$t$单位长度后，函数值$z$为$F(t)=f(a+t \cos \theta, b + t \sin \theta)$，则点$(a,b)$处$\vec u = (\cos \theta ,\sin \theta )$方向的方向导数为：<br>$$<br>\begin{aligned} &amp;\left.\frac{d}{d t} f(a+t \cos \theta, b+t \sin \theta)\right|_{t=0} \\<br>=&amp; \lim _{t \rightarrow 0} \frac{f(a+t \cos \theta, b+t \sin \theta) - f(a, b)}{t} \\<br>=&amp; \lim _{t \rightarrow 0} \frac{f(a+t \cos \theta, b+t \sin \theta) - f(a, b+t \sin \theta)}{t} + \lim _{t \rightarrow 0} \frac{f(a, b+t \sin \theta) - f(a, b)}{t} \\<br>=&amp; \frac{\partial}{\partial x} f(a, b) \frac{d x}{d t}+\frac{\partial}{\partial y} f(a, b) \frac{d y}{d t} \\<br>=&amp; f_x (a, b) \cos \theta+ f_y (a, b) \sin \theta \\<br>=&amp;\left(f_x (a, b), f_y (a, b)\right) \cdot(\cos \theta, \sin \theta) \end{aligned}<br>$$<br>上面推导中使用了链式法则。其中，$f_x (a, b)$和$f_y (a, b)$分别为函数在$(a, b)$位置的偏导数。由上面的推导可知：</p>
+<p><figure><img src="https://s2.ax1x.com/2019/10/21/KlsTy9.png" alt="Directional Derivative" style="zoom:80%;" /><figcaption class="image-caption">Directional Derivative</figcaption></figure></p>
+<p>方向导数为函数在某一个方向上的导数，具体地，定义$xy$平面上一点$(a, b)$以及单位向量$\vec u = (\cos \theta ,\sin \theta )$，在曲面$z=f(x, y)$上，从点$(a,b, f(a,b))$出发，沿$\vec u = (\cos \theta ,\sin \theta )$方向走$t$单位长度后，函数值$z$为$F(t)=f(a+t \cos \theta, b + t \sin \theta)$，则点$(a,b)$处$\vec u = (\cos \theta ,\sin \theta )$方向的方向导数为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} &\left.\frac{d}{d t} f(a+t \cos \theta, b+t \sin \theta)\right|_{t=0} \\
+=& \lim _{t \rightarrow 0} \frac{f(a+t \cos \theta, b+t \sin \theta) - f(a, b)}{t} \\
+=& \lim _{t \rightarrow 0} \frac{f(a+t \cos \theta, b+t \sin \theta) - f(a, b+t \sin \theta)}{t} + \lim _{t \rightarrow 0} \frac{f(a, b+t \sin \theta) - f(a, b)}{t} \\
+=& \frac{\partial}{\partial x} f(a, b) \frac{d x}{d t}+\frac{\partial}{\partial y} f(a, b) \frac{d y}{d t} \\
+=& f_x (a, b) \cos \theta+ f_y (a, b) \sin \theta \\
+=&\left(f_x (a, b), f_y (a, b)\right) \cdot(\cos \theta, \sin \theta) \end{aligned}</script><p>上面推导中使用了链式法则。其中，$f_x (a, b)$和$f_y (a, b)$分别为函数在$(a, b)$位置的偏导数。由上面的推导可知：</p>
 <p>该位置处，任意方向的<strong>方向导数为偏导数的线性组合，系数为该方向的单位向量</strong>。当该方向与坐标轴正方向一致时，方向导数即偏导数，换句话说，<strong>偏导数为坐标轴方向上的方向导数，其他方向的方向导数为偏导数的合成</strong>。</p>
 <p>写成向量形式，<strong>偏导数构成的向量</strong>为$\nabla f(a, b) =  (f_x (a, b), f_y (a, b))$，称之为<strong>梯度</strong>。</p>
 <h1 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h1><p><strong>梯度</strong>，写作$\nabla f$，二元时为$(\frac{\partial{z}}{\partial{x}}, \frac{\partial{z}}{\partial{y}})$，多元时为$(\frac{\partial{z}}{\partial{x}}, \frac{\partial{z}}{\partial{y}},\dots)$。</p>
-<p>我们继续上面方向导数的推导，$(a,b)$处$\theta$方向上的方向导数为<br>$$<br>\begin{aligned}<br>&amp;\left(f_x (a, b), f_y (a, b)\right) \cdot(\cos \theta, \sin \theta) \\<br>=&amp; |((f_x (a, b), f_y (a, b))| \cdot |1| \cdot \cos \phi \\<br>=&amp; |\nabla f(a,b)| \cdot \cos \phi<br>\end{aligned}<br>$$<br>其中，$\phi$为$\nabla f(a,b)$与$\vec u$的夹角，显然，当$\phi = 0$即$\vec u$与梯度$\nabla f(a,b)$<strong>同向时</strong>，<strong>方向导数取得最大值</strong>，<strong>最大值为梯度的模</strong>$|\nabla f(a,b)|$，当$\phi = \pi$即$\vec u$与梯度$\nabla f(a,b)$<strong>反向时</strong>，<strong>方向导数取得最小值，最小值为梯度模的相反数</strong>。此外，根据上面方向导数的公式可知，在夹角$\phi &lt; \frac{\pi}{2}$时方向导数为正，表示$\vec u$方向函数值上升，$\phi &gt; \frac{\pi}{2}$时方向导数为负，表示该方向函数值下降。</p>
+<p>我们继续上面方向导数的推导，$(a,b)$处$\theta$方向上的方向导数为</p>
+<script type="math/tex; mode=display">
+\begin{aligned} 
+&\left(f_x (a, b), f_y (a, b)\right) \cdot(\cos \theta, \sin \theta) \\ 
+=& |((f_x (a, b), f_y (a, b))| \cdot |1| \cdot \cos \phi \\
+=& |\nabla f(a,b)| \cdot \cos \phi 
+\end{aligned}</script><p>其中，$\phi$为$\nabla f(a,b)$与$\vec u$的夹角，显然，当$\phi = 0$即$\vec u$与梯度$\nabla f(a,b)$<strong>同向时</strong>，<strong>方向导数取得最大值</strong>，<strong>最大值为梯度的模</strong>$|\nabla f(a,b)|$，当$\phi = \pi$即$\vec u$与梯度$\nabla f(a,b)$<strong>反向时</strong>，<strong>方向导数取得最小值，最小值为梯度模的相反数</strong>。此外，根据上面方向导数的公式可知，在夹角$\phi &lt; \frac{\pi}{2}$时方向导数为正，表示$\vec u$方向函数值上升，$\phi &gt; \frac{\pi}{2}$时方向导数为负，表示该方向函数值下降。</p>
 <p>至此，方才有了<strong>梯度的几何意义</strong>：</p>
 <ol>
 <li>当前位置的<strong>梯度方向</strong>，为函数在该位置处<strong>方向导数最大的方向</strong>，也是函数值<strong>上升最快的方向</strong>，反方向为下降最快的方向；</li>
@@ -550,7 +563,12 @@
 <p>图中，红点为当前位置，红色箭头为梯度，绿色箭头为其他方向，其与梯度的夹角为$\theta$。</p>
 <p>将左图中$z=f(x, y)$曲面上的等高线投影到$xy$平面，得到右图的等高线图。</p>
 <p><strong>梯度与等高线垂直</strong>。为什么呢？</p>
-<p>等高线，顾名思义，即这条线上的点高度（函数值）相同，令某一条等高线为$z=f(x,y)=C$，$C$为常数，两边同时全微分，如下所示<br>$$<br>\begin{aligned} dz = &amp;\frac{\partial f}{\partial x} dx + \frac{\partial f}{\partial y} dy \\<br>=&amp; (\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}) \cdot (dx, dy) \\<br>=&amp; dC = 0<br>\end{aligned}<br>$$<br>这里，<strong>两边同时全微分的几何含义是，在当前等高线上挪动任意一个极小单元，等号两侧的变化量相同</strong>。$f(x, y)$的变化量有两个来源，一个由$x$的变化带来，另一个由$y$的变化带来，在一阶情况下，由$x$带来的变化量为$\frac{\partial f}{\partial x} dx$，由$y$带来的变化量为$\frac{\partial f}{\partial y} dy$，两者叠加为$z$的总变化量，等号右侧为常数，因为我们指定在当前等高线上挪动一个极小单元，其变化量为0，左侧等于右侧。进一步拆分成向量内积形式，$(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})$为梯度，$(dx, dy)$为该点指向任意方向的极小向量，因为两者内积为0，所以两者垂直。自然不难得出<strong>梯度与等高线垂直</strong>的结论。</p>
+<p>等高线，顾名思义，即这条线上的点高度（函数值）相同，令某一条等高线为$z=f(x,y)=C$，$C$为常数，两边同时全微分，如下所示</p>
+<script type="math/tex; mode=display">
+\begin{aligned} dz = &\frac{\partial f}{\partial x} dx + \frac{\partial f}{\partial y} dy \\
+=& (\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}) \cdot (dx, dy) \\
+=& dC = 0
+\end{aligned}</script><p>这里，<strong>两边同时全微分的几何含义是，在当前等高线上挪动任意一个极小单元，等号两侧的变化量相同</strong>。$f(x, y)$的变化量有两个来源，一个由$x$的变化带来，另一个由$y$的变化带来，在一阶情况下，由$x$带来的变化量为$\frac{\partial f}{\partial x} dx$，由$y$带来的变化量为$\frac{\partial f}{\partial y} dy$，两者叠加为$z$的总变化量，等号右侧为常数，因为我们指定在当前等高线上挪动一个极小单元，其变化量为0，左侧等于右侧。进一步拆分成向量内积形式，$(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})$为梯度，$(dx, dy)$为该点指向任意方向的极小向量，因为两者内积为0，所以两者垂直。自然不难得出<strong>梯度与等高线垂直</strong>的结论。</p>
 <p>更进一步地，梯度方向指向函数上升最快的方向，在等高线图中，<strong>梯度指向高度更高的等高线</strong>。</p>
 <h1 id="隐函数的梯度"><a href="#隐函数的梯度" class="headerlink" title="隐函数的梯度"></a>隐函数的梯度</h1><p>同理，对于隐函数$f(x,y)=0$，也可以看成是一种等高线。二元时，两边同时微分，梯度垂直于曲线；多元时，两边同时微分，梯度垂直于高维曲面。</p>
 <p>即，<strong>隐函数的梯度为其高维曲面的法向量</strong>。</p>
@@ -595,7 +613,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html" title="直观理解梯度，以及偏导数、方向导数和法向量等">https://blog.shinelee.me/2019/10-17-直观理解梯度，以及偏导数、方向导数和法向量等.html</a>
+    <a href="https://blog.shinelee.me/2019/10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html" title="直观理解梯度，以及偏导数、方向导数和法向量等">https://blog.shinelee.me/2019/10-17-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E6%A2%AF%E5%BA%A6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%81%8F%E5%AF%BC%E6%95%B0%E3%80%81%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0%E5%92%8C%E6%B3%95%E5%90%91%E9%87%8F%E7%AD%89.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -630,7 +648,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10-16-如何编译和调试Python内核源码.html" rel="next" title="如何编译和调试Python内核源码？">
+              <a href="/2019/10-16-%E5%A6%82%E4%BD%95%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95Python%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81.html" rel="next" title="如何编译和调试Python内核源码？">
                 <i class="fa fa-chevron-left"></i> 如何编译和调试Python内核源码？
               </a>
             
@@ -640,7 +658,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10-22-为什么需要特征归一化or标准化？.html" rel="prev" title="为什么需要特征归一化/标准化？">
+              <a href="/2019/10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html" rel="prev" title="为什么需要特征归一化/标准化？">
                 为什么需要特征归一化/标准化？ <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -710,9 +728,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -723,9 +743,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -768,7 +788,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -910,7 +932,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,27 +168,27 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。层定义了对数据如何操作，根据操作的不同，可以对层进行划分（具体参见Caffe Layers）：  Data Layers：跟据文件类型和格式读取和处理数据，给网络输入 Vision Layers：输入特征图输出也是特征图，像卷积、池化等 Act">
-<meta name="keywords" content="caffe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Caffe源码理解3：Layer基类与template method设计模式">
-<meta property="og:url" content="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2018&#x2F;12-19-Caffe%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A33%EF%BC%9ALayer%E5%9F%BA%E7%B1%BB%E4%B8%8Etemplate-method%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。层定义了对数据如何操作，根据操作的不同，可以对层进行划分（具体参见Caffe Layers）：  Data Layers：跟据文件类型和格式读取和处理数据，给网络输入 Vision Layers：输入特征图输出也是特征图，像卷积、池化等 Act">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/18/FBJFuq.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/18/FBYb0P.md.png">
-<meta property="og:updated_time" content="2019-01-07T06:49:31.052Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;18&#x2F;FBJFuq.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;18&#x2F;FBYb0P.md.png">
+<meta property="article:published_time" content="2018-12-19T08:53:43.000Z">
+<meta property="article:modified_time" content="2019-01-07T06:49:31.052Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="caffe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Caffe源码理解3：Layer基类与template method设计模式">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面层的概念在深度神经网络中占据核心位置，给定输入，数据在层间运算流动，最终输出结果。层定义了对数据如何操作，根据操作的不同，可以对层进行划分（具体参见Caffe Layers）：  Data Layers：跟据文件类型和格式读取和处理数据，给网络输入 Vision Layers：输入特征图输出也是特征图，像卷积、池化等 Act">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/12/18/FBJFuq.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;18&#x2F;FBJFuq.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html"/>
 
 
 
@@ -236,9 +236,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -248,7 +248,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -284,7 +284,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -292,7 +292,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -300,7 +300,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -308,7 +308,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -316,7 +316,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -362,20 +362,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-19-Caffe%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A33%EF%BC%9ALayer%E5%9F%BA%E7%B1%BB%E4%B8%8Etemplate-method%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -432,7 +432,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -443,7 +443,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/库与框架/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">库与框架</span></a></span>
 
                 
                 
@@ -457,7 +457,7 @@
 
           
           
-             <span id="/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" class="leancloud_visitors" data-flag-title="Caffe源码理解3：Layer基类与template method设计模式">
+             <span id="/2018/12-19-Caffe%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A33%EF%BC%9ALayer%E5%9F%BA%E7%B1%BB%E4%B8%8Etemplate-method%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" class="leancloud_visitors" data-flag-title="Caffe源码理解3：Layer基类与template method设计模式">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -524,8 +524,7 @@
 <p>那么，SDK设计者定义的流程如何在执行到文件读取步骤时使用“将来”SDK使用者编写的程序？这就需要SDK的设计者将这个步骤设计为<strong>虚函数</strong>（关于虚函数可以查看<a href="https://zh.cppreference.com/w/cpp/language/virtual" target="_blank" rel="noopener">cppreference.com</a>），将来SDK的使用者继承这个类同时重写对应的虚函数，这种实现方法就是template method设计模式，其调用顺序如下图所示。</p>
 <p><figure><img src="https://s1.ax1x.com/2018/12/18/FBYb0P.md.png" alt="template method文件打开调用流程"><figcaption class="image-caption">template method文件打开调用流程</figcaption></figure></p>
 <p>caffe中的基类<code>Layer</code>在设计时就采用了这种思想。</p>
-<h1 id="Layer-基类"><a href="#Layer-基类" class="headerlink" title="Layer 基类"></a>Layer 基类</h1><h2 id="Layer成员变量"><a href="#Layer成员变量" class="headerlink" title="Layer成员变量"></a>Layer成员变量</h2><p>先看一下<code>Layer</code>的成员变量，具体参看注释。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LayerParameter layer_param_; <span class="comment">// 将protobuf中定义的该层的超参数等对象化存储</span></span><br><span class="line">Phase phase_; <span class="comment">// TRAIN or TEST，指示该层参与训练还是测试</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Blob&lt;Dtype&gt; &gt; &gt; blobs_; <span class="comment">// 存储可学习参数（权重）param blob</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; param_propagate_down_; <span class="comment">// 指示每个param blob是否需要计算diff</span></span><br><span class="line"><span class="built_in">vector</span>&lt;Dtype&gt; loss_; <span class="comment">// 存储top blob在损失函数中的权重loss_weight（与top blob数量相同），在反向传播时会作用在梯度上</span></span><br><span class="line"><span class="comment">// 对于损失层loss_weight默认为1（见LossLayer的LayerSetUp），其他层默认对损失函数没有直接贡献</span></span><br></pre></td></tr></table></figure></p>
-<p>层所拥有的是它的可学习参数部分，输入输出都不属于层，因此<strong>输入输出</strong><code>blob</code><strong>并不是层的成员变量</strong>，而<strong>只出现在接口上</strong>，<strong>层关注的是对数据的操作方式本身</strong>，这是设计时的考量。</p>
+<h1 id="Layer-基类"><a href="#Layer-基类" class="headerlink" title="Layer 基类"></a>Layer 基类</h1><h2 id="Layer成员变量"><a href="#Layer成员变量" class="headerlink" title="Layer成员变量"></a>Layer成员变量</h2><p>先看一下<code>Layer</code>的成员变量，具体参看注释。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LayerParameter layer_param_; <span class="comment">// 将protobuf中定义的该层的超参数等对象化存储</span></span><br><span class="line">Phase phase_; <span class="comment">// TRAIN or TEST，指示该层参与训练还是测试</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Blob&lt;Dtype&gt; &gt; &gt; blobs_; <span class="comment">// 存储可学习参数（权重）param blob</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; param_propagate_down_; <span class="comment">// 指示每个param blob是否需要计算diff</span></span><br><span class="line"><span class="built_in">vector</span>&lt;Dtype&gt; loss_; <span class="comment">// 存储top blob在损失函数中的权重loss_weight（与top blob数量相同），在反向传播时会作用在梯度上</span></span><br><span class="line"><span class="comment">// 对于损失层loss_weight默认为1（见LossLayer的LayerSetUp），其他层默认对损失函数没有直接贡献</span></span><br></pre></td></tr></table></figure><br>层所拥有的是它的可学习参数部分，输入输出都不属于层，因此<strong>输入输出</strong><code>blob</code><strong>并不是层的成员变量</strong>，而<strong>只出现在接口上</strong>，<strong>层关注的是对数据的操作方式本身</strong>，这是设计时的考量。</p>
 <h2 id="构造与析构"><a href="#构造与析构" class="headerlink" title="构造与析构"></a>构造与析构</h2><p>构造与析构，<code>Layer</code>的子类不需要实现自己的构造函数，所有的set up操作应该在后面的<code>SetUp</code>函数中完成，构造函数中仅将纳入<code>LayerParameter</code>、设置<code>pahse_</code>以及写入初始网络权重（如果在protobuf文件中指定了的话）。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">Layer</span><span class="params">(<span class="keyword">const</span> LayerParameter&amp; param)</span></span></span><br><span class="line">  : layer_param_(param) &#123;</span><br><span class="line">    <span class="comment">// Set phase and copy blobs (if there are any).</span></span><br><span class="line">    phase_ = param.phase();</span><br><span class="line">    <span class="keyword">if</span> (layer_param_.blobs_size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      blobs_.resize(layer_param_.blobs_size());</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; layer_param_.blobs_size(); ++i) &#123;</span><br><span class="line">        blobs_[i].reset(<span class="keyword">new</span> Blob&lt;Dtype&gt;());</span><br><span class="line">        blobs_[i]-&gt;FromProto(layer_param_.blobs(i));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">virtual</span> ~Layer() &#123;&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="SetUp成员函数"><a href="#SetUp成员函数" class="headerlink" title="SetUp成员函数"></a>SetUp成员函数</h2><p><code>SetUp</code>是本文最为关注的成员函数，顾名思义，其负责完成层的基础搭建工作。在<code>Net</code>初始化时会顺序调用每个层的<code>SetUp</code>函数来搭建网络，见<code>Net::Init</code>，<code>Net::Init</code>利用<strong>多态+template method</strong>在一个循环中完成所有层的搭建。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Net::Init</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> layer_id = <span class="number">0</span>; layer_id &lt; param.layer_size(); ++layer_id) &#123;</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">    <span class="comment">// After this layer is connected, set it up.</span></span><br><span class="line">    layers_[layer_id]-&gt;SetUp(bottom_vecs_[layer_id], top_vecs_[layer_id]);</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in net.hpp</span></span><br><span class="line"><span class="comment">/// @brief Individual layers in the net</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Layer&lt;Dtype&gt; &gt; &gt; layers_;</span><br></pre></td></tr></table></figure>
@@ -537,9 +536,8 @@
 <li>执行子类的<code>Reshape</code></li>
 <li>执行父类的<code>SetLossWeights</code></li>
 <li>退出父类的<code>SetUp</code>函数<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetUp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">  CheckBlobCounts(bottom, top);</span><br><span class="line">  LayerSetUp(bottom, top);</span><br><span class="line">  Reshape(bottom, top);</span><br><span class="line">  SetLossWeights(top);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">CheckBlobCounts</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 实现具体省略</span></span><br><span class="line">    <span class="comment">/* check that the number of bottom and top Blobs provided as input </span></span><br><span class="line"><span class="comment">     match the expected numbers specified </span></span><br><span class="line"><span class="comment">     by the &#123;ExactNum,Min,Max&#125;&#123;Bottom,Top&#125;Blobs() functions</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* This method should do one-time layer specific setup. This includes reading</span></span><br><span class="line"><span class="comment">* and processing relevent parameters from the &lt;code&gt;layer_param_&lt;/code&gt;.</span></span><br><span class="line"><span class="comment">* Setting up the shapes of top blobs and internal buffers should be done in</span></span><br><span class="line"><span class="comment">* &lt;code&gt;Reshape&lt;/code&gt;, which will be called before the forward pass to</span></span><br><span class="line"><span class="comment">* adjust the top blob sizes.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">LayerSetUp</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* This method should reshape top blobs as needed according to the shapes</span></span><br><span class="line"><span class="comment">* of the bottom (input) blobs, as well as reshaping any internal buffers</span></span><br><span class="line"><span class="comment">* and making any other necessary adjustments so that the layer can</span></span><br><span class="line"><span class="comment">* accommodate the bottom blobs.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Reshape</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Called by SetUp to initialize the weights associated with any top blobs in</span></span><br><span class="line"><span class="comment">* the loss function. Store non-zero loss weights in the diff blob.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">SetLossWeights</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> num_loss_weights = layer_param_.loss_weight_size();</span><br><span class="line">  <span class="keyword">if</span> (num_loss_weights) &#123;</span><br><span class="line">    CHECK_EQ(top.size(), num_loss_weights) &lt;&lt; <span class="string">"loss_weight must be "</span></span><br><span class="line">        <span class="string">"unspecified or specified once per top blob."</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> top_id = <span class="number">0</span>; top_id &lt; top.size(); ++top_id) &#123;</span><br><span class="line">      <span class="keyword">const</span> Dtype loss_weight = layer_param_.loss_weight(top_id);</span><br><span class="line">      <span class="keyword">if</span> (loss_weight == Dtype(<span class="number">0</span>)) &#123; <span class="keyword">continue</span>; &#125;</span><br><span class="line">      <span class="keyword">this</span>-&gt;set_loss(top_id, loss_weight);</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> count = top[top_id]-&gt;count();</span><br><span class="line">      Dtype* loss_multiplier = top[top_id]-&gt;mutable_cpu_diff();</span><br><span class="line">      caffe_set(count, loss_weight, loss_multiplier);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
+<code>Layer</code>在设计之初无法料想到今天会有如此多各种各样的层，但是这些层只需要继承基类<code>Layer</code>，同时定义好各自个性化的<code>LayerSetUp</code>和<code>Reshape</code>等函数，就可以将自己纳入到<code>SetUp</code>的搭建流程，并通过<code>Net::Init</code>进一步纳入整个网络的搭建中。</li>
 </ul>
-<p><code>Layer</code>在设计之初无法料想到今天会有如此多各种各样的层，但是这些层只需要继承基类<code>Layer</code>，同时定义好各自个性化的<code>LayerSetUp</code>和<code>Reshape</code>等函数，就可以将自己纳入到<code>SetUp</code>的搭建流程，并通过<code>Net::Init</code>进一步纳入整个网络的搭建中。</p>
 <h2 id="前向传播与反向传播"><a href="#前向传播与反向传播" class="headerlink" title="前向传播与反向传播"></a>前向传播与反向传播</h2><p><code>Layer</code>为所有层定义了前向传播与反向传播的通用接口<code>Forward</code>和<code>Backward</code>，实际上，<code>Forward</code>和<code>Backward</code>是<code>Forward_cpu</code>、<code>Forward_gpu</code>和<code>Backward_cpu</code>、<code>Backward_gpu</code>的<strong>包装器</strong>，子类需要定义自己的<code>Forward_cpu</code>、<code>Forward_gpu</code>和<code>Backward_cpu</code>、<code>Backward_gpu</code>，比如，卷积层前向传播要通过卷积操作，池化层前向传播时要通过池化操作，而不需要重写<code>Forward</code>和<code>Backward</code>。此外，如果子类不定义自己的<code>gpu</code>函数，默认的<code>gpu</code>函数实际调用的是<code>cpu</code>函数，如下面代码所示，所以如果要使用GPU，必须要自己实现<code>Forward_gpu</code>和<code>Backward_gpu</code>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">true<span class="function"><span class="keyword">inline</span> Dtype <span class="title">Forward</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom, </span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span></span>;</span><br><span class="line">true<span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">Backward</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom)</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Forward_cpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>= <span class="number">0</span>;</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Forward_gpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top)</span> </span>&#123;</span><br><span class="line">true  <span class="comment">// LOG(WARNING) &lt;&lt; "Using CPU code as backup.";</span></span><br><span class="line">true  <span class="keyword">return</span> Forward_cpu(bottom, top);</span><br><span class="line">true&#125;</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Backward_cpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom)</span> </span>= <span class="number">0</span>;</span><br><span class="line">true<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Backward_gpu</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down,</span></span></span><br><span class="line"><span class="function"><span class="params">	    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom)</span> </span>&#123;</span><br><span class="line">true  <span class="comment">// LOG(WARNING) &lt;&lt; "Using CPU code as backup.";</span></span><br><span class="line">true  Backward_cpu(top, propagate_down, bottom);</span><br><span class="line">true&#125;</span><br></pre></td></tr></table></figure>
 <p>在下面代码中，注意<code>Forward</code>中的<code>loss_weight</code>的来源以及损失的计算。</p>
@@ -574,7 +572,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html" title="Caffe源码理解3：Layer基类与template method设计模式">https://blog.shinelee.me/2018/12-19-Caffe源码理解3：Layer基类与template-method设计模式.html</a>
+    <a href="https://blog.shinelee.me/2018/12-19-Caffe%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A33%EF%BC%9ALayer%E5%9F%BA%E7%B1%BB%E4%B8%8Etemplate-method%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html" title="Caffe源码理解3：Layer基类与template method设计模式">https://blog.shinelee.me/2018/12-19-Caffe%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A33%EF%BC%9ALayer%E5%9F%BA%E7%B1%BB%E4%B8%8Etemplate-method%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -615,7 +613,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" rel="next" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+              <a href="/2018/12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html" rel="next" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
                 <i class="fa fa-chevron-left"></i> MTCNN算法与代码理解—人脸检测和人脸对齐联合学习
               </a>
             
@@ -625,7 +623,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12-21-我的Windows装机必备软件与生产力工具.html" rel="prev" title="我的Windows装机必备软件与生产力工具">
+              <a href="/2018/12-21-%E6%88%91%E7%9A%84Windows%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87%E8%BD%AF%E4%BB%B6%E4%B8%8E%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7.html" rel="prev" title="我的Windows装机必备软件与生产力工具">
                 我的Windows装机必备软件与生产力工具 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -695,9 +693,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -708,9 +708,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -753,7 +753,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -895,7 +897,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

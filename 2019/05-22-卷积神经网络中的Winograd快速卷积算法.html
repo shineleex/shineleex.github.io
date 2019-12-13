@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,30 +168,30 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面随便翻一翻流行的推理框架（加速器），如NCNN、NNPACK等，可以看到，对于卷积层，大家不约而同地采用了Winograd快速卷积算法，该算法出自CVPR 2016的一篇 paper：Fast Algorithms for Convolutional Neural Networks。 本文将尝试揭开Winograd算法的神秘">
-<meta name="keywords" content="CNN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="卷积神经网络中的Winograd快速卷积算法">
-<meta property="og:url" content="https://blog.shinelee.me/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;05-22-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84Winograd%E5%BF%AB%E9%80%9F%E5%8D%B7%E7%A7%AF%E7%AE%97%E6%B3%95.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面随便翻一翻流行的推理框架（加速器），如NCNN、NNPACK等，可以看到，对于卷积层，大家不约而同地采用了Winograd快速卷积算法，该算法出自CVPR 2016的一篇 paper：Fast Algorithms for Convolutional Neural Networks。 本文将尝试揭开Winograd算法的神秘">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwQkZjNi5wbmc">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwRHhZOS5wbmc">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZweGRpRC5wbmc">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwelJuMS5wbmc">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA0LzI5L0UxcVNvUi5wbmc">
-<meta property="og:updated_time" content="2019-10-15T07:32:29.553Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwQkZjNi5wbmc">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwRHhZOS5wbmc">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZweGRpRC5wbmc">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwelJuMS5wbmc">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA0LzI5L0UxcVNvUi5wbmc">
+<meta property="article:published_time" content="2019-05-22T08:06:01.000Z">
+<meta property="article:modified_time" content="2019-10-15T07:32:29.553Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="CNN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="卷积神经网络中的Winograd快速卷积算法">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面随便翻一翻流行的推理框架（加速器），如NCNN、NNPACK等，可以看到，对于卷积层，大家不约而同地采用了Winograd快速卷积算法，该算法出自CVPR 2016的一篇 paper：Fast Algorithms for Convolutional Neural Networks。 本文将尝试揭开Winograd算法的神秘">
-<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwQkZjNi5wbmc">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwQkZjNi5wbmc">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html"/>
 
 
 
@@ -239,9 +239,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -251,7 +251,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -287,7 +287,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -295,7 +295,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -303,7 +303,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -311,7 +311,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -319,7 +319,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -365,20 +365,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/05-22-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84Winograd%E5%BF%AB%E9%80%9F%E5%8D%B7%E7%A7%AF%E7%AE%97%E6%B3%95.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -435,7 +435,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -446,7 +446,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习基础/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
 
                 
                 
@@ -460,7 +460,7 @@
 
           
           
-             <span id="/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html" class="leancloud_visitors" data-flag-title="卷积神经网络中的Winograd快速卷积算法">
+             <span id="/2019/05-22-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84Winograd%E5%BF%AB%E9%80%9F%E5%8D%B7%E7%A7%AF%E7%AE%97%E6%B3%95.html" class="leancloud_visitors" data-flag-title="卷积神经网络中的Winograd快速卷积算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -485,7 +485,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">7.6k</span>
+                <span title="本文字数">7.4k</span>
               
 
               
@@ -513,22 +513,22 @@
 <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>随便翻一翻流行的推理框架（加速器），如<a href="https://github.com/Tencent/ncnn" target="_blank" rel="noopener">NCNN</a>、<a href="https://github.com/Maratyszcza/NNPACK" target="_blank" rel="noopener">NNPACK</a>等，可以看到，对于卷积层，大家不约而同地采用了Winograd快速卷积算法，该算法出自CVPR 2016的一篇 paper：<a href="https://arxiv.org/abs/1509.09308" target="_blank" rel="noopener">Fast Algorithms for Convolutional Neural Networks</a>。</p>
 <p>本文将尝试揭开Winograd算法的神秘面纱。</p>
 <h1 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h1><p>将一维卷积运算定义为$F(m, r)$，$m$为Output Size，$r$为Filter Size，则输入信号的长度为$m+r-1$，卷积运算是对应位置相乘然后求和，<strong>输入信号每个位置至少要参与1次乘法</strong>，所以乘法数量最少与输入信号长度相同，记为</p>
-<p>$$<br>\mu(F(m, r))=m+r-1<br>$$</p>
-<p>在行列上分别进行一维卷积运算，可得到二维卷积，记为$F(m\times n, r\times s)$，输出为$m\times n$，卷积核为$r\times s$，则输入信号为$(m+r-1)(n+s-1)$，乘法数量至少为</p>
-<p>$$<br>\begin{aligned} \mu(F(m \times n, r \times s)) &amp;=\mu(F(m, r)) \mu(F(n, s)) \\ &amp;=(m+r-1)(n+s-1) \end{aligned}<br>$$</p>
-<p>若是直接按滑动窗口方式计算卷积，一维时需要$m\times r$次乘法，二维时需要$m\times n \times r \times s$次乘法，<strong>远大于上面计算的最少乘法次数</strong>。</p>
+<script type="math/tex; mode=display">
+\mu(F(m, r))=m+r-1</script><p>在行列上分别进行一维卷积运算，可得到二维卷积，记为$F(m\times n, r\times s)$，输出为$m\times n$，卷积核为$r\times s$，则输入信号为$(m+r-1)(n+s-1)$，乘法数量至少为</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \mu(F(m \times n, r \times s)) &=\mu(F(m, r)) \mu(F(n, s)) \\ &=(m+r-1)(n+s-1) \end{aligned}</script><p>若是直接按滑动窗口方式计算卷积，一维时需要$m\times r$次乘法，二维时需要$m\times n \times r \times s$次乘法，<strong>远大于上面计算的最少乘法次数</strong>。</p>
 <p>使用Winograd算法计算卷积快在哪里？一言以蔽之：<strong>快在减少了乘法的数量</strong>，将乘法数量减少至$m+r-1$或$(m+r-1)(n+s-1)$。</p>
 <p>怎么减少的？请看下面的例子。</p>
 <h1 id="一个例子-F-2-3"><a href="#一个例子-F-2-3" class="headerlink" title="一个例子 F(2, 3)"></a>一个例子 F(2, 3)</h1><p>先以1维卷积为例，输入信号为$d=\left[ \begin{array}{llll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right]^{T}$，卷积核为$g=\left[ \begin{array}{lll}{g_{0}} &amp; {g_{1}} &amp; {g_{2}}\end{array}\right]^{T}$，则卷积可写成如下矩阵乘法形式：</p>
-<p>$$<br>F(2, 3) = \left[ \begin{array}{lll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} \\ {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{r_0} \\ {r_1}\end{array}\right]<br>$$</p>
-<p>如果是一般的矩阵乘法，则需要<strong>6次乘法和4次加法</strong>，如下：</p>
-<p>$$<br>\begin{array}{l}{r_{0}=\left(d_{0} \cdot g_{0}\right)+\left(d_{1} \cdot g_{1}\right)+\left(d_{2} \cdot g_{2}\right)} \\ {r_{1}=\left(d_{1} \cdot g_{0}\right)+\left(d_{2} \cdot g_{1}\right)+\left(d_{3} \cdot g_{2}\right)}\end{array}<br>$$</p>
-<p>但是，卷积运算中输入信号转换成的矩阵不是任意矩阵，其中<strong>有规律地分布着大量的重复元素</strong>，比如第1行和第2行的$d_1$和$d_2$，卷积转换成的矩阵乘法比一般矩阵乘法的问题域更小，这就让优化存在了可能。</p>
+<script type="math/tex; mode=display">
+F(2, 3) = \left[ \begin{array}{lll}{d_{0}} & {d_{1}} & {d_{2}} \\ {d_{1}} & {d_{2}} & {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{r_0} \\ {r_1}\end{array}\right]</script><p>如果是一般的矩阵乘法，则需要<strong>6次乘法和4次加法</strong>，如下：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}{r_{0}=\left(d_{0} \cdot g_{0}\right)+\left(d_{1} \cdot g_{1}\right)+\left(d_{2} \cdot g_{2}\right)} \\ {r_{1}=\left(d_{1} \cdot g_{0}\right)+\left(d_{2} \cdot g_{1}\right)+\left(d_{3} \cdot g_{2}\right)}\end{array}</script><p>但是，卷积运算中输入信号转换成的矩阵不是任意矩阵，其中<strong>有规律地分布着大量的重复元素</strong>，比如第1行和第2行的$d_1$和$d_2$，卷积转换成的矩阵乘法比一般矩阵乘法的问题域更小，这就让优化存在了可能。</p>
 <p>Winograd是怎么做的呢？</p>
-<p>$$<br>F(2,3)=\left[ \begin{array}{lll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} \\ {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{m_{1}+m_{2}+m_{3}} \\ {m_{2}-m_{3}-m_{4}}\end{array}\right]<br>$$</p>
-<p>其中，</p>
-<p>$$<br>\begin{array}{ll}{m_{1}=\left(d_{0}-d_{2}\right) g_{0}} &amp; {m_{2}=\left(d_{1}+d_{2}\right) \frac{g_{0}+g_{1}+g_{2}}{2}} \\ {m_{4}=\left(d_{1}-d_{3}\right) g_{2}} &amp; {m_{3}=\left(d_{2}-d_{1}\right) \frac{g_{0}-g_{1}+g_{2}}{2}}\end{array}<br>$$</p>
-<p>乍看上去，为了计算$\begin{array}{l}{r_{0}=m_1 + m_2 + m_3 } \\ {r_{1}=m_2 - m_3 - m_4}\end{array}$，需要的运算次数分别为：</p>
+<script type="math/tex; mode=display">
+F(2,3)=\left[ \begin{array}{lll}{d_{0}} & {d_{1}} & {d_{2}} \\ {d_{1}} & {d_{2}} & {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{m_{1}+m_{2}+m_{3}} \\ {m_{2}-m_{3}-m_{4}}\end{array}\right]</script><p>其中，</p>
+<script type="math/tex; mode=display">
+\begin{array}{ll}{m_{1}=\left(d_{0}-d_{2}\right) g_{0}} & {m_{2}=\left(d_{1}+d_{2}\right) \frac{g_{0}+g_{1}+g_{2}}{2}} \\ {m_{4}=\left(d_{1}-d_{3}\right) g_{2}} & {m_{3}=\left(d_{2}-d_{1}\right) \frac{g_{0}-g_{1}+g_{2}}{2}}\end{array}</script><p>乍看上去，为了计算$\begin{array}{l}{r_{0}=m_1 + m_2 + m_3 } \\ {r_{1}=m_2 - m_3 - m_4}\end{array}$，需要的运算次数分别为：</p>
 <ul>
 <li>输入信号$d$上：4次加法（减法）</li>
 <li><del>卷积核$g$上：3次加法（$g_1+g_2$中间结果可保留），2次乘法（除法）</del></li>
@@ -536,14 +536,15 @@
 </ul>
 <p><strong>在神经网络的推理阶段，卷积核上的元素是固定的</strong>，因此$g$<strong>上的运算可以提前算好</strong>，<strong>预测阶段只需计算一次</strong>，可以忽略，所以一共所需的运算次数为$d$与$m$上的运算次数之和，<strong>即4次乘法和8次加法</strong>。</p>
 <p>与直接运算的6次乘法和4次加法相比，乘法次数减少，加法次数增加。在计算机中，乘法一般比加法慢，通过减少减法次数，增加少量加法，可以实现加速。</p>
-<h1 id="1D-winograd"><a href="#1D-winograd" class="headerlink" title="1D winograd"></a>1D winograd</h1><p>上一节中的计算过程写成矩阵形式如下：<br>$$<br>Y=A^{T}\left[(G g) \odot\left(B^{T} d\right)\right]<br>$$</p>
-<p> 其中，$\odot$为element-wise multiplication（Hadamard product）对应位置相乘，</p>
-<p>$$<br>B^{T}=\left[ \begin{array}{cccc}{1} &amp; {0} &amp; {-1} &amp; {0} \\ {0} &amp; {1} &amp; {1} &amp; {0} \\ {0} &amp; {-1} &amp; {1} &amp; {0} \\ {0} &amp; {1} &amp; {0} &amp; {-1}\end{array}\right]<br>$$</p>
-<p>$$<br>G=\left[ \begin{array}{ccc}{1} &amp; {0} &amp; {0} \\ {\frac{1}{2}} &amp; {\frac{1}{2}} &amp; {\frac{1}{2}} \\ {\frac{1}{2}} &amp; {-\frac{1}{2}} &amp; {\frac{1}{2}} \\ {0} &amp; {0} &amp; {1}\end{array}\right]<br>$$</p>
-<p>$$<br>A^{T}=\left[ \begin{array}{llll}{1} &amp; {1} &amp; {1} &amp; {0} \\ {0} &amp; {1} &amp; {-1} &amp; {-1}\end{array}\right]<br>$$</p>
-<p>$$<br>g=\left[ \begin{array}{lll}{g_{0}} &amp; {g_{1}} &amp; {g_{2}}\end{array}\right]^{T}<br>$$</p>
-<p>$$<br>d=\left[ \begin{array}{llll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right]^{T}<br>$$</p>
-<ul>
+<h1 id="1D-winograd"><a href="#1D-winograd" class="headerlink" title="1D winograd"></a>1D winograd</h1><p>上一节中的计算过程写成矩阵形式如下：</p>
+<script type="math/tex; mode=display">
+Y=A^{T}\left[(G g) \odot\left(B^{T} d\right)\right]</script><p> 其中，$\odot$为element-wise multiplication（Hadamard product）对应位置相乘，</p>
+<script type="math/tex; mode=display">
+B^{T}=\left[ \begin{array}{cccc}{1} & {0} & {-1} & {0} \\ {0} & {1} & {1} & {0} \\ {0} & {-1} & {1} & {0} \\ {0} & {1} & {0} & {-1}\end{array}\right]</script><script type="math/tex; mode=display">
+G=\left[ \begin{array}{ccc}{1} & {0} & {0} \\ {\frac{1}{2}} & {\frac{1}{2}} & {\frac{1}{2}} \\ {\frac{1}{2}} & {-\frac{1}{2}} & {\frac{1}{2}} \\ {0} & {0} & {1}\end{array}\right]</script><script type="math/tex; mode=display">
+A^{T}=\left[ \begin{array}{llll}{1} & {1} & {1} & {0} \\ {0} & {1} & {-1} & {-1}\end{array}\right]</script><script type="math/tex; mode=display">
+g=\left[ \begin{array}{lll}{g_{0}} & {g_{1}} & {g_{2}}\end{array}\right]^{T}</script><script type="math/tex; mode=display">
+d=\left[ \begin{array}{llll}{d_{0}} & {d_{1}} & {d_{2}} & {d_{3}}\end{array}\right]^{T}</script><ul>
 <li>$g$：卷积核</li>
 <li>$d$：输入信号</li>
 <li>$G$：Filter transform矩阵，尺寸$(m+r-1)\times r$</li>
@@ -563,13 +564,21 @@
 <blockquote>
 <p> A minimal 1D algorithm F(m, r) is <strong>nested with itself</strong> to obtain a minimal 2D algorithm,F(m×m, r×r).</p>
 </blockquote>
-<p>$$<br>Y=A^{T}\left[\left[G g G^{T}\right] \odot\left[B^{T} d B\right]\right] A<br>$$</p>
-<p>其中，$g$为$r \times r$ Filter，$d$为$(m+r-1)\times (m+r-1)$的image tile。</p>
+<script type="math/tex; mode=display">
+Y=A^{T}\left[\left[G g G^{T}\right] \odot\left[B^{T} d B\right]\right] A</script><p>其中，$g$为$r \times r$ Filter，$d$为$(m+r-1)\times (m+r-1)$的image tile。</p>
 <p>问题是：怎么<strong>nested with itself</strong>？</p>
 <p>这里继续上面的例子$F(2, 3)$，扩展到2D，$F(2\times 2, 3 \times 3)$，先写成矩阵乘法，见下图，图片来自<a href="https://www.slideshare.net/embeddedvision/even-faster-cnns-exploring-the-new-class-of-winograd-algorithms-a-presentation-from-arm?from_action=save" target="_blank" rel="noopener">SlideShare</a>，注意数学符号的变化，</p>
 <p><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwQkZjNi5wbmc" alt="nested 1D winograd algorithm"><figcaption class="image-caption">nested 1D winograd algorithm</figcaption></figure><br>将卷积核的元素拉成一列，将输入信号每个滑动窗口中的元素拉成一行。注意图中红线划分成的分块矩阵，<strong>每个子矩阵中重复元素的位置与一维时相同，同时重复的子矩阵也和一维时相同</strong>，如下所示<br><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZwRHhZOS5wbmc" alt="nested 1D winograd algorithm"><figcaption class="image-caption">nested 1D winograd algorithm</figcaption></figure><br>令$D_0 = [k_0, k_1, k_2, k_3]^T$，即窗口中的第0行元素，$D_1 \ D_2 \ D_3$表示第1、2、3行；$W_0=[w_0, w_1, w_2]^T$，</p>
-<p>$$\begin{aligned}<br>\left[ \begin{array}{c}{r_0} \\ {r_1} \\ {r_2} \\ {r_3}\end{array}\right] &amp;=<br>\left[ \begin{array}{c}{R_0} \\ {R_1}\end{array}\right] =<br>\left[ \begin{array}{c}{K_0 W_0 + K_1 W_1 + K_2 W_2} \\ {K_1 W_0 + K_2 W_1 + K_3 W_2} \end{array} \right] \\<br>&amp;= \left[ \begin{array}{c} {A^{T}\left[(G W_0) \odot\left(B^{T} D_0 \right)\right] + A^{T}\left[(G W_1) \odot\left(B^{T} D_1 \right)\right] + A^{T}\left[(G W_2) \odot\left(B^{T} D_2 \right)\right]} \\ {A^{T}\left[(G W_0) \odot\left(B^{T} D_1 \right)\right] + A^{T}\left[(G W_1) \odot\left(B^{T} D_2 \right)\right] + A^{T}\left[(G W_2) \odot\left(B^{T} D_3 \right)\right]} \end{array} \right] \\<br>\\<br>&amp;=A^{T}\left[\left[G [W_0 \ W_1 \ W_2 ] G^{T}\right] \odot\left[B^{T} [d_0 \ d_1 \ d_2 \ d_3] B\right]\right]A \\<br>\\<br>&amp;=A^{T}\left[\left[G g G^{T}\right] \odot\left[B^{T} d B\right]\right] A<br>\end{aligned}<br>$$</p>
-<p>卷积运算为对应位置相乘再相加，上式中，$A^{T}\left[(G W_0) \odot\left(B^{T} D_0 \right)\right]$表示长度为4的$D_0$与长度为3的$W_0$卷积结果，结果为长度为2的列向量，其中，$(G W_0)$和$(B^{T} D_0)$均为长度为4的列向量，进一步地，$\left[(G W_0) \odot\left(B^{T} D_0 \right)+ (G W_1) \odot\left(B^{T} D_1 \right) + (G W_2) \odot\left(B^{T} D_2 \right)\right]$可以看成3对长度为4的列向量两两对应位置相乘再相加，结果为长度为4的列向量，也可以看成是4组长度为3的行向量的点积运算，同样，$\left[(G W_0) \odot\left(B^{T} D_1 \right)+ (G W_1) \odot\left(B^{T} D_2 \right) + (G W_2) \odot\left(B^{T} D_3 \right)\right]$也是4组长度为3的行向量的内积运算，考虑两者的重叠部分$(B^T D_1)$和$(B^T D_2)$，恰好相当于$G [W_0 \ W_1 \ W_2 ]$的每一行在$B^{T} [d_0 \ d_1 \ d_2 \ d_3]$的对应行上进行1维卷积，上面我们已经进行了列向量卷积的Winograd推导，行向量的卷积只需将所有左乘的变换矩阵转置后变成右乘就可以了，至此，上面的推导结果就不难得出了。</p>
+<script type="math/tex; mode=display">\begin{aligned}
+\left[ \begin{array}{c}{r_0} \\ {r_1} \\ {r_2} \\ {r_3}\end{array}\right] &=
+\left[ \begin{array}{c}{R_0} \\ {R_1}\end{array}\right] = 
+\left[ \begin{array}{c}{K_0 W_0 + K_1 W_1 + K_2 W_2} \\ {K_1 W_0 + K_2 W_1 + K_3 W_2} \end{array} \right] \\
+&= \left[ \begin{array}{c} {A^{T}\left[(G W_0) \odot\left(B^{T} D_0 \right)\right] + A^{T}\left[(G W_1) \odot\left(B^{T} D_1 \right)\right] + A^{T}\left[(G W_2) \odot\left(B^{T} D_2 \right)\right]} \\ {A^{T}\left[(G W_0) \odot\left(B^{T} D_1 \right)\right] + A^{T}\left[(G W_1) \odot\left(B^{T} D_2 \right)\right] + A^{T}\left[(G W_2) \odot\left(B^{T} D_3 \right)\right]} \end{array} \right] \\
+\\
+&=A^{T}\left[\left[G [W_0 \ W_1 \ W_2 ] G^{T}\right] \odot\left[B^{T} [d_0 \ d_1 \ d_2 \ d_3] B\right]\right]A \\
+\\
+&=A^{T}\left[\left[G g G^{T}\right] \odot\left[B^{T} d B\right]\right] A
+\end{aligned}</script><p>卷积运算为对应位置相乘再相加，上式中，$A^{T}\left[(G W_0) \odot\left(B^{T} D_0 \right)\right]$表示长度为4的$D_0$与长度为3的$W_0$卷积结果，结果为长度为2的列向量，其中，$(G W_0)$和$(B^{T} D_0)$均为长度为4的列向量，进一步地，$\left[(G W_0) \odot\left(B^{T} D_0 \right)+ (G W_1) \odot\left(B^{T} D_1 \right) + (G W_2) \odot\left(B^{T} D_2 \right)\right]$可以看成3对长度为4的列向量两两对应位置相乘再相加，结果为长度为4的列向量，也可以看成是4组长度为3的行向量的点积运算，同样，$\left[(G W_0) \odot\left(B^{T} D_1 \right)+ (G W_1) \odot\left(B^{T} D_2 \right) + (G W_2) \odot\left(B^{T} D_3 \right)\right]$也是4组长度为3的行向量的内积运算，考虑两者的重叠部分$(B^T D_1)$和$(B^T D_2)$，恰好相当于$G [W_0 \ W_1 \ W_2 ]$的每一行在$B^{T} [d_0 \ d_1 \ d_2 \ d_3]$的对应行上进行1维卷积，上面我们已经进行了列向量卷积的Winograd推导，行向量的卷积只需将所有左乘的变换矩阵转置后变成右乘就可以了，至此，上面的推导结果就不难得出了。</p>
 <p>所谓的<strong>nested with itself</strong>如下图所示，<br><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzIyL1ZweGRpRC5wbmc" alt="nested 1D winograd algorithm"><figcaption class="image-caption">nested 1D winograd algorithm</figcaption></figure></p>
 <p>此时，Winograd算法的乘法次数为16（上图$4\times 4$），而直接卷积的乘法次数为36，<strong>降低了2.25倍的乘法计算复杂度</strong>。</p>
 <h1 id="卷积神经网络中的Winograd"><a href="#卷积神经网络中的Winograd" class="headerlink" title="卷积神经网络中的Winograd"></a>卷积神经网络中的Winograd</h1><p>要将Winograd应用在卷积神经网络中，还需要回答下面两个问题：</p>
@@ -620,7 +629,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html" title="卷积神经网络中的Winograd快速卷积算法">https://blog.shinelee.me/2019/05-22-卷积神经网络中的Winograd快速卷积算法.html</a>
+    <a href="https://blog.shinelee.me/2019/05-22-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84Winograd%E5%BF%AB%E9%80%9F%E5%8D%B7%E7%A7%AF%E7%AE%97%E6%B3%95.html" title="卷积神经网络中的Winograd快速卷积算法">https://blog.shinelee.me/2019/05-22-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84Winograd%E5%BF%AB%E9%80%9F%E5%8D%B7%E7%A7%AF%E7%AE%97%E6%B3%95.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -661,7 +670,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04-26-im2col：将卷积运算转为矩阵相乘.html" rel="next" title="im2col：将卷积运算转为矩阵相乘">
+              <a href="/2019/04-26-im2col%EF%BC%9A%E5%B0%86%E5%8D%B7%E7%A7%AF%E8%BF%90%E7%AE%97%E8%BD%AC%E4%B8%BA%E7%9F%A9%E9%98%B5%E7%9B%B8%E4%B9%98.html" rel="next" title="im2col：将卷积运算转为矩阵相乘">
                 <i class="fa fa-chevron-left"></i> im2col：将卷积运算转为矩阵相乘
               </a>
             
@@ -671,7 +680,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05-23-B站上传字幕问题解决.html" rel="prev" title="B站上传字幕问题解决">
+              <a href="/2019/05-23-B%E7%AB%99%E4%B8%8A%E4%BC%A0%E5%AD%97%E5%B9%95%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html" rel="prev" title="B站上传字幕问题解决">
                 B站上传字幕问题解决 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -741,9 +750,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -754,9 +765,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -799,7 +810,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -941,7 +954,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

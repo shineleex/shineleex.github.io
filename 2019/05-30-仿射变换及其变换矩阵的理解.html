@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -167,32 +167,32 @@
 
 
 
-  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面2D图像常见的坐标变换如下图所示：Basic set of 2D planar transformations这篇文章不包含透视变换（projective/perspective transformation），而将重点放在仿射变换（affine transformation），将介绍仿射变换所包含的各种变换，以及变换矩阵该">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面2D图像常见的坐标变换如下图所示：Basic set of 2D planar transformations这篇文章不包含透视变换（projective&#x2F;perspective transformation），而将重点放在仿射变换（affine transformation），将介绍仿射变换所包含的各种变换，以及变换矩阵该">
 <meta property="og:type" content="article">
 <meta property="og:title" content="仿射变换及其变换矩阵的理解">
-<meta property="og:url" content="https://blog.shinelee.me/2019/05-30-仿射变换及其变换矩阵的理解.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面2D图像常见的坐标变换如下图所示：Basic set of 2D planar transformations这篇文章不包含透视变换（projective/perspective transformation），而将重点放在仿射变换（affine transformation），将介绍仿射变换所包含的各种变换，以及变换矩阵该">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RXRVQS5wbmc?x-oss-process=image/format,png">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZLV3N6RC5wbmc?x-oss-process=image/format,png">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZLV3dJeC5wbmc?x-oss-process=image/format,png">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RWc1bi5wbmc?x-oss-process=image/format,png">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZNbmtrRC5wbmc?x-oss-process=image/format,png">
-<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZNWXdZcS5wbmc?x-oss-process=image/format,png">
-<meta property="og:updated_time" content="2019-10-15T07:38:45.867Z">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面2D图像常见的坐标变换如下图所示：Basic set of 2D planar transformations这篇文章不包含透视变换（projective&#x2F;perspective transformation），而将重点放在仿射变换（affine transformation），将介绍仿射变换所包含的各种变换，以及变换矩阵该">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RXRVQS5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZLV3N6RC5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZLV3dJeC5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RWc1bi5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZNbmtrRC5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
+<meta property="og:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZNWXdZcS5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
+<meta property="article:published_time" content="2019-05-30T09:35:11.000Z">
+<meta property="article:modified_time" content="2019-10-15T07:38:45.867Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="仿射变换及其变换矩阵的理解">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面2D图像常见的坐标变换如下图所示：Basic set of 2D planar transformations这篇文章不包含透视变换（projective/perspective transformation），而将重点放在仿射变换（affine transformation），将介绍仿射变换所包含的各种变换，以及变换矩阵该">
-<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RXRVQS5wbmc?x-oss-process=image/format,png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;imgconvert.csdnimg.cn&#x2F;aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RXRVQS5wbmc?x-oss-process&#x3D;image&#x2F;format,png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2019/05-30-仿射变换及其变换矩阵的理解.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2019/05-30-仿射变换及其变换矩阵的理解.html"/>
 
 
 
@@ -240,9 +240,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -252,7 +252,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -296,7 +296,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -304,7 +304,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -312,7 +312,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -320,7 +320,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -366,20 +366,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/05-30-仿射变换及其变换矩阵的理解.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -436,7 +436,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -447,7 +447,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/传统计算机视觉/" itemprop="url" rel="index"><span itemprop="name">传统计算机视觉</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E4%BC%A0%E7%BB%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">传统计算机视觉</span></a></span>
 
                 
                 
@@ -461,7 +461,7 @@
 
           
           
-             <span id="/2019/05-30-仿射变换及其变换矩阵的理解.html" class="leancloud_visitors" data-flag-title="仿射变换及其变换矩阵的理解">
+             <span id="/2019/05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html" class="leancloud_visitors" data-flag-title="仿射变换及其变换矩阵的理解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -486,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">4.1k</span>
+                <span title="本文字数">4k</span>
               
 
               
@@ -519,21 +519,20 @@
 <p><strong>剪切变换</strong>（shear mapping）将所有点沿某一指定方向成比例地平移，语言描述不如上面图示直观。</p>
 <p>各种变换间的关系如下面的venn图所示：<br><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZLV3dJeC5wbmc?x-oss-process=image/format,png" alt="transformations venn diagram"><figcaption class="image-caption">transformations venn diagram</figcaption></figure><br>通过变换矩阵可以更清晰地看出这些变换间的关系和区别。</p>
 <h1 id="变换矩阵形式"><a href="#变换矩阵形式" class="headerlink" title="变换矩阵形式"></a>变换矩阵形式</h1><p>没有平移或者平移量为0的所有仿射变换可以用如下变换矩阵描述：</p>
-<p>$$<br>\left[ \begin{array}{l}{x’} \\ {y’}\end{array}\right]=\left[ \begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y}\end{array}\right]<br>$$</p>
-<p>不同变换对应的$a, b, c, d$约束不同，排除了平移变换的所有仿射变换为<strong>线性变换</strong>（linear transformation），其涵盖的变换如上面的venn图所示，其特点是<strong>原点位置不变</strong>，<strong>多次线性变换的结果仍是线性变换</strong>。</p>
+<script type="math/tex; mode=display">
+\left[ \begin{array}{l}{x'} \\ {y'}\end{array}\right]=\left[ \begin{array}{ll}{a} & {b} \\ {c} & {d}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y}\end{array}\right]</script><p>不同变换对应的$a, b, c, d$约束不同，排除了平移变换的所有仿射变换为<strong>线性变换</strong>（linear transformation），其涵盖的变换如上面的venn图所示，其特点是<strong>原点位置不变</strong>，<strong>多次线性变换的结果仍是线性变换</strong>。</p>
 <p>为了涵盖平移，引入<strong>齐次坐标</strong>，在原有2维坐标的基础上，增广1个维度，如下所示：</p>
-<p>$$<br>\left[ \begin{array}{l}{x^{\prime}} \\ {y^{\prime}} \\ {1}\end{array}\right] =\left[ \begin{array}{lll}{a} &amp; {b} &amp; {c}\\ {d} &amp; {e} &amp; {f} \end{array}\right] \left[ \begin{array}{l}{x} \\ {y} \\ {1}\end{array}\right]<br>$$</p>
-<p>所以，仿射变换的变换矩阵统一用 $\left[ \begin{array}{lll}{a} &amp; {b} &amp; {c}\\ {d} &amp; {e} &amp; {f}\end{array}\right]$来描述，不同基础变换的$a,b,c,d,e,f$约束不同，如下所示：</p>
-<p><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RWc1bi5wbmc?x-oss-process=image/format,png" alt="VuEg5n.png"><figcaption class="image-caption">VuEg5n.png</figcaption></figure><br>此外，旋转和平移相乘得到刚体变换的变换矩阵，如下，有3个自由度（$\theta, t_x, t_y$），这里旋转方向为逆时针方向，因此与上图中的正负号不同，<br>$$<br>\left[ \begin{array}{ccc}{\cos (\theta)} &amp; {-\sin (\theta)} &amp; {t_{x}} \\ {\sin (\theta)} &amp; {\cos (\theta)} &amp; {t_{y}}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y} \\ {1}\end{array}\right]=\left[ \begin{array}{c}{x^{\prime}} \\ {y^{\prime}} \\ {1}\end{array}\right]<br>$$</p>
-<p>再乘上uniform scaling得到相似变换，有4个自由度（$s, \theta, t_x, t_y$），如下：</p>
-<p>$$<br>\left[ \begin{array}{ccc}{s\cos (\theta)} &amp; {-s\sin (\theta)} &amp; {t_{x}} \\ {s\sin (\theta)} &amp; {s\cos (\theta)} &amp; {t_{y}}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y} \\ {1}\end{array}\right]=\left[ \begin{array}{c}{x^{\prime}} \\ {y^{\prime}} \\ {1}\end{array}\right]<br>$$</p>
-<p>自然，仿射变换的变换矩阵有6个自由度（$a,b,c,d,e,f$）。</p>
+<script type="math/tex; mode=display">
+\left[ \begin{array}{l}{x^{\prime}} \\ {y^{\prime}} \\ {1}\end{array}\right] =\left[ \begin{array}{lll}{a} & {b} & {c}\\ {d} & {e} & {f} \end{array}\right] \left[ \begin{array}{l}{x} \\ {y} \\ {1}\end{array}\right]</script><p>所以，仿射变换的变换矩阵统一用 $\left[ \begin{array}{lll}{a} &amp; {b} &amp; {c}\\ {d} &amp; {e} &amp; {f}\end{array}\right]$来描述，不同基础变换的$a,b,c,d,e,f$约束不同，如下所示：</p>
+<p><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzI5L1Z1RWc1bi5wbmc?x-oss-process=image/format,png" alt="VuEg5n.png"><figcaption class="image-caption">VuEg5n.png</figcaption></figure><br>此外，旋转和平移相乘得到刚体变换的变换矩阵，如下，有3个自由度（$\theta, t_x, t_y$），这里旋转方向为逆时针方向，因此与上图中的正负号不同，</p>
+<script type="math/tex; mode=display">
+\left[ \begin{array}{ccc}{\cos (\theta)} & {-\sin (\theta)} & {t_{x}} \\ {\sin (\theta)} & {\cos (\theta)} & {t_{y}}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y} \\ {1}\end{array}\right]=\left[ \begin{array}{c}{x^{\prime}} \\ {y^{\prime}} \\ {1}\end{array}\right]</script><p>再乘上uniform scaling得到相似变换，有4个自由度（$s, \theta, t_x, t_y$），如下：</p>
+<script type="math/tex; mode=display">
+\left[ \begin{array}{ccc}{s\cos (\theta)} & {-s\sin (\theta)} & {t_{x}} \\ {s\sin (\theta)} & {s\cos (\theta)} & {t_{y}}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y} \\ {1}\end{array}\right]=\left[ \begin{array}{c}{x^{\prime}} \\ {y^{\prime}} \\ {1}\end{array}\right]</script><p>自然，仿射变换的变换矩阵有6个自由度（$a,b,c,d,e,f$）。</p>
 <h1 id="变换矩阵的理解与记忆"><a href="#变换矩阵的理解与记忆" class="headerlink" title="变换矩阵的理解与记忆"></a>变换矩阵的理解与记忆</h1><p><figure><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA1LzMwL1ZNbmtrRC5wbmc?x-oss-process=image/format,png" alt="rotate matrix"><figcaption class="image-caption">rotate matrix</figcaption></figure><br><strong>坐标系</strong>由<strong>坐标原点</strong>和<strong>基向量</strong>决定，<strong>坐标原点</strong>和<strong>基向量</strong>确定了，坐标系也就确定了。</p>
 <p>对于坐标系中的位置$(x, y)$，其相对坐标原点在$[1, 0]$方向上的投影为$x$，在$[0, 1]$方向上的投影为$y$——这里投影的意思是过$(x, y)$做坐标轴的平行线与坐标轴的交点到原点的距离，即$(x, y)$实际为：</p>
-<p>$$\left[ \begin{array}{l}{x} \\ {y}\end{array}\right] = x\left[ \begin{array}{l}{1} \\ {0}\end{array}\right] + y\left[ \begin{array}{l}{0} \\ {1}\end{array}\right]  = \left[ \begin{array}{ll}{1} &amp; {0} \\ {0} &amp; {1}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y}\end{array}\right]$$</p>
-<p><strong>当坐标系变化，坐标系中的点也跟着变化</strong>，但<strong>点相对新坐标系</strong>（$x’-y’$坐标系）<strong>的位置不变</strong>仍为$(x, y)$，以旋转变换为例，新坐标轴的基向量则变为$[\cos (\theta), \sin (\theta)]$和$[-\sin (\theta), \cos (\theta)]$，所以点变化到新位置为：</p>
-<p>$$\left[ \begin{array}{l}{x’} \\ {y’}\end{array}\right] = x\left[ \begin{array}{l}{\cos (\theta)} \\ { \sin (\theta)}\end{array}\right] + y\left[ \begin{array}{r}{- \sin (\theta)} \\ { \cos (\theta)}\end{array}\right]  = \left[ \begin{array}{lr}{\cos (\theta)} &amp; {-\sin (\theta)} \\ {\sin (\theta)} &amp; {\cos (\theta)}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y}\end{array}\right]$$</p>
-<p>新位置和新基向量是相对绝对坐标系($x-y$坐标系）而言的。其他变换矩阵同理。</p>
+<script type="math/tex; mode=display">\left[ \begin{array}{l}{x} \\ {y}\end{array}\right] = x\left[ \begin{array}{l}{1} \\ {0}\end{array}\right] + y\left[ \begin{array}{l}{0} \\ {1}\end{array}\right]  = \left[ \begin{array}{ll}{1} & {0} \\ {0} & {1}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y}\end{array}\right]</script><p><strong>当坐标系变化，坐标系中的点也跟着变化</strong>，但<strong>点相对新坐标系</strong>（$x’-y’$坐标系）<strong>的位置不变</strong>仍为$(x, y)$，以旋转变换为例，新坐标轴的基向量则变为$[\cos (\theta), \sin (\theta)]$和$[-\sin (\theta), \cos (\theta)]$，所以点变化到新位置为：</p>
+<script type="math/tex; mode=display">\left[ \begin{array}{l}{x'} \\ {y'}\end{array}\right] = x\left[ \begin{array}{l}{\cos (\theta)} \\ { \sin (\theta)}\end{array}\right] + y\left[ \begin{array}{r}{- \sin (\theta)} \\ { \cos (\theta)}\end{array}\right]  = \left[ \begin{array}{lr}{\cos (\theta)} & {-\sin (\theta)} \\ {\sin (\theta)} & {\cos (\theta)}\end{array}\right] \left[ \begin{array}{l}{x} \\ {y}\end{array}\right]</script><p>新位置和新基向量是相对绝对坐标系($x-y$坐标系）而言的。其他变换矩阵同理。</p>
 <p>总结一下：</p>
 <ul>
 <li>所有变换矩阵只需关注一点：<strong>坐标系的变化</strong>，即<strong>基向量和原点的变化</strong>；</li>
@@ -574,7 +573,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2019/05-30-仿射变换及其变换矩阵的理解.html" title="仿射变换及其变换矩阵的理解">https://blog.shinelee.me/2019/05-30-仿射变换及其变换矩阵的理解.html</a>
+    <a href="https://blog.shinelee.me/2019/05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html" title="仿射变换及其变换矩阵的理解">https://blog.shinelee.me/2019/05-30-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E5%8F%8A%E5%85%B6%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5%E7%9A%84%E7%90%86%E8%A7%A3.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -609,7 +608,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05-23-B站上传字幕问题解决.html" rel="next" title="B站上传字幕问题解决">
+              <a href="/2019/05-23-B%E7%AB%99%E4%B8%8A%E4%BC%A0%E5%AD%97%E5%B9%95%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html" rel="next" title="B站上传字幕问题解决">
                 <i class="fa fa-chevron-left"></i> B站上传字幕问题解决
               </a>
             
@@ -619,7 +618,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08-28-ImageNet主要网络benchmark对比.html" rel="prev" title="ImageNet主要网络benchmark对比">
+              <a href="/2019/08-28-ImageNet%E4%B8%BB%E8%A6%81%E7%BD%91%E7%BB%9Cbenchmark%E5%AF%B9%E6%AF%94.html" rel="prev" title="ImageNet主要网络benchmark对比">
                 ImageNet主要网络benchmark对比 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -689,9 +688,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -702,9 +703,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -747,7 +748,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -889,7 +892,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   

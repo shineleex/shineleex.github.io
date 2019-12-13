@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 动机在博文《为什么要做特征归一化&#x2F;标准化？ 博客园 | csdn | blog》中，我们介绍了对输入进行Standardization后，梯度下降算法更容易选择到合适的（较大的）学习率，下降过程会更加稳定。 在博文《网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming 博客园 | csdn | blog》中，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Batch Normalization详解">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;11-27-Batch%20Normalization%E8%AF%A6%E8%A7%A3.html">
+<meta property="og:site_name" content="进击的小学生">
+<meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 动机在博文《为什么要做特征归一化&#x2F;标准化？ 博客园 | csdn | blog》中，我们介绍了对输入进行Standardization后，梯度下降算法更容易选择到合适的（较大的）学习率，下降过程会更加稳定。 在博文《网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming 博客园 | csdn | blog》中，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;QMURNF.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;QMwSTf.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;04&#x2F;QQqCxe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;02&#x2F;QnyE24.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;02&#x2F;QngERS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;05&#x2F;Q8e7jO.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;QMlxc8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;04&#x2F;Q1tTXR.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;04&#x2F;Q1UYIf.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;04&#x2F;Q16lhn.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;04&#x2F;Q1cAUJ.png">
+<meta property="article:published_time" content="2019-11-27T07:35:08.000Z">
+<meta property="article:modified_time" content="2019-12-13T07:24:06.627Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;QMURNF.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2019/11-27-Batch Normalization详解.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Batch Normalization详解 | 进击的小学生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">进击的小学生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/11-27-Batch%20Normalization%E8%AF%A6%E8%A7%A3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Batch Normalization详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-27 15:35:08" itemprop="dateCreated datePublished" datetime="2019-11-27T15:35:08+08:00">2019-11-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-13 15:24:06" itemprop="dateModified" datetime="2019-12-13T15:24:06+08:00">2019-12-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11-27-Batch%20Normalization%E8%AF%A6%E8%A7%A3.html" class="leancloud_visitors" data-flag-title="Batch Normalization详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">9.1k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://blog.shinelee.me/">blog.shinelee.me</a> | <a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a></p>
+<h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>在博文《<strong>为什么要做特征归一化/标准化？</strong> <a href="https://www.cnblogs.com/shine-lee/p/11779514.html" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee/article/details/102875044" target="_blank" rel="noopener">csdn</a> | <a href="https://blog.shinelee.me/2019/10-22-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96or%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%9F.html">blog</a>》中，我们介绍了对输入进行Standardization后，梯度下降算法更容易选择到合适的（较大的）学习率，下降过程会更加稳定。</p>
+<p>在博文《<strong>网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming</strong> <a href="https://www.cnblogs.com/shine-lee/p/11908610.html" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/firelx/article/details/103194358" target="_blank" rel="noopener">csdn</a> | <a href="https://blog.shinelee.me/2019/11-11-%E7%BD%91%E7%BB%9C%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%8B%EF%BC%89%EF%BC%9ALecun%E3%80%81Xavier%E4%B8%8EHe%20Kaiming.html">blog</a>》中，我们介绍了如何通过权重初始化让网络在训练之初保持激活层的输出（输入）为zero mean unit variance分布，以减轻梯度消失和梯度爆炸。</p>
+<p>但在训练过程中，权重在不断更新，导致激活层输出(输入)的分布会一直变化，可能无法一直保持zero mean unit variance分布，还是有梯度消失和梯度爆炸的可能，直觉上感到，这可能是个问题。下面具体分析。</p>
+<h2 id="单层视角"><a href="#单层视角" class="headerlink" title="单层视角"></a>单层视角</h2><p><figure><img src="https://s2.ax1x.com/2019/12/03/QMURNF.png" alt="http://gradientscience.org/batchnorm/"><figcaption class="image-caption">http://gradientscience.org/batchnorm/</figcaption></figure></p>
+<p>神经网络可以看成是上图形式，对于中间的某一层，其前面的层可以看成是对输入的处理，后面的层可以看成是损失函数。一次反向传播过程会同时更新所有层的权重$W_1, W_2, \dots, W_L$，前面层权重的更新会改变当前层输入的分布，<strong>而跟据反向传播的计算方式，我们知道，对$W_k$的更新是在假定其输入不变的情况下进行的</strong>。如果假定第$k$层的输入节点只有2个，对第$k$层的某个输出节点而言，相当于一个线性模型$y = w_1 x_1 + w_2 x_2 + b$，如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/03/QMwSTf.png" alt="https://wiki2.org/en/Linear_classifier#/media/File:Svm_separating_hyperplanes.png" style="zoom: 50%;" /><figcaption class="image-caption">https://wiki2.org/en/Linear_classifier#/media/File:Svm_separating_hyperplanes.png</figcaption></figure></p>
+<p>假定当前输入$x_1$和$x_2$的分布如图中圆点所示，本次更新的方向是将直线$H_1$更新成$H_2$，本以为切分得不错，但是当前面层的权重更新完毕，当前层输入的分布换成了另外一番样子，直线相对输入分布的位置可能变成了$H_3$，下一次更新又要根据新的分布重新调整。<strong>直线调整了位置，输入分布又在发生变化，直线再调整位置，就像是直线和分布之间的“追逐游戏”。对于浅层模型，比如SVM，输入特征的分布是固定的，即使拆分成不同的batch，每个batch的统计特性也是相近的，因此只需调整直线位置来适应输入分布，显然要容易得多。而深层模型，每层输入的分布和权重在同时变化，训练相对困难。</strong></p>
+<h2 id="多层视角"><a href="#多层视角" class="headerlink" title="多层视角"></a>多层视角</h2><p>上面是从网络中单拿出一层分析，下面看一下多层的情况。在反向传播过程中，每层权重的更新是在假定其他权重不变的情况下，向损失函数降低的方向调整自己。问题在于，在一次反向传播过程中，所有的权重会同时更新，导致层间配合“缺乏默契”，每层都在进行上节所说的“追逐游戏”，而且层数越多，相互配合越困难，文中把这个现象称之为 <strong>Internal Covariate Shift</strong>，示意图如下。为了避免过于震荡，学习率不得不设置得足够小，足够小就意味着学习缓慢。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/04/QQqCxe.png" alt="https://gab41.lab41.org/batch-normalization-what-the-hey-d480039a9e3b"><figcaption class="image-caption">https://gab41.lab41.org/batch-normalization-what-the-hey-d480039a9e3b</figcaption></figure></p>
+<p>为此，希望对每层输入的分布有所控制，于是就有了<strong>Batch Normalization</strong>，其出发点是对每层的输入做Normalization，只有一个数据是谈不上Normalization的，所以是对一个batch的数据进行Normalization。</p>
+<h1 id="什么是Batch-Normalization"><a href="#什么是Batch-Normalization" class="headerlink" title="什么是Batch Normalization"></a>什么是Batch Normalization</h1><p>Batch Normalization，简称BatchNorm或BN，翻译为“批归一化”，是神经网络中一种特殊的层，如今已是各种流行网络的标配。<strong>在原paper中，BN被建议插入在（每个）ReLU激活层前面</strong>，如下所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/02/QnyE24.png" alt="http://gradientscience.org/batchnorm/"><figcaption class="image-caption">http://gradientscience.org/batchnorm/</figcaption></figure></p>
+<p>如果batch size为$m$，则在前向传播过程中，网络中每个节点都有$m$个输出，所谓的Batch Normalization，就是对该层每个节点的这$m$个输出进行归一化再输出，具体计算方式如下，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/02/QngERS.png" alt="Batch Normalization Transform"><figcaption class="image-caption">Batch Normalization Transform</figcaption></figure></p>
+<p>其操作可以分成2步，</p>
+<ol>
+<li><strong>Standardization</strong>：首先对$m$个$x$进行 Standardization，得到 zero mean unit variance的分布$\hat{x}$。</li>
+<li><strong>scale and shift</strong>：然后再对$\hat{x}$进行scale and shift，缩放并平移到新的分布$y$，具有新的均值$\beta$方差$\gamma$。</li>
+</ol>
+<p>假设BN层有$d$个输入节点，则$x$可构成$d \times m$大小的矩阵$X$，BN层相当于通过<strong>行操作</strong>将其映射为另一个$d\times m$大小的矩阵$Y$，如下所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/05/Q8e7jO.png" alt="Batch Normalization"><figcaption class="image-caption">Batch Normalization</figcaption></figure>将2个过程写在一个公式里如下，</p>
+<script type="math/tex; mode=display">
+y_i^{(b)} = BN\left(x_{i}\right)^{(b)}=\gamma \cdot\left(\frac{x_{i}^{(b)}-\mu\left(x_{i}\right)}{\sqrt{\sigma\left(x_{i}\right)^2 + \epsilon}}\right)+\beta</script><p>其中，$x_i^{(b)}$表示输入当前batch的$b$-th样本时该层$i$-th输入节点的值，$x_i$为$[x_i^{(1)}, x_i^{(2)}, \dots, x_i^{(m)}]$构成的行向量，长度为batch size $m$，$\mu$和$\sigma$为该行的均值和标准差，$\epsilon$为防止除零引入的极小量（可忽略），$\gamma$和$\beta$为该行的scale和shift参数，可知</p>
+<ul>
+<li>$\mu$和$\sigma$为当前行的统计量，不可学习。</li>
+<li>$\gamma$和$\beta$为待学习的scale和shift参数，用于控制$y_i$的方差和均值。</li>
+<li>BN层中，$x_i$和$x_j$之间不存在信息交流$(i \neq j)$</li>
+</ul>
+<p>可见，<strong>无论$x_i$原本的均值和方差是多少，通过BatchNorm后其均值和方差分别变为待学习的$\beta$和$\gamma$。</strong></p>
+<h1 id="Batch-Normalization的反向传播"><a href="#Batch-Normalization的反向传播" class="headerlink" title="Batch Normalization的反向传播"></a>Batch Normalization的反向传播</h1><p>对于目前的神经网络计算框架，<strong>一个层要想加入到网络中，要保证其是可微的，即可以求梯度</strong>。BatchNorm的梯度该如何求取？</p>
+<p>反向传播求梯度只需抓住一个关键点，如果一个变量对另一个变量有影响，那么他们之间就存在偏导数，找到直接相关的变量，再配合链式法则，公式就很容易写出了。</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+{\frac{\partial \ell}{\partial \gamma}=\sum_{i=1}^{m} \frac{\partial \ell}{\partial y_{i}} \cdot \widehat{x}_{i}} \\ 
+{\frac{\partial \ell}{\partial \beta}=\sum_{i=1}^{m} \frac{\partial \ell}{\partial y_{i}}} \\
+{\frac{\partial \ell}{\partial \widehat{x}_{i}}=\frac{\partial \ell}{\partial y_{i}} \cdot \gamma} \\ 
+{\frac{\partial \ell}{\partial \sigma_{B}^{2}}=\sum_{i=1}^{m} \frac{\partial \ell}{\partial \widehat{x}_{i}} \cdot\left(x_{i}-\mu_{\mathcal{B}}\right) \cdot \frac{-1}{2}\left(\sigma_{\mathcal{B}}^{2}+\epsilon\right)^{-3 / 2}} \\ 
+{\frac{\partial \ell}{\partial \mu_{\mathcal{B}}}=\left(\sum_{i=1}^{m} \frac{\partial \ell}{\partial \widehat{x}_{i}} \cdot \frac{-1}{\sqrt{\sigma_{\mathcal{B}}^{2}+\epsilon}}\right)+\frac{\partial \ell}{\partial \sigma_{\mathcal{B}}^{2}} \cdot \frac{\sum_{i=1}^{m}-2\left(x_{i}-\mu_{\mathcal{B}}\right)}{m}} \\ 
+{\frac{\partial \ell}{\partial x_{i}} = \frac{\partial \ell}{\partial \widehat{x}_{i}} \cdot \frac{1}{\sqrt{\sigma_{\mathcal{B}}^{2}+\epsilon}} + \frac{\partial \ell}{\partial \sigma_{\mathcal{B}}^{2}} \cdot \frac{2\left(x_{i}-\mu_{\mathcal{B}}\right)}{m} + \frac{\partial \ell}{\partial \mu_{\mathcal{B}}} \cdot \frac{1}{m}} \\ 
+\end{array}</script><p>根据反向传播的顺序，首先求取损失$\ell$对BN层输出$y_i$的偏导$\frac{\partial \ell}{\partial y_{i}}$，然后是对可学习参数的偏导$\frac{\partial \ell}{\partial \gamma}$和$\frac{\partial \ell}{\partial \beta}$，用于对参数进行更新，想继续回传的话还需要求对输入 $x$偏导，于是引出对变量$\mu$、$\sigma^2$和$\hat{x}$的偏导，根据链式法则再求这些变量对$x$的偏导。</p>
+<p>在实际实现时，通常以矩阵或向量运算方式进行，比如逐元素相乘、沿某个axis求和、矩阵乘法等操作，具体可以参见<a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">Understanding the backward pass through Batch Normalization Layer</a>和<a href="https://github.com/BVLC/caffe/blob/master/src/caffe/layers/batch_norm_layer.cpp#L169" target="_blank" rel="noopener">BatchNorm in Caffe</a>。</p>
+<h1 id="Batch-Normalization的预测阶段"><a href="#Batch-Normalization的预测阶段" class="headerlink" title="Batch Normalization的预测阶段"></a>Batch Normalization的预测阶段</h1><p>在预测阶段，所有参数的取值是固定的，对BN层而言，意味着$\mu$、$\sigma$、$\gamma$、$\beta$都是固定值。</p>
+<p>$\gamma$和$\beta$比较好理解，随着训练结束，两者最终收敛，预测阶段使用训练结束时的值即可。</p>
+<p>对于$\mu$和$\sigma$，在训练阶段，它们为当前mini batch的统计量，随着输入batch的不同，$\mu$和$\sigma$一直在变化。在预测阶段，输入数据可能只有1条，该使用哪个$\mu$和$\sigma$，或者说，每个BN层的$\mu$和$\sigma$该如何取值？<strong>可以采用训练收敛最后几批mini batch的 $\mu$和$\sigma$的期望，作为预测阶段的$\mu$和$\sigma$，</strong>如下所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/03/QMlxc8.png" alt="Training a Batch-Normalized Network"><figcaption class="image-caption">Training a Batch-Normalized Network</figcaption></figure></p>
+<p>因为Standardization和scale and shift均为线性变换，在预测阶段所有参数均固定的情况下，参数可以合并成$y=kx+b$的形式，如上图中行号11所示。</p>
+<h1 id="Batch-Normalization的作用"><a href="#Batch-Normalization的作用" class="headerlink" title="Batch Normalization的作用"></a>Batch Normalization的作用</h1><p>使用Batch Normalization，可以获得如下好处，</p>
+<ul>
+<li><strong>可以使用更大的学习率</strong>，训练过程更加稳定，极大提高了训练速度。</li>
+<li><strong>可以将bias置为0</strong>，因为Batch Normalization的Standardization过程会移除直流分量，所以不再需要bias。</li>
+<li><strong>对权重初始化不再敏感</strong>，通常权重采样自0均值某方差的高斯分布，以往对高斯分布的方差设置十分重要，有了Batch Normalization后，对与同一个输出节点相连的权重进行放缩，其标准差$\sigma$也会放缩同样的倍数，相除抵消。</li>
+<li><strong>对权重的尺度不再敏感</strong>，理由同上，尺度统一由$\gamma$参数控制，在训练中决定。</li>
+<li><strong>深层网络可以使用sigmoid和tanh了</strong>，理由同上，BN抑制了梯度消失。</li>
+<li><strong>Batch Normalization具有某种正则作用，不需要太依赖dropout，减少过拟合</strong>。</li>
+</ul>
+<h1 id="几个问题"><a href="#几个问题" class="headerlink" title="几个问题"></a>几个问题</h1><h2 id="卷积层如何使用BatchNorm？"><a href="#卷积层如何使用BatchNorm？" class="headerlink" title="卷积层如何使用BatchNorm？"></a>卷积层如何使用BatchNorm？</h2><blockquote>
+<p>For convolutional layers, we additionally want the normalization to obey the convolutional property – <strong>so that different elements of the same feature map, at different locations, are normalized in the same way.</strong> To achieve this, we jointly normalize all the activations in a mini-batch, over all locations.</p>
+<p>…</p>
+<p>so for a mini-batch of size m and feature maps of size p × q, we use the effective mini-batch of size m′</p>
+<p>= |B| = m · pq. We learn a pair of parameters γ(k) and β(k) per feature map, rather than per activation.</p>
+<p>—— <a href="https://arxiv.org/abs/1502.03167" target="_blank" rel="noopener">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a></p>
+</blockquote>
+<p>1个卷积核产生1个feature map，1个feature map有1对$\gamma$和$\beta$参数，同一batch同channel的feature map共享同一对$\gamma$和$\beta$参数，若卷积层有$n$个卷积核，则有$n$对$\gamma$和$\beta$参数。</p>
+<h2 id="没有scale-and-shift过程可不可以？"><a href="#没有scale-and-shift过程可不可以？" class="headerlink" title="没有scale and shift过程可不可以？"></a>没有scale and shift过程可不可以？</h2><p>BatchNorm有两个过程，Standardization和scale and shift，前者是机器学习常用的数据预处理技术，在浅层模型中，只需对数据进行Standardization即可，Batch Normalization可不可以只有Standardization呢？</p>
+<p>答案是可以，但网络的表达能力会下降。</p>
+<p>直觉上理解，<strong>浅层模型中，只需要模型适应数据分布即可</strong>。对深度神经网络，每层的输入分布和权重要相互协调，强制把分布限制在zero mean unit variance并不见得是最好的选择，加入参数$\gamma$和$\beta$，对输入进行scale and shift，<strong>有利于分布与权重的相互协调</strong>，特别地，令$\gamma=1, \beta = 0$等价于只用Standardization，令$\gamma=\sigma, \beta=\mu$等价于没有BN层，scale and shift涵盖了这2种特殊情况，在训练过程中决定什么样的分布是适合的，所以使用scale and shift增强了网络的表达能力。</p>
+<h2 id="BN层放在ReLU前面还是后面？"><a href="#BN层放在ReLU前面还是后面？" class="headerlink" title="BN层放在ReLU前面还是后面？"></a>BN层放在ReLU前面还是后面？</h2><p>原<strong>paper建议将BN层放置在ReLU前，因为ReLU激活函数的输出非负，不能近似为高斯分布。</strong></p>
+<blockquote>
+<p>The goal of Batch Normalization is to achieve a stable distribution of activation values throughout training, and in our experiments <strong>we apply it before the nonlinearity since that is where matching the first and second moments is more likely to result in a stable distribution.</strong></p>
+<p>—— <a href="https://arxiv.org/abs/1502.03167" target="_blank" rel="noopener">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a></p>
+</blockquote>
+<p>但是，在<a href="https://github.com/ducha-aiki/caffenet-benchmark/blob/master/batchnorm.md" target="_blank" rel="noopener"><strong>caffenet-benchmark-batchnorm</strong></a>中，作者基于caffenet在ImageNet2012上做了如下对比实验，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/04/Q1tTXR.png" alt="https://github.com/ducha-aiki/caffenet-benchmark/blob/master/batchnorm.md"><figcaption class="image-caption">https://github.com/ducha-aiki/caffenet-benchmark/blob/master/batchnorm.md</figcaption></figure></p>
+<p>实验表明，放在前后的差异似乎不大，<strong>甚至放在ReLU后还好一些。</strong></p>
+<p><strong>放在ReLU后相当于直接对每层的输入进行归一化，如下图所示，这与浅层模型的Standardization是一致的。</strong></p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/04/Q1UYIf.png" alt="https://www.microsoft.com/en-us/research/video/how-does-batch-normalization-help-optimization/"><figcaption class="image-caption">https://www.microsoft.com/en-us/research/video/how-does-batch-normalization-help-optimization/</figcaption></figure></p>
+<p><a href="https://github.com/ducha-aiki/caffenet-benchmark/blob/master/batchnorm.md" target="_blank" rel="noopener"><strong>caffenet-benchmark-batchnorm</strong></a>中，还有BN层与不同激活函数、不同初始化方法、dropout等排列组合的对比实验，可以看看。</p>
+<p>所以，BN究竟应该放在激活的前面还是后面？以及，BN与其他变量，如激活函数、初始化方法、dropout等，如何组合才是最优？<strong>可能只有直觉和经验性的指导意见，具体问题的具体答案可能还是得实验说了算（微笑）。</strong></p>
+<h2 id="BN层为什么有效？"><a href="#BN层为什么有效？" class="headerlink" title="BN层为什么有效？"></a>BN层为什么有效？</h2><p>BN层的有效性已有目共睹，但为什么有效可能还需要进一步研究，这里有一些解释，</p>
+<ul>
+<li><p><strong>BN层让损失函数更平滑</strong>。论文<a href="https://arxiv.org/abs/1805.11604" target="_blank" rel="noopener"><strong>How Does Batch Normalization Help Optimization</strong></a>中，通过分析训练过程中每步梯度方向上步长变化引起的损失变化范围、梯度幅值的变化范围、光滑度的变化，认为添<strong>加BN层后，损失函数的landscape(loss surface)变得更平滑，相比高低不平上下起伏的loss surface，平滑loss surface的梯度预测性更好，可以选取较大的步长。</strong>如下图所示，</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/04/Q16lhn.png" alt="https://arxiv.org/abs/1805.11604"><figcaption class="image-caption">https://arxiv.org/abs/1805.11604</figcaption></figure></p>
+</li>
+<li><p><strong>BN更有利于梯度下降</strong>。论文<a href="https://arxiv.org/abs/1612.04010" target="_blank" rel="noopener"><strong>An empirical analysis of the optimization of deep network loss surfaces</strong></a>中，绘制了VGG和NIN网络在有无BN层的情况下，loss surface的差异，包含初始点位置以及不同优化算法最终收敛到的local minima位置，如下图所示。<strong>没有BN层的，其loss surface存在较大的高原，有BN层的则没有高原，而是山峰，因此更容易下降。</strong></p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/04/Q1cAUJ.png" alt="https://arxiv.org/abs/1612.04010"><figcaption class="image-caption">https://arxiv.org/abs/1612.04010</figcaption></figure></p>
+</li>
+<li><p>这里再提供一个直觉上的理解，没有BN层的情况下，网络没办法直接控制每层输入的分布，其分布前面层的权重共同决定，或者说分布的均值和方差“隐藏”在前面层的每个权重中，网络若想调整其分布，需要通过复杂的反向传播过程调整前面的每个权重实现，<strong>BN层的存在相当于将分布的均值和方差从权重中剥离了出来，只需调整$\gamma$和$\beta$两个参数就可以直接调整分布，让分布和权重的配合变得更加容易。</strong></p>
+</li>
+</ul>
+<p>这里多说一句，论文<a href="https://arxiv.org/abs/1805.11604" target="_blank" rel="noopener"><strong>How Does Batch Normalization Help Optimization</strong></a>中对比了标准VGG以及加了BN层的VGG每层分布随训练过程的变化，发现两者并无明显差异，认为BatchNorm并没有改善 <strong>Internal Covariate Shift</strong>。<strong>但这里有个问题是</strong>，两者的训练都可以收敛，对于不能收敛或者训练过程十分震荡的模型呢，其分布变化是怎样的？我也不知道，没做过实验（微笑）。</p>
+<p>以上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://arxiv.org/abs/1502.03167" target="_blank" rel="noopener">arxiv-Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a></li>
+<li><a href="https://arxiv.org/abs/1805.11604" target="_blank" rel="noopener">arxiv-How Does Batch Normalization Help Optimization?</a></li>
+<li><a href="https://arxiv.org/abs/1612.04010" target="_blank" rel="noopener">arxiv-An empirical analysis of the optimization of deep network loss surfaces</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/video/how-does-batch-normalization-help-optimization/" target="_blank" rel="noopener">talk-How does Batch Normalization Help Optimization?</a></li>
+<li><a href="http://gradientscience.org/batchnorm/" target="_blank" rel="noopener">How does Batch Normalization Help Optimization?</a></li>
+<li><a href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html" target="_blank" rel="noopener">Understanding the backward pass through Batch Normalization Layer</a></li>
+<li><a href="https://gab41.lab41.org/batch-normalization-what-the-hey-d480039a9e3b" target="_blank" rel="noopener">Batch Normalization — What the hey?</a></li>
+<li><a href="https://abay.tech/blog/2018/07/01/why-does-batch-normalization-work/" target="_blank" rel="noopener">Why Does Batch Normalization Work?</a></li>
+<li><a href="https://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" target="_blank" rel="noopener">An Intuitive Explanation of Why Batch Normalization Really Works</a></li>
+<li><a href="https://towardsdatascience.com/normalization-in-gradient-s-point-of-view-manual-back-prop-in-tf-2197dfa3497e" target="_blank" rel="noopener">Normalization in Gradient`s Point of View</a></li>
+<li><a href="https://blog.paperspace.com/busting-the-myths-about-batch-normalization/" target="_blank" rel="noopener">Intro to Optimization in Deep Learning: Busting the Myth About Batch Normalization</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2019/11-27-Batch%20Normalization%E8%AF%A6%E8%A7%A3.html" title="Batch Normalization详解">https://blog.shinelee.me/2019/11-27-Batch%20Normalization%E8%AF%A6%E8%A7%A3.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11-22-%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C%E4%B8%8E%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%80%BB%E7%BB%93.html" rel="next" title="常用数据结构操作与算法复杂度总结">
+                <i class="fa fa-chevron-left"></i> 常用数据结构操作与算法复杂度总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12-10-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E7%94%A8%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E8%80%8C%E4%B8%8D%E7%94%A8%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%8D%9F%E5%A4%B1.html" rel="prev" title="直观理解为什么分类问题用交叉熵损失而不用均方误差损失?">
+                直观理解为什么分类问题用交叉熵损失而不用均方误差损失? <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/blogshinelee" title="csdn" target="_blank">csdn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/shine-lee/" title="cnblogs" target="_blank">cnblogs</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单层视角"><span class="nav-number">1.1.</span> <span class="nav-text">单层视角</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层视角"><span class="nav-number">1.2.</span> <span class="nav-text">多层视角</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Batch-Normalization"><span class="nav-number">2.</span> <span class="nav-text">什么是Batch Normalization</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Batch-Normalization的反向传播"><span class="nav-number">3.</span> <span class="nav-text">Batch Normalization的反向传播</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Batch-Normalization的预测阶段"><span class="nav-number">4.</span> <span class="nav-text">Batch Normalization的预测阶段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Batch-Normalization的作用"><span class="nav-number">5.</span> <span class="nav-text">Batch Normalization的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几个问题"><span class="nav-number">6.</span> <span class="nav-text">几个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积层如何使用BatchNorm？"><span class="nav-number">6.1.</span> <span class="nav-text">卷积层如何使用BatchNorm？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#没有scale-and-shift过程可不可以？"><span class="nav-number">6.2.</span> <span class="nav-text">没有scale and shift过程可不可以？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BN层放在ReLU前面还是后面？"><span class="nav-number">6.3.</span> <span class="nav-text">BN层放在ReLU前面还是后面？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BN层为什么有效？"><span class="nav-number">6.4.</span> <span class="nav-text">BN层为什么有效？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">194k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

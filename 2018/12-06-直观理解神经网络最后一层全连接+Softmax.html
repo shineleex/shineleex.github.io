@@ -15,10 +15,10 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
 
 
@@ -43,8 +43,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -63,7 +63,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
@@ -168,29 +168,29 @@
 
 
   <meta name="description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面这篇文章将从3个角度：加权、模版匹配与几何来理解最后一层全连接+Softmax。掌握了这3种视角，可以更好地理解深度学习中的正则项、参数可视化以及一些损失函数背后的设计思想。 全连接层与Softmax回顾深度神经网络的最后一层往往是全连接层+Softmax（分类网络），如下图所示，图片来自StackExchange。 FlF">
-<meta name="keywords" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta property="og:type" content="article">
 <meta property="og:title" content="直观理解神经网络最后一层全连接+Softmax">
-<meta property="og:url" content="https://blog.shinelee.me/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2018&#x2F;12-06-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9C%80%E5%90%8E%E4%B8%80%E5%B1%82%E5%85%A8%E8%BF%9E%E6%8E%A5+Softmax.html">
 <meta property="og:site_name" content="进击的小学生">
 <meta property="og:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面这篇文章将从3个角度：加权、模版匹配与几何来理解最后一层全连接+Softmax。掌握了这3种视角，可以更好地理解深度学习中的正则项、参数可视化以及一些损失函数背后的设计思想。 全连接层与Softmax回顾深度神经网络的最后一层往往是全连接层+Softmax（分类网络），如下图所示，图片来自StackExchange。 FlF">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/05/FlFUSJ.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/06/FlOEtI.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/06/FlOujS.png">
-<meta property="og:image" content="https://s1.ax1x.com/2018/12/06/F1GLb6.png">
-<meta property="og:updated_time" content="2019-10-15T07:32:56.484Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;05&#x2F;FlFUSJ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;06&#x2F;FlOEtI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;06&#x2F;FlOujS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;06&#x2F;F1GLb6.png">
+<meta property="article:published_time" content="2018-12-06T09:32:12.000Z">
+<meta property="article:modified_time" content="2019-10-15T07:32:56.484Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="直观理解神经网络最后一层全连接+Softmax">
-<meta name="twitter:description" content="博客：blog.shinelee.me | 博客园 | CSDN 写在前面这篇文章将从3个角度：加权、模版匹配与几何来理解最后一层全连接+Softmax。掌握了这3种视角，可以更好地理解深度学习中的正则项、参数可视化以及一些损失函数背后的设计思想。 全连接层与Softmax回顾深度神经网络的最后一层往往是全连接层+Softmax（分类网络），如下图所示，图片来自StackExchange。 FlF">
-<meta name="twitter:image" content="https://s1.ax1x.com/2018/12/05/FlFUSJ.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s1.ax1x.com&#x2F;2018&#x2F;12&#x2F;05&#x2F;FlFUSJ.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html">
+  <link rel="canonical" href="https://blog.shinelee.me/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html"/>
 
 
 
@@ -238,9 +238,9 @@
   </style>
 </noscript>
 
-</head>
+<meta name="generator" content="Hexo 4.1.1"></head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
@@ -250,7 +250,7 @@
   <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -286,7 +286,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
   </li>
         
         
@@ -294,7 +294,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
         
         
@@ -302,7 +302,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
   </li>
         
         
@@ -310,7 +310,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
   </li>
         
         
@@ -318,7 +318,7 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
   </li>
 
       
@@ -364,20 +364,20 @@
 
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/12-06-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9C%80%E5%90%8E%E4%B8%80%E5%B1%82%E5%85%A8%E8%BF%9E%E6%8E%A5+Softmax.html">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李拜六不开鑫">
       <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="进击的小学生">
     </span>
 
@@ -434,7 +434,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -445,7 +445,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/深度学习基础/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">深度学习基础</span></a></span>
 
                 
                 
@@ -459,7 +459,7 @@
 
           
           
-             <span id="/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html" class="leancloud_visitors" data-flag-title="直观理解神经网络最后一层全连接+Softmax">
+             <span id="/2018/12-06-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9C%80%E5%90%8E%E4%B8%80%E5%B1%82%E5%85%A8%E8%BF%9E%E6%8E%A5+Softmax.html" class="leancloud_visitors" data-flag-title="直观理解神经网络最后一层全连接+Softmax">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -513,18 +513,14 @@
 <h1 id="全连接层与Softmax回顾"><a href="#全连接层与Softmax回顾" class="headerlink" title="全连接层与Softmax回顾"></a>全连接层与Softmax回顾</h1><p>深度神经网络的最后一层往往是全连接层+Softmax（分类网络），如下图所示，图片来自<a href="https://stats.stackexchange.com/questions/273465/neural-network-softmax-activation" target="_blank" rel="noopener">StackExchange</a>。</p>
 <p><figure><img src="https://s1.ax1x.com/2018/12/05/FlFUSJ.png" alt="FlFUSJ.png"><figcaption class="image-caption">FlFUSJ.png</figcaption></figure></p>
 <p>先看一下<strong>计算方式</strong>：<strong>全连接层</strong>将权重矩阵与输入向量相乘再加上偏置，将$n$个$(-\infty, +\infty)$的实数映射为$K$个$(-\infty, +\infty)$的实数（分数）；<strong>Softmax</strong>将$K$个$(-\infty, +\infty)$的实数映射为$K$个$(0, 1)$的实数（概率），同时保证它们之和为1。具体如下：</p>
-<p>$$\hat{\mathrm{y}} = softmax(\mathrm{z}) = softmax(\mathrm{W}^{T} \mathrm{x} + \mathrm{b})$$</p>
-<p>其中，$\mathrm{x}$为全连接层的输入，$W_{n \times K}$ 为权重，$\mathrm{b}$为偏置项，$\hat{\mathrm{y}}$为Softmax输出的概率，Softmax的计算方式如下：</p>
-<p>$$softmax(z_j) = \frac{e^{z_j}}{\sum_K e^{z_j}}$$</p>
-<p>若拆成每个类别的概率如下：</p>
-<p>$$\hat{y_j} = softmax(z_j) = softmax(\mathrm{w}_{j} \cdot \mathrm{x} + b_j)$$</p>
-<p>其中，$\mathrm{w}_{j}$为图中全连接层同一颜色权重组成的向量。</p>
+<script type="math/tex; mode=display">\hat{\mathrm{y}} = softmax(\mathrm{z}) = softmax(\mathrm{W}^{T} \mathrm{x} + \mathrm{b})</script><p>其中，$\mathrm{x}$为全连接层的输入，$W_{n \times K}$ 为权重，$\mathrm{b}$为偏置项，$\hat{\mathrm{y}}$为Softmax输出的概率，Softmax的计算方式如下：</p>
+<script type="math/tex; mode=display">softmax(z_j) = \frac{e^{z_j}}{\sum_K e^{z_j}}</script><p>若拆成每个类别的概率如下：</p>
+<script type="math/tex; mode=display">\hat{y_j} = softmax(z_j) = softmax(\mathrm{w}_{j} \cdot \mathrm{x} + b_j)</script><p>其中，$\mathrm{w}_{j}$为图中全连接层同一颜色权重组成的向量。</p>
 <p>该如何理解？</p>
 <p>下面提供3个理解角度：<strong>加权角度</strong>、<strong>模版匹配角度</strong>与<strong>几何角度</strong></p>
 <h1 id="加权角度"><a href="#加权角度" class="headerlink" title="加权角度"></a>加权角度</h1><p>加权角度可能是最直接的理解角度。</p>
 <p>通常将网络最后一个<strong>全连接层的输入</strong>，即上面的$\mathrm{x}$，视为网络从输入数据提取到的<strong>特征</strong>。</p>
-<p>$$z_j = \mathrm{w}_{j} \cdot \mathrm{x} + b_j = w_{j1} x_1 + w_{j2} x_2 + \dots + w_{jn} x_n + b_j$$</p>
-<p>将$\mathrm{w}_{j}$视为第$j$类下特征的<strong>权重</strong>，即<strong>每维特征的重要程度、对最终分数的影响程度</strong>，通过对<strong>特征加权求和</strong>得到每个类别的分数，再经过Softmax映射为概率。</p>
+<script type="math/tex; mode=display">z_j = \mathrm{w}_{j} \cdot \mathrm{x} + b_j = w_{j1} x_1 + w_{j2} x_2 + \dots + w_{jn} x_n + b_j</script><p>将$\mathrm{w}_{j}$视为第$j$类下特征的<strong>权重</strong>，即<strong>每维特征的重要程度、对最终分数的影响程度</strong>，通过对<strong>特征加权求和</strong>得到每个类别的分数，再经过Softmax映射为概率。</p>
 <h1 id="模板匹配"><a href="#模板匹配" class="headerlink" title="模板匹配"></a>模板匹配</h1><p>也可以将$\mathrm{w}_{j}$视为第$j$类的<strong>特征模板</strong>，特征与每个类别的模板进行<strong>模版匹配</strong>，得到与每个类别的<strong>相似程度</strong>，然后通过Softmax将相似程度映射为概率。如下图所示，图片素材来自<a href="http://cs231n.stanford.edu/syllabus.html" target="_blank" rel="noopener">CS231n</a>。</p>
 <p><figure><img src="https://s1.ax1x.com/2018/12/06/FlOEtI.png" alt="FC template matching"><figcaption class="image-caption">FC template matching</figcaption></figure></p>
 <p>如果是只有一个全连接层的神经网络（相当于线性分类器），将每个类别的模板可以直接可视化如下，图片素材来自CS231n。</p>
@@ -533,14 +529,12 @@
 <h1 id="几何角度"><a href="#几何角度" class="headerlink" title="几何角度"></a>几何角度</h1><p>仍将全连接层的输入$\mathrm{x}$视为网络从输入数据提取到的<strong>特征</strong>，一个特征对应多维空间中的一个点。</p>
 <p>如果是二分类问题，使用线性分类器$\hat{y} = \mathrm{w} \cdot \mathrm{x} + b$，若$\hat{y}&gt;0$即位于超平面的上方，则为正类，$\hat{y}&lt;0$则为负类。</p>
 <p>多分类怎么办？为每个类别设置一个<strong>超平面</strong>，通过多个超平面对特征空间进行划分，一个区域对应一个类别。$\mathrm{w}_{j}$为每个超平面的<strong>法向量</strong>，指向正值的方向，超平面上分数为0，如果求特征与每个超平面间的距离（带正负）为</p>
-<p>$$d_j = \frac{\mathrm{w}_{j} \cdot \mathrm{x} + b_j}{||\mathrm{w}_{j}||}$$</p>
-<p>而分数$z_j = ||\mathrm{w}_{j}|| d_j$，再进一步通过Softmax映射为概率。</p>
+<script type="math/tex; mode=display">d_j = \frac{\mathrm{w}_{j} \cdot \mathrm{x} + b_j}{||\mathrm{w}_{j}||}</script><p>而分数$z_j = ||\mathrm{w}_{j}|| d_j$，再进一步通过Softmax映射为概率。</p>
 <p>如下图所示：</p>
 <p><figure><img src="https://s1.ax1x.com/2018/12/06/F1GLb6.png" alt="F1GLb6.png"><figcaption class="image-caption">F1GLb6.png</figcaption></figure></p>
 <h1 id="Softmax的作用"><a href="#Softmax的作用" class="headerlink" title="Softmax的作用"></a>Softmax的作用</h1><p>相比$(-\infty, +\infty)$范围内的分数，<strong>概率</strong>天然具有更好的可解释性，让后续取阈值等操作顺理成章。</p>
 <p>经过全连接层，我们获得了$K$个类别$(-\infty, +\infty)$范围内的分数$z_j$，为了得到属于每个类别的概率，先通过$e^{z_j}$将分数映射到$(0, +\infty)$，然后再归一化到$(0 ,1)$，这便是Softmax的思想：</p>
-<p>$$\hat{y_j} = softmax(z_j) = \frac{e^{z_j}}{\sum_K e^{z_j}}$$</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文介绍了3种角度来更直观地理解全连接层+Softmax，</p>
+<script type="math/tex; mode=display">\hat{y_j} = softmax(z_j) = \frac{e^{z_j}}{\sum_K e^{z_j}}</script><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文介绍了3种角度来更直观地理解全连接层+Softmax，</p>
 <ul>
 <li><strong>加权角度</strong>，将权重视为每维特征的重要程度，可以帮助理解L1、L2等正则项</li>
 <li><strong>模板匹配角度</strong>，可以帮助理解参数的可视化</li>
@@ -572,7 +566,7 @@
     <strong>本文作者： </strong>李拜六不开鑫</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.shinelee.me/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html" title="直观理解神经网络最后一层全连接+Softmax">https://blog.shinelee.me/2018/12-06-直观理解神经网络最后一层全连接+Softmax.html</a>
+    <a href="https://blog.shinelee.me/2018/12-06-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9C%80%E5%90%8E%E4%B8%80%E5%B1%82%E5%85%A8%E8%BF%9E%E6%8E%A5+Softmax.html" title="直观理解神经网络最后一层全连接+Softmax">https://blog.shinelee.me/2018/12-06-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9C%80%E5%90%8E%E4%B8%80%E5%B1%82%E5%85%A8%E8%BF%9E%E6%8E%A5+Softmax.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -607,7 +601,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12-04-人脸检测中，如何构建输入图像金字塔.html" rel="next" title="人脸检测中，如何构建输入图像金字塔">
+              <a href="/2018/12-04-%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E4%B8%AD%EF%BC%8C%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E8%BE%93%E5%85%A5%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94.html" rel="next" title="人脸检测中，如何构建输入图像金字塔">
                 <i class="fa fa-chevron-left"></i> 人脸检测中，如何构建输入图像金字塔
               </a>
             
@@ -617,7 +611,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12-13-MTCNN算法与代码理解—人脸检测和人脸对齐联合学习.html" rel="prev" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
+              <a href="/2018/12-13-MTCNN%E7%AE%97%E6%B3%95%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%E2%80%94%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%92%8C%E4%BA%BA%E8%84%B8%E5%AF%B9%E9%BD%90%E8%81%94%E5%90%88%E5%AD%A6%E4%B9%A0.html" rel="prev" title="MTCNN算法与代码理解—人脸检测和人脸对齐联合学习">
                 MTCNN算法与代码理解—人脸检测和人脸对齐联合学习 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -687,9 +681,11 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="李拜六不开鑫">
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
             
               <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
               <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
@@ -700,9 +696,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -745,7 +741,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -887,7 +885,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">181k</span>
+    <span title="站点总字数">194k</span>
   
 
   
