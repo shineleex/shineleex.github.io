@@ -167,23 +167,27 @@
 
 
 
-  <meta name="description" content="知者行之始，行者知之成。君子务本，本立而道生。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="进击的小学生">
-<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;categories&#x2F;%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&#x2F;%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80&#x2F;index.html">
+  <meta name="description" content="博客：博客园 | CSDN | blog 远程桌面打开MATLAB会报错，解决办法，打开matlab的licenses路径，如matlab&#x2F;R2017b&#x2F;licenses&#x2F;，路径下存有license文件，如license_standalone.lic（可能为其他名字），打开文件，在每行如下位置添加TS_OK。 matlab license 行数较多，可通过执行如下脚本自动添加，注意，执行前先备份">
+<meta property="og:type" content="article">
+<meta property="og:title" content="远程桌面MATLAB启动失败问题解决">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2019&#x2F;12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html">
 <meta property="og:site_name" content="进击的小学生">
-<meta property="og:description" content="知者行之始，行者知之成。君子务本，本立而道生。">
+<meta property="og:description" content="博客：博客园 | CSDN | blog 远程桌面打开MATLAB会报错，解决办法，打开matlab的licenses路径，如matlab&#x2F;R2017b&#x2F;licenses&#x2F;，路径下存有license文件，如license_standalone.lic（可能为其他名字），打开文件，在每行如下位置添加TS_OK。 matlab license 行数较多，可通过执行如下脚本自动添加，注意，执行前先备份">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;14&#x2F;QRUpnK.png">
+<meta property="article:published_time" content="2019-12-14T07:53:25.000Z">
+<meta property="article:modified_time" content="2019-12-16T07:15:12.181Z">
 <meta property="article:author" content="李拜六不开鑫">
 <meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2019&#x2F;12&#x2F;14&#x2F;QRUpnK.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://blog.shinelee.me/categories/机器学习/深度学习基础/"/>
+  <link rel="canonical" href="https://blog.shinelee.me/2019/12-14-MATLAB远程桌面启动失败问题解决.html"/>
 
 
 
@@ -193,7 +197,7 @@
   };
 </script>
 
-  <title>分类: 深度学习基础 | 进击的小学生</title>
+  <title>远程桌面MATLAB启动失败问题解决 | 进击的小学生</title>
   
 
 
@@ -240,7 +244,7 @@
     
   
 
-  <div class="container sidebar-position-right ">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -285,7 +289,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
   </li>
@@ -322,28 +326,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -368,59 +350,267 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>深度学习基础<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/12-10-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E7%94%A8%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E8%80%8C%E4%B8%8D%E7%94%A8%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%8D%9F%E5%A4%B1.html" itemprop="url">
-              
-                <span itemprop="name">直观理解为什么分类问题用交叉熵损失而不用均方误差损失?</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">远程桌面MATLAB启动失败问题解决
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-12-10T16:30:44+08:00"
-              content="2019-12-10" >
-          12-10
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-14 15:53:25" itemprop="dateCreated datePublished" datetime="2019-12-14T15:53:25+08:00">2019-12-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-16 15:15:12" itemprop="dateModified" datetime="2019-12-16T15:15:12+08:00">2019-12-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html" class="leancloud_visitors" data-flag-title="远程桌面MATLAB启动失败问题解决">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">527</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a> | <a href="https://blog.shinelee.me/">blog</a></p>
+<p>远程桌面打开MATLAB会报错，解决办法，打开matlab的licenses路径，如<code>matlab/R2017b/licenses/</code>，路径下存有license文件，如<code>license_standalone.lic</code>（可能为其他名字），打开文件，在每行如下位置添加<code>TS_OK</code>。</p>
+<p><figure><img src="https://s2.ax1x.com/2019/12/14/QRUpnK.png" alt="matlab license"><figcaption class="image-caption">matlab license</figcaption></figure></p>
+<p>行数较多，可通过执行如下脚本自动添加，<strong>注意，执行前先备份</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">license_path = <span class="string">'./license_standalone.lic'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(license_path, <span class="string">'r'</span>) <span class="keyword">as</span> fr:</span><br><span class="line">    lines = fr.readlines()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(license_path, <span class="string">'w'</span>) <span class="keyword">as</span> fw:</span><br><span class="line">    <span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">        <span class="keyword">if</span> (line[<span class="number">-2</span>] == <span class="string">'\\'</span>):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        lines[i] = line[:<span class="number">-2</span>] + <span class="string">' TS_OK\n'</span></span><br><span class="line">    fw.writelines(lines)</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://blog.csdn.net/u011631889/article/details/90409014" target="_blank" rel="noopener">MATLAB远程桌面不可启动——解决方法</a></li>
+</ul>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html" title="远程桌面MATLAB启动失败问题解决">https://blog.shinelee.me/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12-10-%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98%E7%94%A8%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E8%80%8C%E4%B8%8D%E7%94%A8%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%8D%9F%E5%A4%B1.html" rel="next" title="直观理解为什么分类问题用交叉熵损失而不用均方误差损失?">
+                <i class="fa fa-chevron-left"></i> 直观理解为什么分类问题用交叉熵损失而不用均方误差损失?
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -443,8 +633,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -463,7 +662,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -506,9 +705,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -606,6 +803,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -767,6 +980,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
 
   
 
@@ -791,6 +1008,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
