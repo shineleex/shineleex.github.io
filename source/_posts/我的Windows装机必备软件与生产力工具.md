@@ -45,6 +45,7 @@ categories:
 - [kindle PC](https://www.amazon.com/kindle-dbs/fd/kcp)，电子书阅读
 - [calibre](https://calibre-ebook.com/download_windows)，电子书管理软件
 - [xmind](http://www.zdfans.com/search.asp?keyword=xmind)，思维导图制作
+- [drawio-desktop](https://github.com/jgraph/drawio-desktop/releases/)，流程图制作draw.io桌面版
 - [Mockplus](https://www.mockplus.cn/)，产品设计工具（原型图、线框图、交互）
 - [office tab](http://www.zdfans.com/search.asp?keyword=Office%20Tab)，office 多标签
 - [islide](https://www.islide.cc/)，PPT神器
