@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="博客：博客园 | CSDN | blog 本文的主要目的在于理解numpy.ndarray的内存结构及其背后的设计哲学。 ndarray是什么 NumPy provides an N-dimensional array type, the ndarray, which describes a collection of “items” of the same type. The items can">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解numpy中ndarray的内存结构">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2020&#x2F;02-10-%E7%90%86%E8%A7%A3numpy%E4%B8%ADndarray%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6.html">
+<meta property="og:site_name" content="进击的小学生">
+<meta property="og:description" content="博客：博客园 | CSDN | blog 本文的主要目的在于理解numpy.ndarray的内存结构及其背后的设计哲学。 ndarray是什么 NumPy provides an N-dimensional array type, the ndarray, which describes a collection of “items” of the same type. The items can">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2020&#x2F;02&#x2F;07&#x2F;1gICjI.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2020&#x2F;02&#x2F;10&#x2F;15qu7D.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2020&#x2F;02&#x2F;10&#x2F;15j5dK.png">
+<meta property="article:published_time" content="2020-02-10T14:14:00.000Z">
+<meta property="article:modified_time" content="2020-03-11T03:18:07.809Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;s2.ax1x.com&#x2F;2020&#x2F;02&#x2F;07&#x2F;1gICjI.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2020/02-10-理解numpy中ndarray的内存布局和设计哲学.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>理解numpy中ndarray的内存结构 | 进击的小学生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">进击的小学生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2020/02-10-%E7%90%86%E8%A7%A3numpy%E4%B8%ADndarray%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">理解numpy中ndarray的内存结构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-10 22:14:00" itemprop="dateCreated datePublished" datetime="2020-02-10T22:14:00+08:00">2020-02-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-11 11:18:07" itemprop="dateModified" datetime="2020-03-11T11:18:07+08:00">2020-03-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/coding/" itemprop="url" rel="index"><span itemprop="name">coding</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/02-10-%E7%90%86%E8%A7%A3numpy%E4%B8%ADndarray%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6.html" class="leancloud_visitors" data-flag-title="理解numpy中ndarray的内存结构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">6k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>博客：<a href="https://www.cnblogs.com/shine-lee/" target="_blank" rel="noopener">博客园</a> | <a href="https://blog.csdn.net/blogshinelee" target="_blank" rel="noopener">CSDN</a> | <a href="https://blog.shinelee.me/">blog</a></p>
+<p>本文的主要目的在于理解<code>numpy.ndarray</code>的内存结构及其背后的设计哲学。</p>
+<h1 id="ndarray是什么"><a href="#ndarray是什么" class="headerlink" title="ndarray是什么"></a>ndarray是什么</h1><blockquote>
+<p>NumPy provides an <strong>N-dimensional array</strong> type, the <a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.ndarray.html#arrays-ndarray" target="_blank" rel="noopener">ndarray</a>, which describes a collection of “items” of <strong>the same type</strong>. The items can be <a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.indexing.html#arrays-indexing" target="_blank" rel="noopener">indexed</a> using for example N integers.</p>
+<p>—— from <a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.html" target="_blank" rel="noopener">https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.html</a></p>
+</blockquote>
+<p>ndarray是numpy中的<strong>多维数组</strong>，数组中的元素具有<strong>相同的类型</strong>，且可以被<strong>索引</strong>。</p>
+<p>如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.array([[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>],[<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>],</span><br><span class="line">       [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(a)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">numpy</span>.<span class="title">ndarray</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">a</span>.<span class="title">dtype</span>   </span></span><br><span class="line"><span class="class"><span class="title">dtype</span><span class="params">(<span class="string">'int32'</span>)</span></span></span><br><span class="line">&gt;&gt;&gt; a[1,2]</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[:,<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">array([[ <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line">       [ <span class="number">5</span>,  <span class="number">6</span>],</span><br><span class="line">       [ <span class="number">9</span>, <span class="number">10</span>]])</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.ndim    </span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.shape   </span><br><span class="line">(<span class="number">3</span>, <span class="number">4</span>)        </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.strides </span><br><span class="line">(<span class="number">16</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>注：<code>np.array</code>并不是类，而是用于创建<code>np.ndarray</code>对象的其中一个函数，numpy中多维数组的类为<code>np.ndarray</code>。</p>
+<h1 id="ndarray的设计哲学"><a href="#ndarray的设计哲学" class="headerlink" title="ndarray的设计哲学"></a>ndarray的设计哲学</h1><p><strong>ndarray的设计哲学在于数据存储与其解释方式的分离，或者说<code>copy</code>和<code>view</code>的分离，让尽可能多的操作发生在解释方式上（<code>view</code>上），而尽量少地操作实际存储数据的内存区域。</strong></p>
+<p>如下所示，像<code>reshape</code>操作返回的新对象<code>b</code>，<code>a</code>和<code>b</code>的<code>shape</code>不同，但是两者共享同一个数据block，<code>c=b.T</code>，<code>c</code>是<code>b</code>的转置，但两者仍共享同一个数据block，数据并没有发生变化，发生变化的只是数据的解释方式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>],</span><br><span class="line">       [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = a.reshape(<span class="number">4</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line">       [ <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>],</span><br><span class="line">       [ <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>],</span><br><span class="line">       [ <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># reshape操作产生的是view视图，只是对数据的解释方式发生变化，数据物理地址相同</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.ctypes.data</span><br><span class="line"><span class="number">80831392</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.ctypes.data</span><br><span class="line"><span class="number">80831392</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(a) == id(b)</span><br><span class="line">false</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据在内存中连续存储</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> ctypes <span class="keyword">import</span> string_at</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>string_at(b.ctypes.data, b.nbytes).hex()</span><br><span class="line"><span class="string">'000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b000000'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># b的转置c，c仍共享相同的数据block，只改变了数据的解释方式，“以列优先的方式解释行优先的存储”</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = b.T</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">3</span>,  <span class="number">6</span>,  <span class="number">9</span>],</span><br><span class="line">       [ <span class="number">1</span>,  <span class="number">4</span>,  <span class="number">7</span>, <span class="number">10</span>],</span><br><span class="line">       [ <span class="number">2</span>,  <span class="number">4</span>,  <span class="number">8</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.ctypes.data</span><br><span class="line"><span class="number">80831392</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>string_at(c.ctypes.data, c.nbytes).hex()</span><br><span class="line"><span class="string">'000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b000000'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>],</span><br><span class="line">       [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># copy会复制一份新的数据，其物理地址位于不同的区域</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = b.copy()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line">       [ <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>],</span><br><span class="line">       [ <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>],</span><br><span class="line">       [ <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.ctypes.data</span><br><span class="line"><span class="number">80831456</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>string_at(c.ctypes.data, c.nbytes).hex()</span><br><span class="line"><span class="string">'000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b000000'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># slice操作产生的也是view视图，仍指向原来数据block中的物理地址</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = b[<span class="number">1</span>:<span class="number">3</span>, :]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">array([[<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">       [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.ctypes.data</span><br><span class="line"><span class="number">80831404</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">'data buff address from &#123;0&#125; to &#123;1&#125;'</span>.format(b.ctypes.data, b.ctypes.data + b.nbytes))</span><br><span class="line">data buff address <span class="keyword">from</span> <span class="number">80831392</span> to <span class="number">80831440</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>副本是一个数据的完整的拷贝</strong>，如果我们对副本进行修改，它不会影响到原始数据，物理内存不在同一位置。</p>
+<p><strong>视图是数据的一个别称或引用</strong>，通过该别称或引用亦便可访问、操作原有数据，但<strong>原有数据不会产生拷贝</strong>。如果我们对视图进行修改，它会影响到原始数据，物理内存在同一位置。</p>
+<p><strong>视图一般发生在：</strong></p>
+<ul>
+<li>1、numpy 的切片操作返回原数据的视图。</li>
+<li>2、调用 ndarray 的 view() 函数产生一个视图。</li>
+</ul>
+<p><strong>副本一般发生在：</strong></p>
+<ul>
+<li>Python 序列的切片操作，调用deepCopy()函数。</li>
+<li>调用 ndarray 的 copy() 函数产生一个副本。</li>
+</ul>
+<p>—— from <a href="https://www.runoob.com/numpy/numpy-copies-and-views.html" target="_blank" rel="noopener">NumPy 副本和视图</a></p>
+</blockquote>
+<p><code>view</code>机制的好处显而易见，<strong>省内存，同时速度快</strong>。</p>
+<h1 id="ndarray的内存布局"><a href="#ndarray的内存布局" class="headerlink" title="ndarray的内存布局"></a>ndarray的内存布局</h1><blockquote>
+<p>NumPy arrays consist of two major components, <strong>the raw array data</strong> (from now on, referred to as the data buffer), and <strong>the information about the raw array data</strong>. The data buffer is typically what people think of as arrays in C or Fortran, <strong>a contiguous (and fixed) block of memory containing fixed sized data items</strong>. NumPy also contains a significant set of data that describes <strong>how to interpret the data in the data buffer</strong>.</p>
+<p>—— from <a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/internals.html" target="_blank" rel="noopener">NumPy internals</a></p>
+</blockquote>
+<p>ndarray的内存布局<strong>示意图</strong>如下：</p>
+<p><figure><img src="https://s2.ax1x.com/2020/02/07/1gICjI.png" alt="https://stackoverflow.com/questions/57262885/how-is-the-memory-allocated-for-numpy-arrays-in-python"><figcaption class="image-caption">https://stackoverflow.com/questions/57262885/how-is-the-memory-allocated-for-numpy-arrays-in-python</figcaption></figure></p>
+<p>可大致划分成2部分——对应设计哲学中的数据部分和解释方式：</p>
+<ul>
+<li><strong>raw array data</strong>：为一个连续的memory block，存储着原始数据，类似C或Fortran中的数组，连续存储</li>
+<li><strong>metadata</strong>：是对上面内存块的解释方式</li>
+</ul>
+<p>metadata都包含哪些信息呢？</p>
+<ul>
+<li><code>dtype</code>：<strong>数据类型</strong>，指示了每个数据占用多少个字节，这几个字节怎么解释，比如<code>int32</code>、<code>float32</code>等；</li>
+<li><code>ndim</code>：有多少维；</li>
+<li><code>shape</code>：每维上的数量；</li>
+<li><code>strides</code>：<strong>维间距</strong>，即到达当前维下一个相邻数据需要前进的字节数，因考虑内存对齐，不一定为每个数据占用字节数的整数倍；</li>
+</ul>
+<p>上面4个信息构成了<code>ndarray</code>的<strong>indexing schema</strong>，即<strong>如何索引到指定位置的数据，以及这个数据该怎么解释</strong>。</p>
+<p>除此之外的信息还有：字节序（大端小端）、读写权限、C-order（行优先存储） or Fortran-order（列优先存储）等，如下所示，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.flags</span><br><span class="line">  C_CONTIGUOUS : <span class="literal">True</span></span><br><span class="line">  F_CONTIGUOUS : <span class="literal">False</span></span><br><span class="line">  OWNDATA : <span class="literal">True</span></span><br><span class="line">  WRITEABLE : <span class="literal">True</span></span><br><span class="line">  ALIGNED : <span class="literal">True</span></span><br><span class="line">  WRITEBACKIFCOPY : <span class="literal">False</span></span><br><span class="line">  UPDATEIFCOPY : <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p><code>ndarray</code>的底层是C和Fortran实现，上面的属性可以在其源码中找到对应，具体可见<a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/c-api.types-and-structures.html#c.PyArrayObject" target="_blank" rel="noopener">PyArrayObject</a>和<a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/c-api.types-and-structures.html#c.PyArray_Descr" target="_blank" rel="noopener">PyArray_Descr</a>等结构体。</p>
+<h1 id="为什么可以这样设计"><a href="#为什么可以这样设计" class="headerlink" title="为什么可以这样设计"></a>为什么可以这样设计</h1><p>为什么<code>ndarray</code>可以这样设计？</p>
+<p>因为<code>ndarray</code>是为矩阵运算服务的，<strong><code>ndarray</code>中的所有数据都是同一种类型</strong>，比如<code>int32</code>、<code>float64</code>等，每个数据占用的字节数相同、解释方式也相同，所以可以稠密地排列在一起，在取出时根据<code>dtype</code>现copy一份数据组装成<code>scalar</code>对象输出。这样极大地节省了空间，<code>scalar</code>对象中除了数据之外的域没必要重复存储，同时因为连续内存的原因，可以按秩访问，速度也要快得多。</p>
+<p><figure><img src="https://s2.ax1x.com/2020/02/10/15qu7D.png" alt="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.html"><figcaption class="image-caption">https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.html</figcaption></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>],</span><br><span class="line">       [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">1</span>,<span class="number">1</span>]</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>i,j = a[<span class="number">1</span>,<span class="number">1</span>], a[<span class="number">1</span>,<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># i和j为不同的对象，访问一次就“组装一个”对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(i)</span><br><span class="line"><span class="number">102575536</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(j)</span><br><span class="line"><span class="number">102575584</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">1</span>,<span class="number">1</span>] = <span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>i</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>j</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">4</span>,  <span class="number">6</span>,  <span class="number">7</span>],</span><br><span class="line">       [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># isinstance(val, np.generic) will return True if val is an array scalar object. Alternatively, what kind of array scalar is present can be determined using other members of the data type hierarchy.</span></span><br><span class="line">&gt;&gt; isinstance(i, np.generic)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<p>这里，可以将<code>ndarray</code>与python中的<code>list</code>对比一下，<code>list</code>可以容纳不同类型的对象，像<code>string</code>、<code>int</code>、<code>tuple</code>等都可以放在一个<code>list</code>里，所以<code>list</code>中存放的是对象的引用，再通过引用找到具体的对象，这些对象所在的物理地址并不是连续的，如下所示</p>
+<p><figure><img src="https://s2.ax1x.com/2020/02/10/15j5dK.png" alt="https://jakevdp.github.io/PythonDataScienceHandbook/02.01-understanding-data-types.html"><figcaption class="image-caption">https://jakevdp.github.io/PythonDataScienceHandbook/02.01-understanding-data-types.html</figcaption></figure></p>
+<p>所以相对<code>ndarray</code>，<code>list</code>访问到数据需要多跳转1次，<code>list</code>只能做到对对象引用的按秩访问，对具体的数据并不是按秩访问，所以效率上<code>ndarray</code>比<code>list</code>要快得多，空间上，因为<code>ndarray</code>只把数据紧密存储，而<code>list</code>需要把每个对象的所有域值都存下来，所以<code>ndarray</code>比<code>list</code>要更省空间。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>下面小结一下：</p>
+<ul>
+<li><code>ndarray</code>的设计哲学在于<strong>数据与其解释方式的分离，让绝大部分多维数组操作只发生在解释方式上</strong>；</li>
+<li><code>ndarray</code>中的<strong>数据在物理内存上连续存储，在读取时根据<code>dtype</code>现组装成对象输出，可以按秩访问，效率高省空间</strong>；</li>
+<li>之所以能这样实现，在于<code>ndarray</code>是为矩阵运算服务的，所有<strong>数据单元都是同种类型</strong>。</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.html" target="_blank" rel="noopener">Array objects</a></li>
+<li><a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/internals.html" target="_blank" rel="noopener">NumPy internals</a></li>
+<li><a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/internals.code-explanations.html" target="_blank" rel="noopener">NumPy C Code Explanations</a></li>
+<li><a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/c-api.types-and-structures.html" target="_blank" rel="noopener">Python Types and C-Structures</a></li>
+<li><a href="https://stackoverflow.com/questions/57262885/how-is-the-memory-allocated-for-numpy-arrays-in-python" target="_blank" rel="noopener">How is the memory allocated for numpy arrays in python?</a></li>
+<li><a href="https://www.runoob.com/numpy/numpy-copies-and-views.html" target="_blank" rel="noopener">NumPy 副本和视图</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2020/02-10-%E7%90%86%E8%A7%A3numpy%E4%B8%ADndarray%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6.html" title="理解numpy中ndarray的内存结构">https://blog.shinelee.me/2020/02-10-%E7%90%86%E8%A7%A3numpy%E4%B8%ADndarray%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02-08-python%E4%B8%AD%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E6%8C%87%E5%AE%9A%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E7%9A%84%E5%86%85%E5%AE%B9.html" rel="next" title="python中如何查看指定内存地址的内容">
+                <i class="fa fa-chevron-left"></i> python中如何查看指定内存地址的内容
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02-25-ResNet%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%88%86%E6%9E%90.html" rel="prev" title="ResNet详解与分析">
+                ResNet详解与分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/blogshinelee" title="csdn" target="_blank">csdn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/shine-lee/" title="cnblogs" target="_blank">cnblogs</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ndarray是什么"><span class="nav-number">1.</span> <span class="nav-text">ndarray是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ndarray的设计哲学"><span class="nav-number">2.</span> <span class="nav-text">ndarray的设计哲学</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ndarray的内存布局"><span class="nav-number">3.</span> <span class="nav-text">ndarray的内存布局</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么可以这样设计"><span class="nav-number">4.</span> <span class="nav-text">为什么可以这样设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">222k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
