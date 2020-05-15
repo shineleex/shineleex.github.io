@@ -39,6 +39,7 @@ categories:
 - [firefox](http://www.firefox.com.cn/)，浏览器，作为chrome的补充
 - [total uninstall](http://www.zdfans.com/search.asp?keyword=total%20uninstall)，软件卸载
 - [google](https://github.com/gfw-breaker/ssr-accounts)，嘘
+- [腾讯桌面整理](https://guanjia.qq.com/product/zmzl/)，桌面整理+壁纸+微信最近文档同步，安装独立版本
 
 # 工作学习
 - [滴答清单](https://www.dida365.com/about/download)，时间管理GTD
@@ -50,10 +51,13 @@ categories:
 - [office tab](http://www.zdfans.com/search.asp?keyword=Office%20Tab)，office 多标签
 - [islide](https://www.islide.cc/)，PPT神器
 - [geogebra](http://www.zdfans.com/search.asp?keyword=geogebra)，几何制图软件
-- [Mendelay](https://www.mendeley.com/download-desktop/)，文献管理软件
-- [Endnote](http://www.zdfans.com/search.asp?keyword=endnote)，文献管理软件
+- ~~[Mendelay](https://www.mendeley.com/download-desktop/)，文献管理软件~~
+- ~~[Endnote](http://www.zdfans.com/search.asp?keyword=endnote)，文献管理软件~~
+- [zotero](https://www.zotero.org/)，配合 坚果云的WebDAV，文献管理
 - [wiz](http://www.wiz.cn/)，个人笔记
 - [evernote](https://evernote.com/)，同步读书笔记
+- [Mathpix](https://mathpix.com/)，Equation to LaTeX
+- [axmath](http://www.amyxun.com/)，公式编辑器
 
 # 开发工具
 - [notepad++](https://notepad-plus-plus.org/)，日常文本编辑器
