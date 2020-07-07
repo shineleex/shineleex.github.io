@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="写在前面本文重点在于复习并总结 二叉树每种遍历方式的递归与迭代实现，图片和示例代码均来自《邓俊辉-数据结构》。 向量vector和链表list是线性结构，其中的元素具有天然的直接前驱和直接后继。 二叉树binary tree是半线性结构，其元素不存在天然的直接前驱和后继，但可以通过附加某种约束，将其线性化。 线性化的方法称之为遍历traversal，具体地，遍历指的是  按照事先约定的某种规则和次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树的遍历回顾">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2020&#x2F;07-06-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%9B%9E%E9%A1%BE.html">
+<meta property="og:site_name" content="进击的小学生">
+<meta property="og:description" content="写在前面本文重点在于复习并总结 二叉树每种遍历方式的递归与迭代实现，图片和示例代码均来自《邓俊辉-数据结构》。 向量vector和链表list是线性结构，其中的元素具有天然的直接前驱和直接后继。 二叉树binary tree是半线性结构，其元素不存在天然的直接前驱和后继，但可以通过附加某种约束，将其线性化。 线性化的方法称之为遍历traversal，具体地，遍历指的是  按照事先约定的某种规则和次">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;二叉树的遍历.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;二叉树的先序遍历.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;二叉树的中序遍历.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;二叉树的后序遍历.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;先序遍历迭代版.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;中序遍历迭代版.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;后序遍历迭代版.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;层次遍历.png">
+<meta property="article:published_time" content="2020-07-06T06:55:54.000Z">
+<meta property="article:modified_time" content="2020-07-07T08:32:19.044Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;二叉树的遍历&#x2F;二叉树的遍历.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2020/07-06-二叉树的遍历回顾.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>二叉树的遍历回顾 | 进击的小学生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">进击的小学生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2020/07-06-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%9B%9E%E9%A1%BE.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">二叉树的遍历回顾
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-06 14:55:54" itemprop="dateCreated datePublished" datetime="2020-07-06T14:55:54+08:00">2020-07-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-07 16:32:19" itemprop="dateModified" datetime="2020-07-07T16:32:19+08:00">2020-07-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/07-06-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%9B%9E%E9%A1%BE.html" class="leancloud_visitors" data-flag-title="二叉树的遍历回顾">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.9k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本文重点在于复习并总结 二叉树每种遍历方式的递归与迭代实现，图片和示例代码均来自<a href="https://book.douban.com/subject/25859528/" target="_blank" rel="noopener">《邓俊辉-数据结构》</a>。</p>
+<p><strong>向量vector</strong>和<strong>链表list</strong>是<strong>线性结构</strong>，其中的元素具有天然的<strong>直接前驱</strong>和<strong>直接后继</strong>。</p>
+<p><strong>二叉树binary tree</strong>是<strong>半线性结构</strong>，其元素不存在天然的直接前驱和后继，但可以通过附加某种约束，将其线性化。</p>
+<p>线性化的方法称之为<strong>遍历traversal</strong>，具体地，遍历指的是</p>
+<blockquote>
+<p>按照事先约定的某种规则和次序，对所有节点各访问一次且仅一次。</p>
+</blockquote>
+<p>根据约束（规则、次序）的不同，可以分为 <strong>先序</strong>、<strong>中序</strong>和<strong>后序</strong>遍历以及<strong>层次遍历</strong>，根据实现方式的不同，又可分为 <strong>递归式遍历</strong>和<strong>迭代式遍历</strong>。</p>
+<p>简化二叉树的数据结构为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BinNodePosi(T) BinNode<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">BinNode</span> &#123;</span></span><br><span class="line">    T data;</span><br><span class="line">    BinNodePosi(T) parent;</span><br><span class="line">    BinNodePosi(T) lChild; </span><br><span class="line">    BinNodePosi(T) rChild;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>得益于递归的简洁性，先对先序、中序和后序遍历的递归实现一探究竟。</p>
+<h1 id="递归式遍历"><a href="#递归式遍历" class="headerlink" title="递归式遍历"></a>递归式遍历</h1><p>二叉树可以递归地定义，根节点、左子树和右子树，左右子树也可以分别是一棵二叉树。</p>
+<p>令当前根节点为V，左孩子和右孩子分别为L和R，对于当前这个局部，访问的次序有VLR、LVR、LRV 共3种，根据V所在的访问次序，分别称之为先序、中序和后续。</p>
+<p><strong>因为L和R也是树，VLR、LVR和LRV可以对L和R进一步展开，展开时也是按相应的先序、中序和后续方式访问。</strong>L和R被当成新的V，形成递归。</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/二叉树的遍历.png" alt="二叉树的遍历.png"><figcaption class="image-caption">二叉树的遍历.png</figcaption></figure></p>
+<p>对应到代码上，三种遍历方式的递归实现可套用同一个代码模板，区别只在于访问V的位置不同</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; <span class="comment">//元素类型、操作器</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">traversal</span><span class="params">(BinNodePosi(T) x, VST&amp; visit)</span> </span>&#123; <span class="comment">//二叉树后序遍历算法（递归）</span></span><br><span class="line">    <span class="keyword">if</span> (!x) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// visit(x-&gt;data); // 先序遍历</span></span><br><span class="line">    traversal(x-&gt;lChild, visit);</span><br><span class="line">    <span class="comment">// visit(x-&gt;data); // 中序遍历</span></span><br><span class="line">    traversal(x-&gt;rChild, visit);</span><br><span class="line">    <span class="comment">// visit(x-&gt;data); // 后序遍历</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3种方式对应的遍历路径如下，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/二叉树的先序遍历.png" alt="二叉树的先序遍历.png"><figcaption class="image-caption">二叉树的先序遍历.png</figcaption></figure></p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/二叉树的中序遍历.png" alt="二叉树的中序遍历.png"><figcaption class="image-caption">二叉树的中序遍历.png</figcaption></figure></p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/二叉树的后序遍历.png" alt="二叉树的后序遍历.png"><figcaption class="image-caption">二叉树的后序遍历.png</figcaption></figure></p>
+<p>通过<strong>先序、中序和后序遍历，线性化得到的序列分别为VLR、LVR和LRV的彻底展开</strong>，序列中每个局部也都符合先序、中序和后序的次序。</p>
+<p>下面看一下，不同遍历的迭代实现，在于洞察不同规则下访问路径的特点。</p>
+<h1 id="先序遍历的迭代版本"><a href="#先序遍历的迭代版本" class="headerlink" title="先序遍历的迭代版本"></a>先序遍历的迭代版本</h1><p>先序遍历为VLR的完全展开，先访问当前节点，如果有左子树，先访问左子树，访问完左子树再右子树。</p>
+<p>相当于如下过程，</p>
+<ul>
+<li>如果有左侧通路，就沿着左侧通路自顶向下访问沿途节点，先遇到的节点先访问，直到最左侧走到头</li>
+<li>再自底向上，以同样的方式遍历右子树</li>
+</ul>
+<p>如下图所示</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/先序遍历迭代版.png" alt="先序遍历迭代版.png"><figcaption class="image-caption">先序遍历迭代版.png</figcaption></figure></p>
+<p>需要<strong>逆序记录</strong>最左侧通路上节点的右孩子，恰好适合用栈实现，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从当前节点出发，沿左分支不断深入，直至没有左分支的节点；沿途节点遇到后立即访问</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; <span class="comment">//元素类型、操作器</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">visitAlongLeftBranch</span><span class="params">(BinNodePosi(T) x, VST&amp; visit, Stack&lt;BinNodePosi(T)&gt;&amp; S)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (x) &#123;</span><br><span class="line">        visit(x-&gt;data); <span class="comment">//讵问弼前节点</span></span><br><span class="line">        S.push(x-&gt;rChild); <span class="comment">//右孩子入栈暂存（可优化：通过判断，避免空的右孩子入栈）</span></span><br><span class="line">        x = x-&gt;lChild; <span class="comment">//沿左分支深入一层</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; <span class="comment">//元素类型、操作器</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">travPre</span><span class="params">(BinNodePosi(T) x, VST&amp; visit)</span> </span>&#123; <span class="comment">//二叉树先序遍历算法（迭代版）</span></span><br><span class="line">    Stack&lt;BinNodePosi(T)&gt; S; <span class="comment">//辅助栈</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        visitAlongLeftBranch(x, visit, S); <span class="comment">//从当前节点出发，逐批访问</span></span><br><span class="line">        <span class="keyword">if</span> (S.empty()) <span class="keyword">break</span>; <span class="comment">//直到栈空</span></span><br><span class="line">        x = S.pop(); <span class="comment">//弹出下一批的起点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="中序遍历的迭代版本"><a href="#中序遍历的迭代版本" class="headerlink" title="中序遍历的迭代版本"></a>中序遍历的迭代版本</h1><p>中序遍历为LVR的完全展开，访问完左子树，再访问当前节点，然后右子树。</p>
+<p>流程如下：</p>
+<ul>
+<li>如果有左侧通路，沿着左侧通路自顶向下，沿途节点仅路过不访问，至最左侧走到头（没有左孩子的节点）</li>
+<li>再自底向上，访问沿途各节点及其右子树</li>
+</ul>
+<p>如下图所示，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/中序遍历迭代版.png" alt="中序遍历迭代版.png"><figcaption class="image-caption">中序遍历迭代版.png</figcaption></figure></p>
+<p>逆序记录路过的节点，也用栈，代码如下，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="comment">//从当前节点出发，沿左分支不断深入，直至没有左分支的节点</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">goAlongLeftBranch</span><span class="params">(BinNodePosi(T) x, Stack&lt;BinNodePosi(T)&gt;&amp; S)</span> </span>&#123;</span><br><span class="line">true<span class="comment">//当前节点入栈后随即向左侧分支深入，迭代直到无左孩子</span></span><br><span class="line">true<span class="keyword">while</span> (x) &#123; S.push(x); x = x-&gt;lChild; &#125; <span class="comment">// 该行可合并到调用函数中，以简化代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt; <span class="comment">//元素类型、操作器</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">travIn</span><span class="params">(BinNodePosi(T) x, VST&amp; visit)</span> </span>&#123; <span class="comment">//二叉树中序遍历算法</span></span><br><span class="line">    Stack&lt;BinNodePosi(T)&gt; S; <span class="comment">//辅助栈</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">         goAlongLeftBranch(x, S); <span class="comment">//从当前节点出发，逐批入栈</span></span><br><span class="line">         <span class="keyword">if</span> (S.empty()) <span class="keyword">break</span>; <span class="comment">//直至所有节点处理完毕</span></span><br><span class="line">         x = S.pop(); visit(x-&gt;data); <span class="comment">//弹出栈顶节点并讵问</span></span><br><span class="line">         x = x-&gt;rChild; <span class="comment">//转向右子树</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="后序遍历的迭代版本"><a href="#后序遍历的迭代版本" class="headerlink" title="后序遍历的迭代版本"></a>后序遍历的迭代版本</h1><p>后序遍历为LRV的完全展开，如果有左子树先遍历左子树，遍历完左子树，再遍历右子树，最后访问当前节点。</p>
+<p>流程如下，</p>
+<ul>
+<li>与先序和中序遍历不同，不再只沿着左侧通路，而是优先左侧通路，左侧到头后走右侧，直至叶子节点中最左侧的那个</li>
+<li>再自底向上，访问沿途各节点</li>
+</ul>
+<p>如下图所示，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/后序遍历迭代版.png" alt="后序遍历迭代版.png"><figcaption class="image-caption">后序遍历迭代版.png</figcaption></figure></p>
+<p>因为输出是以LRV的次序输出，所以入栈时需按VRL入栈，<strong>逆序记录沿途各节点及其右孩子和左孩子</strong>，同时，需要判断，代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="comment">//在以S栈顶节点为根的子树中，找到最高左侧可见叶节点</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">gotoHLVFL</span><span class="params">(Stack&lt;BinNodePosi(T)&gt;&amp; S)</span> </span>&#123; <span class="comment">//沿递所遇节点依次入栈</span></span><br><span class="line">    <span class="keyword">while</span> (BinNodePosi(T) x = S.top()) <span class="comment">//自顶而下，反复检查当前节点（即栈顶）</span></span><br><span class="line">        <span class="keyword">if</span> (HasLChild(*x)) &#123; <span class="comment">//尽可能向左</span></span><br><span class="line">            <span class="keyword">if</span> (HasRChild(*x)) S.push(x-&gt;rChild); <span class="comment">//若有右孩子，优先入栈</span></span><br><span class="line">            S.push(x-&gt;lChild); <span class="comment">//然后才转至左孩子</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="comment">//实不得已</span></span><br><span class="line">            S.push(x-&gt;rChild); <span class="comment">//才向右</span></span><br><span class="line">    S.pop(); <span class="comment">//返回之前，弹出栈顶的空节点</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> VST&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">travPost</span><span class="params">(BinNodePosi(T) x, VST&amp; visit)</span> </span>&#123; <span class="comment">//二叉树的后序遍历（迭代版）</span></span><br><span class="line">    Stack&lt;BinNodePosi(T)&gt; S; <span class="comment">//辅助栈</span></span><br><span class="line">    <span class="keyword">if</span> (x) S.push(x); <span class="comment">//根节点入栈</span></span><br><span class="line">    <span class="keyword">while</span> (!S.empty()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S.top() != x-&gt;parent) <span class="comment">//若栈顶非当前节点的父亲（则必为其右兄），此时需</span></span><br><span class="line">        	gotoHLVFL(S); <span class="comment">//在以其右兄为根的子树中，找到HLVFL（相当于递归深入其中）</span></span><br><span class="line">        x = S.pop(); visit(x-&gt;data); <span class="comment">//弹出栈顶（即前一节点的后继），并访问</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h1><p>层次遍历，也就是所谓的广度优先遍历，顾名思义，按“先上后下、先左后右”的顺序逐层访问。</p>
+<p>如下图所示，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/二叉树的遍历/层次遍历.png" alt="层次遍历.png"><figcaption class="image-caption">层次遍历.png</figcaption></figure></p>
+<p>根节点，左孩子，右孩子，左孩子的左孩子，左孩子的右孩子，右孩子的左孩子，右孩子的右孩子……先访问的节点，其孩子在下一层也是先访问，适合使用队列，在节点出列时将其左右孩子入列。代码如下，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">template</span> &lt;<span class="keyword">typename</span> VST&gt; <span class="comment">//元素类型、操作器</span></span><br><span class="line"><span class="keyword">void</span> BinNode&lt;T&gt;::travLevel(VST&amp; visit) &#123; <span class="comment">//二叉树局次遍历算法</span></span><br><span class="line">    Queue&lt;BinNodePosi(T)&gt; Q; <span class="comment">//辅助队列</span></span><br><span class="line">    Q.enqueue(<span class="keyword">this</span>); <span class="comment">//根节点入队</span></span><br><span class="line">    <span class="keyword">while</span> (!Q.empty()) &#123; <span class="comment">//在队列再次变空之前，反复迭代</span></span><br><span class="line">        BinNodePosi(T) x = Q.dequeue(); visit(x-&gt;data); <span class="comment">//取出队首节点并讵问</span></span><br><span class="line">        <span class="keyword">if</span> (HasLChild(*x)) Q.enqueue(x-&gt;lChild); <span class="comment">//左孩子入队</span></span><br><span class="line">        <span class="keyword">if</span> (HasRChild(*x)) Q.enqueue(x-&gt;rChild); <span class="comment">//右孩子入队</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>二叉树的遍历，</p>
+<ul>
+<li>先序、中序和后序遍历，是<strong>对VLR、LVR和LRV的完全展开</strong></li>
+<li><strong>递归版本，使用同一模板实现</strong>，只是访问当前数据的代码放置位置不同</li>
+<li>迭代版本，三者均可以通过<strong>辅助栈</strong>实现，根据VLR、LVR和LRV推导出遍历路径，将该路径上待访问的节点逆序压栈，出栈时需考虑对右子树进行同样的遍历</li>
+<li>层次遍历，比较简单，使用<strong>辅助队列</strong>，父辈先访问的，其孩子在子辈也先访问，出列的同时将孩子入列</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://book.douban.com/subject/25859528/" target="_blank" rel="noopener">邓俊辉-数据结构</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2020/07-06-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%9B%9E%E9%A1%BE.html" title="二叉树的遍历回顾">https://blog.shinelee.me/2020/07-06-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%9B%9E%E9%A1%BE.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05-15-%E4%BB%8E%E5%8D%B7%E7%A7%AF%E6%8B%86%E5%88%86%E5%92%8C%E5%88%86%E7%BB%84%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8BCNN%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%BC%94%E5%8C%96.html" rel="next" title="从卷积拆分和分组的角度看CNN模型的演化">
+                <i class="fa fa-chevron-left"></i> 从卷积拆分和分组的角度看CNN模型的演化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/blogshinelee" title="csdn" target="_blank">csdn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/shine-lee/" title="cnblogs" target="_blank">cnblogs</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#递归式遍历"><span class="nav-number">2.</span> <span class="nav-text">递归式遍历</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先序遍历的迭代版本"><span class="nav-number">3.</span> <span class="nav-text">先序遍历的迭代版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中序遍历的迭代版本"><span class="nav-number">4.</span> <span class="nav-text">中序遍历的迭代版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后序遍历的迭代版本"><span class="nav-number">5.</span> <span class="nav-text">后序遍历的迭代版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#层次遍历"><span class="nav-number">6.</span> <span class="nav-text">层次遍历</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">235k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
