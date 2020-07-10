@@ -363,6 +363,216 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2020/07-08-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%98%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%8C%87%E6%8C%87%E6%8C%A5%E6%A3%92%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B7%A5%E4%BD%9C%E5%AE%9E%E8%B7%B5.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07-08-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%98%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%8C%87%E6%8C%87%E6%8C%A5%E6%A3%92%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B7%A5%E4%BD%9C%E5%AE%9E%E8%B7%B5.html" itemprop="url">
+                  损失函数是学习的指挥棒—记一次工作实践
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-08 10:32:22" itemprop="dateCreated datePublished" datetime="2020-07-08T10:32:22+08:00">2020-07-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-10 14:16:13" itemprop="dateModified" datetime="2020-07-10T14:16:13+08:00">2020-07-10</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/07-08-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%98%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%8C%87%E6%8C%87%E6%8C%A5%E6%A3%92%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B7%A5%E4%BD%9C%E5%AE%9E%E8%B7%B5.html" class="leancloud_visitors" data-flag-title="损失函数是学习的指挥棒—记一次工作实践">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.1k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          博客：博客园 | CSDN | blog
+写在前面损失函数是学习的指挥棒。
+前段时间有个活，让我对定义损失函数有了新的认识，遂记录一下。
+这里隐去具体的背景，只描述问题。
+给定一个训练集（可视为全集的有效采样）$X$，$N$个样本，每个样本$x_i$有$D$维特征，样本已做归一化处理，现希望将$D$维映射成1维，尽量保留样本原有远近关系。
+PCA投影一个直接的想法是，最大方差投影，即PCA第一主成
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/07-08-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%98%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%8C%87%E6%8C%87%E6%8C%A5%E6%A3%92%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B7%A5%E4%BD%9C%E5%AE%9E%E8%B7%B5.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2020/07-06-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%9B%9E%E9%A1%BE.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2213,215 +2423,6 @@ https://www.geeksforgeeks.org/digital-image-processing-basics/
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="李拜六不开鑫">
-      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="进击的小学生">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html" itemprop="url">
-                  远程桌面MATLAB启动失败问题解决
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-12-14 15:53:25" itemprop="dateCreated datePublished" datetime="2019-12-14T15:53:25+08:00">2019-12-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-12-16 15:15:12" itemprop="dateModified" datetime="2019-12-16T15:15:12+08:00">2019-12-16</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html" class="leancloud_visitors" data-flag-title="远程桌面MATLAB启动失败问题解决">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">527</span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          博客：博客园 | CSDN | blog
-远程桌面打开MATLAB会报错，解决办法，打开matlab的licenses路径，如matlab/R2017b/licenses/，路径下存有license文件，如license_standalone.lic（可能为其他名字），打开文件，在每行如下位置添加TS_OK。
-matlab license
-行数较多，可通过执行如下脚本自动添加，注意，执行前先备份
-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12-14-MATLAB%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2475,7 +2476,7 @@ matlab license
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2644,7 +2645,7 @@ matlab license
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">235k</span>
+    <span title="站点总字数">237k</span>
   
 
   
@@ -2958,9 +2959,9 @@ matlab license
   
     
       
-    
-      
         
+      
+    
       
     
       
