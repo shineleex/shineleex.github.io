@@ -4,6 +4,24 @@
 
     
   <url>
+    <loc>https://blog.shinelee.me/2020/07-14-%E5%BE%B7%E5%B8%83%E9%B2%81%E5%9B%A0%E5%BA%8F%E5%88%97%E4%B8%8Eindexing%201.html</loc>
+    <lastmod>2020-07-17T03:54:38.134Z</lastmod>
+    <data>
+        <display>
+        <title>德布鲁因序列与indexing 1</title>
+        <pubTime>2020-07-14T02:32:36.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="数据结构与算法" url="https://blog.shinelee.me/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blog.shinelee.me/2020/07-08-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%98%AF%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%8C%87%E6%8C%87%E6%8C%A5%E6%A3%92%E2%80%94%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B7%A5%E4%BD%9C%E5%AE%9E%E8%B7%B5.html</loc>
     <lastmod>2020-07-10T06:16:13.194Z</lastmod>
     <data>
@@ -527,11 +545,11 @@
         <title>论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet</title>
         <pubTime>2018-11-10T03:23:17.000Z</pubTime>
         
-        <tag>CNN</tag>
-         
         <tag>综述</tag>
          
         <tag>paper</tag>
+         
+        <tag>CNN</tag>
          
          
            
