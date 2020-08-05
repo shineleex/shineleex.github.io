@@ -4,8 +4,26 @@
 
     
   <url>
+    <loc>https://blog.shinelee.me/2020/07-21-%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%96%8F%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90.html</loc>
+    <lastmod>2020-08-05T01:39:25.512Z</lastmod>
+    <data>
+        <display>
+        <title>人脸识别损失函数疏理与分析</title>
+        <pubTime>2020-07-21T03:13:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="人脸识别" url="https://blog.shinelee.me/categories/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://blog.shinelee.me/2020/07-17-Arctan%E7%9A%84%E5%BF%AB%E9%80%9F%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95.html</loc>
-    <lastmod>2020-07-21T02:09:42.163Z</lastmod>
+    <lastmod>2020-07-21T02:12:26.685Z</lastmod>
     <data>
         <display>
         <title>Arctan的快速近似算法</title>
@@ -563,11 +581,11 @@
         <title>论文学习-系统评估卷积神经网络各项超参数设计的影响-Systematic evaluation of CNN advances on the ImageNet</title>
         <pubTime>2018-11-10T03:23:17.000Z</pubTime>
         
-        <tag>CNN</tag>
-         
         <tag>综述</tag>
          
         <tag>paper</tag>
+         
+        <tag>CNN</tag>
          
          
            

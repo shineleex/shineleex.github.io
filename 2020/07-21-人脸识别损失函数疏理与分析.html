@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.cat.net/css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="写在前面Closed-set 和 Open-set 人脸识别的对比如下， Comparison-of-open-set-and-closed-set-face-recognition.png 两张人脸图像，分别提取特征，通过计算特征向量间的距离（相似度）来判断它们是否来自同一个人。选择与问题背景相契合的度量方式很重要，人脸识别中一般有两种，欧氏距离和余弦距离（角度距离）。 训练阶段和测试阶段采用的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人脸识别损失函数疏理与分析">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.shinelee.me&#x2F;2020&#x2F;07-21-%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%96%8F%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90.html">
+<meta property="og:site_name" content="进击的小学生">
+<meta property="og:description" content="写在前面Closed-set 和 Open-set 人脸识别的对比如下， Comparison-of-open-set-and-closed-set-face-recognition.png 两张人脸图像，分别提取特征，通过计算特征向量间的距离（相似度）来判断它们是否来自同一个人。选择与问题背景相契合的度量方式很重要，人脸识别中一般有两种，欧氏距离和余弦距离（角度距离）。 训练阶段和测试阶段采用的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;Comparison-of-open-set-and-closed-set-face-recognition.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;Graph-of-Contrastive-Loss.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;triplet-loss.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;center-loss-algorithm.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;center-loss-distribution-of-features.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;L-Softmax-phi.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;L-Softmax-Geometric-Interpretation.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;A-Softmax-decision-boundaries.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;A-Softmax-Geometry-Interpretation.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;Additive-Margin.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;AM-Softmax-visualization.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;ArcFace.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;Angular-Margin-or-Cosine-Margin.png">
+<meta property="article:published_time" content="2020-07-21T03:13:19.000Z">
+<meta property="article:modified_time" content="2020-08-05T01:39:25.512Z">
+<meta property="article:author" content="李拜六不开鑫">
+<meta property="article:tag" content="计算机视觉 机器学习 深度学习 算法 程序人生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;shinelee&#x2F;ImgBed&#x2F;raw&#x2F;master&#x2F;2020&#x2F;人脸识别中的损失函数&#x2F;Comparison-of-open-set-and-closed-set-face-recognition.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.shinelee.me/2020/07-21-人脸识别损失函数疏理与分析.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>人脸识别损失函数疏理与分析 | 进击的小学生</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">进击的小学生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2020/07-21-%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%96%8F%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">人脸识别损失函数疏理与分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-21 11:13:19" itemprop="dateCreated datePublished" datetime="2020-07-21T11:13:19+08:00">2020-07-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-08-05 09:39:25" itemprop="dateModified" datetime="2020-08-05T09:39:25+08:00">2020-08-05</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/" itemprop="url" rel="index"><span itemprop="name">人脸识别</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/07-21-%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%96%8F%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90.html" class="leancloud_visitors" data-flag-title="人脸识别损失函数疏理与分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>Closed-set 和 Open-set 人脸识别的对比如下，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/Comparison-of-open-set-and-closed-set-face-recognition.png" alt="Comparison-of-open-set-and-closed-set-face-recognition.png"><figcaption class="image-caption">Comparison-of-open-set-and-closed-set-face-recognition.png</figcaption></figure></p>
+<p>两张人脸图像，分别提取特征，通过计算特征向量间的距离（相似度）来判断它们是否来自同一个人。<strong>选择与问题背景相契合的度量方式很重要</strong>，人脸识别中一般有两种，<strong>欧氏距离</strong>和<strong>余弦距离（角度距离）</strong>。</p>
+<p>训练阶段和测试阶段采用的度量方式要一致，如果想在测试阶段使用欧氏距离，自然在训练阶段就要基于欧氏距离来构造损失进行优化。</p>
+<p>实际上，不同度量方式间存在着一定的内在联系，</p>
+<ul>
+<li><strong>欧氏距离与向量的模和角度都有关</strong>，模固定，角度越大欧氏距离也越大，角度固定，模同比增大欧式距离也增大，模分别增大情况会比较复杂；</li>
+<li><strong>余弦距离和角度距离有单调关系</strong>（负相关），但两者分布的“密度”不同，观察余弦函数曲线可知，在角度从0向$\pi$匀速（线性）前进时，余弦值在0和$\pi$附近缓慢变化，在$\frac{\pi}{2}$附近近似线性变化</li>
+<li><strong>当向量模长归一化后，欧氏距离和余弦距离有单调关系</strong>，所以，在预测阶段，归一化后的特征选取哪种度量进行判别均可</li>
+</ul>
+<p>可对不同损失函数按度量方式进行划分，</p>
+<ul>
+<li><strong>欧氏距离</strong>：Contrastive Loss，Triplet Loss，Center Loss……</li>
+<li><strong>余弦距离（角度距离）</strong>：Large-Margin Softmax Loss，Angular-Softmax Loss，Large Margin Cosine Loss，Additive Angular Margin Loss……</li>
+</ul>
+<p>先从最基本的Softmax Loss开始。</p>
+<h1 id="Cross-Entropy-Loss-softmax-loss"><a href="#Cross-Entropy-Loss-softmax-loss" class="headerlink" title="Cross-Entropy Loss (softmax loss)"></a>Cross-Entropy Loss (softmax loss)</h1><p>交叉熵损失，也称为softmax损失，是深度学习中应用最广泛的损失函数之一。</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{\mathrm{s}}=-\frac{1}{N_b} \sum_{i=1}^{N_b} \log \frac{e^{W_{y_{i}}^{T} x_{i}+b_{y_{i}}}}{\sum_{j=1}^{n} e^{W_{j}^{T} x_{i}+b_{j}}}</script><p>其中，</p>
+<ul>
+<li>$n$个类别，$N_b$为batch size</li>
+<li>$x_{i} \in \mathbb{R}^{d}$，第$i$个样本的特征，特征有$d$维，属于$y_i$类</li>
+<li>$W \in \mathbb{R}^{d \times n}$为权重矩阵，$W_j$表示$W$的第$j$列，$b_{j} \in \mathbb{R}^{n}$为bias</li>
+</ul>
+<p>特征$x$经全连接层的权重矩阵$W$得到与类别数相同的$n$个$(-\infty, +\infty)$实数，相对越大的实数代表越像某一个类别，Softmax的作用是将$(-\infty, +\infty)$的$n$个实数通过<strong>指数</strong>映射到$(0, +\infty)$，然后归一化，使和为1，以获得某种概率解释。</p>
+<p><strong>指数操作会将映射前的小差异指数放大</strong>，Softmax Loss希望label对应的项越大越好，但因为指数操作的存在，只需要映射前差异足够大即可，并不需要使出“全力”。</p>
+<p>在人脸识别中，可通过对人脸分类来驱动模型学习人脸的特征表示。但<strong>该损失追求的是类别的可分性，并没有显式最优化类间和类内距离</strong>，这启发了其他损失函数的出现。</p>
+<h1 id="Contrastive-Loss-CVPR2006"><a href="#Contrastive-Loss-CVPR2006" class="headerlink" title="Contrastive Loss - CVPR2006"></a>Contrastive Loss - CVPR2006</h1><p>Contrastive Loss由LeCun在<a href="http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf" target="_blank" rel="noopener">《Dimensionality Reduction by Learning an Invariant Mapping》CVPR2006</a>中提出，起初是希望降维后的样本保持原有距离关系，相似的仍相似，不相似的仍不相似，如下所示，</p>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+L\left(W, Y, \vec{X}_{1}, \vec{X}_{2}\right)= 
+(1-Y) \frac{1}{2}\left(D_{W}\right)^{2}+(Y) \frac{1}{2}\left\{\max \left(0, m-D_{W}\right)\right\}^{2}
+\end{array}</script><p>其中，$\vec{X}_{1}$和$\vec{X}_{2}$为样本对，$Y=\{0， 1\}$指示样本对是否相似，$Y=0$相似，$Y=1$不相似，$D_W$为样本对特征间的欧氏距离，$W$为待学习参数。相当于欧氏距离损失+Hinge损失</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/Graph-of-Contrastive-Loss.png" alt="Graph-of-Contrastive-Loss.png"><figcaption class="image-caption">Graph-of-Contrastive-Loss.png</figcaption></figure></p>
+<p>类内希望距离越小越好，类间希望越大越好（大于margin），这恰与人脸识别特征学习的目的相一致。Contrastive Loss在<a href="https://arxiv.org/abs/1406.4773" target="_blank" rel="noopener">DeepID2</a>中得以使用，作为Verification Loss，与Softmax Loss形式的Identification Loss构成联合损失，如下所示，</p>
+<script type="math/tex; mode=display">
+\operatorname{Ident}\left(f, t, \theta_{i d}\right)=-\sum_{i=1}^{n}-p_{i} \log \hat{p}_{i}=-\log \hat{p}_{t} \\
+
+\operatorname{Verif}\left(f_{i}, f_{j}, y_{i j}, \theta_{v e}\right)=\left\{\begin{array}{ll}
+\frac{1}{2}\left\|f_{i}-f_{j}\right\|_{2}^{2} & \text { if } y_{i j}=1 \\
+\frac{1}{2} \max \left(0, m-\left\|f_{i}-f_{j}\right\|_{2}\right)^{2} & \text { if } y_{i j}=-1
+\end{array}\right.</script><p><strong>这种Softmax Loss + 其他损失 构成的联合损失比较常见，通过引入Softmax Loss可以让训练更稳定，更容易收敛。</strong></p>
+<h1 id="Triplet-Loss-CVPR2015"><a href="#Triplet-Loss-CVPR2015" class="headerlink" title="Triplet Loss - CVPR2015"></a>Triplet Loss - CVPR2015</h1><p>Contrastive Loss的输入是一对样本。</p>
+<p>Triplet Loss的输入是3个样本，1对正样本（同一个人），1对负样本（不同人），希望拉近正样本间的距离，拉开负样本间的距离。Triplet Loss出自<a href="http://arxiv.org/abs/1503.03832" target="_blank" rel="noopener">《FaceNet: A Unified Embedding for Face Recognition and Clustering》</a>。</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/triplet-loss.png" alt="triplet-loss.png"><figcaption class="image-caption">triplet-loss.png</figcaption></figure></p>
+<p>损失函数如下，</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_t = \sum_{i}^{N}\left[\left\|f\left(x_{i}^{a}\right)-f\left(x_{i}^{p}\right)\right\|_{2}^{2}-\left\|f\left(x_{i}^{a}\right)-f\left(x_{i}^{n}\right)\right\|_{2}^{2}+\alpha\right]_{+}</script><p>该损失希望在拉近正样本、拉开负样本的同时，有一个margin，</p>
+<script type="math/tex; mode=display">
+\left\|f\left(x_{i}^{a}\right)-f\left(x_{i}^{p}\right)\right\|_{2}^{2}+\alpha<\left\|f\left(x_{i}^{a}\right)-f\left(x_{i}^{n}\right)\right\|_{2}^{2}</script><p>Softmax Loss最后的全连接层参数量与人数成正比，在大规模数据集上，对显存提出了挑战。</p>
+<p>Contrastive Loss和Triplet Loss的输入为pair和triplet，方便在大数据集上训练，但pair和triplet挑选有难度，训练不稳定难收敛，可与Softmax Loss搭配使用，或构成联合损失，或一前一后，用Softmax Loss先“热身”。</p>
+<h1 id="Center-Loss-ECCV2016"><a href="#Center-Loss-ECCV2016" class="headerlink" title="Center Loss - ECCV2016"></a>Center Loss - ECCV2016</h1><p>因为人脸表情和角度的变化，同一个人的类内距离甚至可能大于不同人的类间距离。Center Loss的出发点在于，<strong>不仅希望类间可分，还希望类内紧凑</strong>，前者通过Softmax loss实现，后者通过Center Loss实现，如下所示，为每个类别分配一个<strong>可学习的类中心</strong>，计算每个样本到各自类中心的距离，距离之和越小表示类内越紧凑。</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{c e}=\frac{1}{2} \sum_{i=1}^{N}\left\|x_{i}-c_{y_{i}}\right\|_{2}^{2}</script><p>联合损失如下，通过超参数$\lambda$来平衡两个损失，并给两个损失分配不同的学习率，</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L_{c} &=L_{s}+\lambda L_{c e} \\
+&=-\sum_{i=1}^{N_{b}} \log \frac{e^{W_{y_{i}}^{T} x_{i}+b_{y_{i}}}}{\sum_{j=1}^{n} e^{W_{j}^{T} x_{i}+b_{j}}}+\frac{\lambda}{2} \sum_{i=1}^{N_b}\left\|x_{i}-c_{y_{i}}\right\|_{2}^{2}
+\end{aligned}</script><p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/center-loss-algorithm.png" alt="center-loss-algorithm.png"><figcaption class="image-caption">center-loss-algorithm.png</figcaption></figure></p>
+<p>希望达成的效果如下，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/center-loss-distribution-of-features.png" alt="center-loss-distribution-of-features.png"><figcaption class="image-caption">center-loss-distribution-of-features.png</figcaption></figure></p>
+<p>以上损失在欧氏距离上优化，下面介绍在余弦距离上优化的损失函数。</p>
+<h1 id="L-Softmax-Loss-ICML2016"><a href="#L-Softmax-Loss-ICML2016" class="headerlink" title="L-Softmax Loss - ICML2016"></a>L-Softmax Loss - ICML2016</h1><p>L-Softmax 即 large-margin softmax，出自<a href="https://arxiv.org/abs/1612.02295v4" target="_blank" rel="noopener">《Large-Margin Softmax Loss for Convolutional Neural Networks》</a>。</p>
+<p>若忽略bias，FC+softmax+cross entropy可写成如下形式，</p>
+<script type="math/tex; mode=display">
+L_{i}=-\log \left(\frac{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{y_{i}}\right)}}{\sum_{j} e^{\left\|\boldsymbol{W}_{j}\right\|\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j}\right)}}\right)</script><p><strong>可将$\boldsymbol{W}_{j}$视为第$j$类的类中心向量</strong>，对$x_i$，希望$\left|\boldsymbol{W}_{y_{i}}\right|\left|\boldsymbol{x}_{i}\right| \cos \left(\theta_{y_{i}}\right)$相比$\left|\boldsymbol{W}_{j}\right|\left|\boldsymbol{x}_{i}\right| \cos \left(\theta_{j}\right), j \neq y_i$越大越好，有两个影响因素，</p>
+<ul>
+<li>$\boldsymbol{W}$每一列的模</li>
+<li>$\boldsymbol{x}_i$与$\boldsymbol{W}_j$的夹角</li>
+</ul>
+<p>L-Softmax主要关注在第2个因素 <strong>夹角</strong>上，相比Softmax，希望$\boldsymbol{x}_i$与$\boldsymbol{W}_{y_i}$靠得更近，于是对$\cos \left(\theta_{y_{i}}\right)$施加了更强的约束，对角度$\theta_{y_i}$乘上个因子$m$，<strong>如果想获得与Softmax相同的内积值，需要$\theta_{y_i}$更小</strong>，</p>
+<script type="math/tex; mode=display">
+L_{i}=-\log \left(\frac{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}}{e^{\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}+\sum_{j \neq y_{i}} e^{\left\|\boldsymbol{W}_{j}\right\|\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j}\right)}}\right)</script><p>为此，需要构造$\psi(\theta)$，需满足如下条件</p>
+<ul>
+<li>$\psi(\theta) &lt; cos(\theta)$</li>
+<li>单调递减</li>
+</ul>
+<p>文中构造的$\psi(\theta)$如下，通过$m$调整margin大小</p>
+<script type="math/tex; mode=display">
+\psi(\theta)=(-1)^{k} \cos (m \theta)-2 k, \quad \theta \in\left[\frac{k \pi}{m}, \frac{(k+1) \pi}{m}\right], k \in [0, m-1]</script><p>当$m=2$时，如下所示，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/L-Softmax-phi.png" alt="L-Softmax-phi.png"><figcaption class="image-caption">L-Softmax-phi.png</figcaption></figure></p>
+<p>二分类情况下，结合解释如下，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/L-Softmax-Geometric-Interpretation.png" alt="L-Softmax-Geometric-Interpretation.png"><figcaption class="image-caption">L-Softmax-Geometric-Interpretation.png</figcaption></figure></p>
+<p>为了梯度计算和反向传播，将$\cos(\theta)$替换为仅包含$W$和$w_i$的表达式$\frac{\boldsymbol{W}_{j}^{T} \boldsymbol{x}_{i}}{\left|\boldsymbol{W}_{j}\right|\left|\boldsymbol{x}_{i}\right|}$，通过倍角公式计算$\cos(m \theta)$，</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\cos \left(m \theta_{y_{i}}\right) &=C_{m}^{0} \cos ^{m}\left(\theta_{y_{i}}\right)-C_{m}^{2} \cos ^{m-2}\left(\theta_{y_{i}}\right)\left(1-\cos ^{2}\left(\theta_{y_{i}}\right)\right) \\
+&+C_{m}^{4} \cos ^{m-4}\left(\theta_{y_{i}}\right)\left(1-\cos ^{2}\left(\theta_{y_{i}}\right)\right)^{2}+\cdots \\
+&(-1)^{n} C_{m}^{2 n} \cos ^{m-2 n}\left(\theta_{y_{i}}\right)\left(1-\cos ^{2}\left(\theta_{y_{i}}\right)\right)^{n}+\cdots
+\end{aligned}</script><p>同时，为了便于训练，定义超参数$\lambda$，将$\left|\boldsymbol{W}_{y_{i}}\right|\left|\boldsymbol{x}_{i}\right| \psi\left(\theta_{y_{i}}\right)$替换为$f_{y_i}$，</p>
+<script type="math/tex; mode=display">
+f_{y_{i}}=\frac{\lambda\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{y_{i}}\right)+\left\|\boldsymbol{W}_{y_{i}}\right\|\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}}\right)}{1+\lambda}</script><p>训练时，从较大的$\lambda$开始，然后逐渐减小，近似于用Softmax“热身”。</p>
+<h1 id="A-Softmax-Loss-CVPR2017"><a href="#A-Softmax-Loss-CVPR2017" class="headerlink" title="A-Softmax Loss - CVPR2017"></a>A-Softmax Loss - CVPR2017</h1><p>A-Softmax即Angular-Softmax，出自<a href="https://arxiv.org/abs/1704.08063" target="_blank" rel="noopener">《SphereFace: Deep Hypersphere Embedding for Face Recognition》</a>。</p>
+<p>L-Softmax中，在对$x_i$归类时，会同时考虑类<strong>中心向量的模</strong>和<strong>夹角</strong>。</p>
+<p>A-Softmax的最大差异在于<strong>对每个类中心向量进行归一化</strong>，即令$||W_j|| = 1$，同时令bias为0，<strong>在分类时只考虑$x_i$和$W_j$的夹角</strong>，并引入和L-Softmax相同的margin，如下所示，</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{\mathrm{AS}}=-\frac{1}{N} \sum_{i=1}^{N} \log \left(\frac{e^{\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}, i}\right)}}{e^{\left\|\boldsymbol{x}_{i}\right\| \psi\left(\theta_{y_{i}, i}\right)}+\sum_{j \neq y_{i}} e^{\left\|\boldsymbol{x}_{i}\right\| \cos \left(\theta_{j, i}\right)}}\right) \\
+\psi(\theta_{y_i, i})=(-1)^{k} \cos (m \theta_{y_i, i})-2 k, \quad \theta_{y_i, i} \in\left[\frac{k \pi}{m}, \frac{(k+1) \pi}{m}\right], k \in [0, m-1]</script><p>当$m=1$时，即不引入margin时，称之为 <strong>modified softmax loss</strong>。</p>
+<p>Softmax Loss、Modified Softmax Loss和A-Softmax Loss，三者的决策面如下，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/A-Softmax-decision-boundaries.png" alt="A-Softmax-decision-boundaries.png"><figcaption class="image-caption">A-Softmax-decision-boundaries.png</figcaption></figure></p>
+<p>可视化如下，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/A-Softmax-Geometry-Interpretation.png" alt="A-Softmax-Geometry-Interpretation.png"><figcaption class="image-caption">A-Softmax-Geometry-Interpretation.png</figcaption></figure></p>
+<h1 id="AM-Softmax-Loss-CVPR2018"><a href="#AM-Softmax-Loss-CVPR2018" class="headerlink" title="AM-Softmax Loss-CVPR2018"></a>AM-Softmax Loss-CVPR2018</h1><p>AM-Softmax即Additive Margin Softmax，出自论文<a href="https://arxiv.org/abs/1801.05599" target="_blank" rel="noopener">《Additive Margin Softmax for Face Verification》</a>，同CosFace <a href="https://arxiv.org/abs/1801.09414" target="_blank" rel="noopener">《CosFace: Large Margin Cosine Loss for Deep Face Recognition》</a>，CosFace中损失名为LMCL（Large Margin Cosine Loss）。</p>
+<p>与A-Softmax相比，有2点变化，</p>
+<ul>
+<li><strong>对$x_i$也做归一化</strong>，同时保留对$W$每一列的归一化以及bias为0</li>
+<li>将$\cos(m \theta)$变成$s \cdot (\cos \theta - m)$</li>
+</ul>
+<script type="math/tex; mode=display">
+\mathcal{L}_{\mathrm{AM}}=-\frac{1}{N} \sum_{i=1}^{N} \log \frac{e^{s \cdot\left(\cos \theta_{y_{i}}-m\right)}}{e^{s \cdot\left(\cos \theta_{y_{i}}-m\right)}+\sum_{j=1, j \neq y_{i}}^{c} e^{s \cdot \cos \theta_{j}}}</script><p>相比Softmax，希望获得更大的类间距离和更小类内距离，如果采用的是余弦距离，意味着，要想获得与Softmax相同的$y_i$对应的分量，需要更小的夹角$\theta$，为此需要构建$\psi(\theta)$，如前所述，需要</p>
+<ul>
+<li>$\psi(\theta) &lt; cos(\theta)$</li>
+<li>单调递减</li>
+</ul>
+<p>前面构建的$\psi(\theta)$，始于$\cos(m \theta)$，$m$与$\theta$是乘的关系，这里令$\varphi(\theta)= s(\cos (\theta)-m)$，</p>
+<ul>
+<li><p>$\cos(\theta) - m$：$m$变乘法为加法，$\cos(m\theta)$将margin作用在角度上，$\cos(\theta) - m$直接作用在余弦距离上，前者的问题在于<strong>对类中心向量夹角较小的情况惩罚较小</strong>，夹角小则margin会相对更小，同时计算复杂，后者可以看成是<strong>Hard Margin Softmax</strong>，希望在保证类间“硬”间距的情况下学习特征映射。</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/Additive-Margin.png" alt="Additive-Margin.png"><figcaption class="image-caption">Additive-Margin.png</figcaption></figure></p>
+</li>
+<li><p>$s$：将$x_i$也归一化后，相当于<strong>将特征嵌入到单位超球上，表征空间有限</strong>，特征和权重归一化后$\mid \boldsymbol{W}_{j}|| \boldsymbol{x}_{i} | \cos \left(\theta_{ij}\right)=cos(\theta_{ij})$的值域为$[-1, 1]$，即$x_i$到每个类中心向量的余弦距离，最大为1，最小为-1，Softmax 指数归一化前，<strong>各类的分量差异过小</strong>，所以要乘个因子$s$，将<strong>特征映射到半径为$s$的超球上，放大表征空间，拉开各分量的差距。</strong></p>
+</li>
+</ul>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/AM-Softmax-visualization.png" alt="AM-Softmax-visualization.png"><figcaption class="image-caption">AM-Softmax-visualization.png</figcaption></figure></p>
+<h1 id="ArcFace-Loss-CVPR2019"><a href="#ArcFace-Loss-CVPR2019" class="headerlink" title="ArcFace Loss - CVPR2019"></a>ArcFace Loss - CVPR2019</h1><p>ArcFace Loss 即 Additive Angular Margin Loss，出自<a href="https://arxiv.org/abs/1801.07698" target="_blank" rel="noopener">《ArcFace: Additive Angular Margin Loss for Deep Face Recognition》</a>。</p>
+<p>AM-Softmax Loss将margin作用在余弦距离上，与之不同的是，ArcFace将margin作用在角度上，其损失函数如下，</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{\mathrm{AF}}=-\frac{1}{N} \sum_{i=1}^{N} \log \frac{e^{s \cdot\left(\cos \left(\theta_{y_{i}}+m\right)\right)}}{e^{s \cdot\left(\cos \left(\theta_{y_{i}}+m\right)\right)}+\sum_{j=1, j \neq y_{i}}^{n} e^{s \cdot \cos \theta_{j}}}</script><p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/ArcFace.png" alt="ArcFace.png"><figcaption class="image-caption">ArcFace.png</figcaption></figure></p>
+<p>把margin是加在余弦距离（CosFace）还是加在角度（ArcFace）上，在<a href="https://arxiv.org/abs/1801.05599" target="_blank" rel="noopener">《Additive Margin Softmax for Face Verification》</a>中有这样一段分析，</p>
+<p><figure><img src="https://gitee.com/shinelee/ImgBed/raw/master/2020/人脸识别中的损失函数/Angular-Margin-or-Cosine-Margin.png" alt="Angular-Margin-or-Cosine-Margin.png"><figcaption class="image-caption">Angular-Margin-or-Cosine-Margin.png</figcaption></figure></p>
+<p><strong>ArcFace中并没有求取arccos，所以计算并不复杂，而是把margin加在了角度上，但优化的仍是余弦距离。</strong></p>
+<p>还有一点需要注意的是，无论margin是加在余弦距离上还是加在角度上，单纯看示意图，很容易看出减少了类内距离，那类间距离增加呢？</p>
+<p>文中，给出了类内距离和类间距离的数学描述，如下：</p>
+<script type="math/tex; mode=display">
+L_{Intra}=\frac{1}{\pi N} \sum_{i=1}^{N} \theta_{y_{i}} \\
+L_{Inter}=-\frac{1}{\pi N(n-1)} \sum_{i=1}^{N} \sum_{j=1, j \neq y_{i}}^{n} \arccos \left(W_{y_{i}}^{T} W_{j}\right)</script><p>$W$是待学习的参数，特征$x_i$也是通过前面层的权重学习得到，在训练过程中$x_i$和$W$都会发生变化，都会被梯度驱使着向Loss减小的方向移动。margin的引入有意压低了类标签对应分量的值，去尽量“压榨”模型的潜力，在softmax中原本可以收敛的位置还需要继续下降，下降可以通过提高类标签对应分量的值，也可以通过降低其他分量的值。所以，$x_i$在向$W_{y_i}$靠近的同时，$W_j, j\neq y_i$也可能在向远离$x_i$的方向移动，最终达成的效果就可能是$x_i$尽可能地靠近$W_{y_i}$，而$W_j, j\neq y_i$远离了$W_{y_i}$。</p>
+<h1 id="欧氏距离or角度距离与归一化"><a href="#欧氏距离or角度距离与归一化" class="headerlink" title="欧氏距离or角度距离与归一化"></a>欧氏距离or角度距离与归一化</h1><p>这里，再讨论下为什么对$W$和$x$的模进行归一化，主观思考偏多，未经验证。</p>
+<p>在文章<a href="https://www.cnblogs.com/shine-lee/p/11779514.html" target="_blank" rel="noopener">为什么要做特征归一化/标准化？</a>中，我们提到，</p>
+<blockquote>
+<p><strong>归一化/标准化的目的是为了获得某种“无关性”——偏置无关、尺度无关、长度无关……当归一化/标准化方法背后的物理意义和几何含义与当前问题的需要相契合时，其对解决该问题就有正向作用，反之，就会起反作用。</strong></p>
+</blockquote>
+<p>特征$x$与$W$每个类中心向量内积的结果，取决于$x$的模、$W_j$的模以及它们的夹角，模的大小和夹角的大小都将影响内积结果的大小。</p>
+<ul>
+<li><p>对$W_j$归一化：如果训练集存在较严重的<strong>类别不均衡</strong>，网络将倾向于把输入图像划分到图片数量多的类别，这种倾向将反映在类中心向量的模上，即图片数量多的类别其类中心向量的模将偏大，这一点论文<a href="https://arxiv.org/abs/1707.05574" target="_blank" rel="noopener">One-shot Face Recognition by Promoting Underrepresented Classes</a>中有实验验证。所以，<strong>对$W_j$的模归一化相当于强迫网络同等看待每一个类别，相当于把同等看待每一个人的先验做进网络，来缓解类别不均衡问题。</strong></p>
+</li>
+<li><p>对$x$归一化：对某一个具体的$x_i$，其与每个类中心的内积 为 $x_i \cdot W_j = |x_i||W_j|\cos \theta_{ij} = |x_i|\cos \theta_{ij}$，因为每个类别的内积结果都含$x_i$的模，$x_i$的模是否归一化似乎并不影响内积结果间的大小关系，但会影响损失的大小，比如内积结果分别为$[4,1,1,1]$，模同时放大1倍，变成$[8,2,2,2]$，经过Softmax的指数归一化后，后者的损失更小。在<a href="https://www.cnblogs.com/shine-lee/p/9932226.html" target="_blank" rel="noopener">卷积神经网络之卷积计算、作用与思想</a>中，我们知道模式蕴含在卷积核的权重当中，特征代表着与某种模式的相似程度，越相似响应越大。什么样的输入图像容易得到模小的特征，首先是数值尺度较小的输入图像，这点可以通过对输入图像做归一化解决（如果输入图像的归一化不够，对特征进行归一化可能可以缓解这个问题），然后是<strong>那些模糊的、大角度的、有遮挡的人脸图像其特征的模会较小</strong>，这些图在训练集中相当于<strong>困难样本</strong>，如果他们的数量不多，就可能会被简单样本淹没掉。<strong>从这个角度看，对$x$进行归一化，可能可以让网络相对更关注到这些困难样本，去找到更细节的特征，专注在角度上进行判别，进一步压榨网络的潜能。</strong>有点Focal Loss思想的感觉。</p>
+</li>
+</ul>
+<p>网络会利用它可能利用上的一切手段来降低损失，有些手段可能并不是你所期望的，此时，通过调整数据、融入先验、添加正则等方式抑制那些你不希望网络采取的手段，修正网络进化的方式，以此让网络朝着你期望的方向成长。</p>
+<p>以上。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://arxiv.org/abs/1901.05903" target="_blank" rel="noopener">A Performance Comparison of Loss Functions for Deep Face Recognition</a></li>
+<li><a href="https://github.com/deepinsight/insightface" target="_blank" rel="noopener">InsightFace: 2D and 3D Face Analysis Project</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/34404607" target="_blank" rel="noopener">人脸识别的LOSS（上）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/34436551" target="_blank" rel="noopener">人脸识别的LOSS（下）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/33288325?edition=yidianzixun&amp;utm_source=yidianzixun&amp;yidian_docid=0IMwR0yb" target="_blank" rel="noopener">深度挖坑：从数据角度看人脸识别中Feature Normalization,Weight Normalization以及Triplet的作用</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>李拜六不开鑫</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.shinelee.me/2020/07-21-%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%96%8F%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90.html" title="人脸识别损失函数疏理与分析">https://blog.shinelee.me/2020/07-21-%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%96%8F%E7%90%86%E4%B8%8E%E5%88%86%E6%9E%90.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07-17-Arctan%E7%9A%84%E5%BF%AB%E9%80%9F%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95.html" rel="next" title="Arctan的快速近似算法">
+                <i class="fa fa-chevron-left"></i> Arctan的快速近似算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMy8xNDI2NA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="李拜六不开鑫" />
+            
+              <p class="site-author-name" itemprop="name">李拜六不开鑫</p>
+              <p class="site-description motion-element" itemprop="description">知者行之始，行者知之成。<br>君子务本，本立而道生。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">62</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shineleex" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/blogshinelee" title="csdn" target="_blank">csdn</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.cnblogs.com/shine-lee/" title="cnblogs" target="_blank">cnblogs</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cross-Entropy-Loss-softmax-loss"><span class="nav-number">2.</span> <span class="nav-text">Cross-Entropy Loss (softmax loss)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Contrastive-Loss-CVPR2006"><span class="nav-number">3.</span> <span class="nav-text">Contrastive Loss - CVPR2006</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Triplet-Loss-CVPR2015"><span class="nav-number">4.</span> <span class="nav-text">Triplet Loss - CVPR2015</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Center-Loss-ECCV2016"><span class="nav-number">5.</span> <span class="nav-text">Center Loss - ECCV2016</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#L-Softmax-Loss-ICML2016"><span class="nav-number">6.</span> <span class="nav-text">L-Softmax Loss - ICML2016</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-Softmax-Loss-CVPR2017"><span class="nav-number">7.</span> <span class="nav-text">A-Softmax Loss - CVPR2017</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AM-Softmax-Loss-CVPR2018"><span class="nav-number">8.</span> <span class="nav-text">AM-Softmax Loss-CVPR2018</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ArcFace-Loss-CVPR2019"><span class="nav-number">9.</span> <span class="nav-text">ArcFace Loss - CVPR2019</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#欧氏距离or角度距离与归一化"><span class="nav-number">10.</span> <span class="nav-text">欧氏距离or角度距离与归一化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">11.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李拜六不开鑫</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">246k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("yglgMSc5V7E9a3RgMhNNxIue-gzGzoHsz", "GCjFI0Chd35pvUysMqtIlctF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "middleCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "topRight";
+      
+          flOptions.networks = "Wechat,Weibo,Douban,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

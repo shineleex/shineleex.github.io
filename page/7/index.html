@@ -363,6 +363,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/07-13-%E6%BB%A4%E6%B3%A2%E5%99%A8%E2%80%94%E2%80%94BoxBlur%E5%9D%87%E5%80%BC%E6%BB%A4%E6%B3%A2%E5%8F%8A%E5%85%B6%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李拜六不开鑫">
+      <meta itemprop="description" content="知者行之始，行者知之成。<br>君子务本，本立而道生。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进击的小学生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07-13-%E6%BB%A4%E6%B3%A2%E5%99%A8%E2%80%94%E2%80%94BoxBlur%E5%9D%87%E5%80%BC%E6%BB%A4%E6%B3%A2%E5%8F%8A%E5%85%B6%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0.html" itemprop="url">
+                  滤波器——BoxBlur均值滤波及其快速实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-13 10:20:57" itemprop="dateCreated datePublished" datetime="2018-07-13T10:20:57+08:00">2018-07-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-15 15:37:40" itemprop="dateModified" datetime="2019-10-15T15:37:40+08:00">2019-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/%E4%BC%A0%E7%BB%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">传统计算机视觉</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07-13-%E6%BB%A4%E6%B3%A2%E5%99%A8%E2%80%94%E2%80%94BoxBlur%E5%9D%87%E5%80%BC%E6%BB%A4%E6%B3%A2%E5%8F%8A%E5%85%B6%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0.html" class="leancloud_visitors" data-flag-title="滤波器——BoxBlur均值滤波及其快速实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3k</span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          动机：卷积核、滤波器、卷积、相关在数字图像处理的语境里，图像一般是二维或三维的矩阵，卷积核（kernel）和滤波器（filter）通常指代同一事物，即对图像进行卷积或相关操作时使用的小矩阵，尺寸通常较小，常见的有3*3、5*5、7*7等。卷积操作相当于对滤波器旋转180度后的相关操作，如下图所示，但很多滤波器是中心对称的，而且两者运算上可以等价，所以很多时候不太区分。
+相关运算与卷积运算
+设计不同
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07-13-%E6%BB%A4%E6%B3%A2%E5%99%A8%E2%80%94%E2%80%94BoxBlur%E5%9D%87%E5%80%BC%E6%BB%A4%E6%B3%A2%E5%8F%8A%E5%85%B6%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://blog.shinelee.me/2018/06-27-LLVM%E3%80%81Clang%E4%BB%8B%E7%BB%8D%E4%B8%8EVisual%20Studio(VS)%E4%B8%8B%E7%9A%84%E4%BD%BF%E7%94%A8.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -609,7 +816,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -778,7 +985,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">243k</span>
+    <span title="站点总字数">246k</span>
   
 
   
@@ -1092,9 +1299,37 @@
   
     
       
+        
+      
+    
+      
     
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
