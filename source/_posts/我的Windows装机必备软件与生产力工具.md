@@ -11,8 +11,11 @@ categories:
 
 2018年12月21日，最近要装新电脑，借此将自己常用的工具总结一下。
 
+持续更新。
+
 # 系统工具
-- [wox](http://www.wox.one/)，软件快速启动工具，有翻译等插件
+- ~~[wox](http://www.wox.one/)，软件快速启动工具，有翻译等插件~~
+- [uTools](http://www.u.tools/)，软件快速启动工具+生产力工具插件集
 - [everything](http://www.voidtools.com/)，本地文件文件夹快速检索工具
 - [ditto](https://ditto-cp.sourceforge.io/)，剪贴板增强工具，缓存剪切历史
 - [Total Commander 飞扬时空版](http://blog.sina.com.cn/s/blog_89a729a40102wjwe.html)，文件管理软件，替代系统资源管理器，有众多特色功能
@@ -27,9 +30,11 @@ categories:
 - [gifcam](https://gifcam.en.softonic.com/)，gif录制工具
 - [bandicam](http://www.zdfans.com/search.asp?keyword=bandicam)，录屏工具
 - [AnyDesk](https://anydesk.com/remote-desktop)，远程桌面软件，支持多平台
+- [vmware](https://www.zdfans.com/search.asp?keyword=vmware)，虚拟机
 - [dexpot](https://www.dexpot.de/)，虚拟桌面
 - [IDM](http://www.zdfans.com/search.asp?keyword=IDM)，极速下载工具，可识别网站视频、音频等
-- [迅雷精简版](http://dl.xunlei.com/mini.html)，干净的迅雷，作为IDM的补充，支持磁力链接和种子
+- ~~[迅雷精简版](http://dl.xunlei.com/mini.html)，干净的迅雷，作为IDM的补充，支持磁力链接和种子~~
+- [迅雷](http://zhannei.baidu.com/cse/site?q=%E8%BF%85%E9%9B%B7&p=2&nsid=&cc=52pojie.cn)，作为IDM的补充
 - [FDM](https://www.freedownloadmanager.org/)，IDM的补充
 - [硕鼠](http://www.flvcd.com/)，网站视频下载
 - [PDF-XChange](http://www.zdfans.com/search.asp?keyword=PDF-XChange%20Viewer)，PDF阅读器
@@ -54,14 +59,19 @@ categories:
 - ~~[Mendelay](https://www.mendeley.com/download-desktop/)，文献管理软件~~
 - ~~[Endnote](http://www.zdfans.com/search.asp?keyword=endnote)，文献管理软件~~
 - [zotero](https://www.zotero.org/)，配合 坚果云的WebDAV，文献管理
+- [HistCite](https://zhuanlan.zhihu.com/p/20902898)、[VOSviewer](https://www.vosviewer.com/)、[CiteSpace](http://cluster.cis.drexel.edu/~cchen/citespace/)，引文分析，文献可视化
 - [wiz](http://www.wiz.cn/)，个人笔记
+- [typora](https://typora.io/)，markdown编辑器
 - [evernote](https://evernote.com/)，同步读书笔记
 - [Mathpix](https://mathpix.com/)，Equation to LaTeX
 - [axmath](http://www.amyxun.com/)，公式编辑器
+- [Teambition](https://www.teambition.com/)，[石墨文档](https://shimo.im/)，团队协作，文档管理
 
 # 开发工具
 - [notepad++](https://notepad-plus-plus.org/)，日常文本编辑器
 - [Visual Studio Code](https://code.visualstudio.com/)，代码编辑器
+- [Matlab](https://www.mathworks.com/)、[Mathematica](https://www.wolfram.com/mathematica/)，数学软件，科学计算
+- [anaconda](https://www.anaconda.com/)，python+conda+包
 - [ConEmu](https://conemu.github.io/)，多终端管理
 - [babun](http://babun.github.io/)，a windows shell you will love!
 - [xshell](http://www.zdfans.com/search.asp?keyword=xshell)，远程连接终端模拟器
@@ -70,6 +80,8 @@ categories:
 - [source tree](https://www.sourcetreeapp.com/)、[fork](https://fork.dev/)，git GUI
 - [VisualSVN (Server)](https://www.visualsvn.com/)、[TortoiseSVN](https://tortoisesvn.net/)，SVN
 - [zeal](https://zealdocs.org/)，离线开发文档
+- [IDA](http://zhannei.baidu.com/cse/site?q=IDA&click=1&cc=52pojie.cn&s=&nsid=)，逆向工具
+- [Patchers](https://down.52pojie.cn/Tools/Packers/)，加壳工具等
 
 # VS插件
 - [Visual Assist](https://www.chinapyg.com/thread-74596-1-1.html)，小助手
